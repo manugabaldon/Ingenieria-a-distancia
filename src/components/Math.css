@@ -1,0 +1,35 @@
+/* ── Ecuación en bloque ── */
+.math-block {
+  margin: 1.4rem 0;
+  padding: 1.1rem 1.5rem;
+  background: #f8f9fc;
+  border: 1px solid #e2e6f0;
+  border-left: 3px solid var(--blue, #0071e3);
+  border-radius: 0 12px 12px 0;
+  overflow-x: auto;
+  /* KaTeX escala bien pero aseguramos tamaño base */
+  font-size: 1.05rem;
+  line-height: 2.2;
+  text-align: center;
+}
+
+/* Un poco más de espacio si hay varias líneas (\\\\) */
+.math-block .katex-display {
+  margin: 0.25rem 0;
+}
+
+/* ── Ecuación inline ── */
+.math-inline {
+  font-size: 0.97em;
+  vertical-align: middle;
+}
+
+/* Ajuste global: KaTeX hereda la fuente del texto */
+.katex {
+  font-size: 1em;
+}
+
+/* En modo display (bloque) un poco más grande */
+.math-block .katex {
+  font-size: 1.08em;
+}

@@ -1,0 +1,26 @@
+/* Imagen de fondo con parallax */
+.pb-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* cubre TODO el scroll height + margen de parallax */
+  bottom: -60%;
+  background-size: cover;
+  background-position: center top;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Velo blanco semitransparente encima de la imagen */
+.pb-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -60%;        /* misma extensión que pb-img */
+  background: #ffffff;
+  pointer-events: none;
+  z-index: 1;
+}

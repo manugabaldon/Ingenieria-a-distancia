@@ -1,0 +1,278 @@
+/* ═══════════════════════════════════════════════
+   Exercise Guide — acordeón paso a paso
+═══════════════════════════════════════════════ */
+
+.eg-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 8px 0 48px;
+}
+
+.eg-intro {
+  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(168,85,247,0.08));
+  border: 1px solid rgba(59,130,246,0.18);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+}
+.eg-intro h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary, #f1f5f9);
+  margin: 0 0 8px;
+}
+.eg-intro p {
+  font-size: 0.88rem;
+  color: var(--text-muted, #94a3b8);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Un paso ───────────────────────────────── */
+.eg-step {
+  border: 1px solid rgba(148,163,184,0.12);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.eg-step.solved   { border-color: rgba(16,185,129,0.3); }
+.eg-step.active   { border-color: rgba(59,130,246,0.35); }
+
+/* ── Cabecera del paso ─────────────────────── */
+.eg-step-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface, #1e293b);
+  cursor: default;
+  user-select: none;
+}
+
+.eg-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  background: rgba(148,163,184,0.12);
+  color: #94a3b8;
+  transition: background 0.2s, color 0.2s;
+}
+.eg-step.active  .eg-num { background: rgba(59,130,246,0.2);  color: #60a5fa; }
+.eg-step.solved  .eg-num { background: rgba(16,185,129,0.18); color: #34d399; }
+
+.eg-step-info { flex: 1; min-width: 0; }
+.eg-step-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary, #f1f5f9);
+  margin: 0 0 2px;
+}
+.eg-step-sub {
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.eg-status-icon {
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+/* ── Cuerpo expandible ─────────────────────── */
+.eg-body {
+  padding: 0 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.2s;
+}
+.eg-body.open {
+  max-height: 1200px;
+  padding: 0 20px 20px;
+}
+
+/* Enunciado del paso */
+.eg-question {
+  background: rgba(59,130,246,0.06);
+  border-left: 3px solid #3b82f6;
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.92rem;
+  color: var(--text-primary, #f1f5f9);
+  line-height: 1.6;
+}
+
+/* Pista de teoría */
+.eg-hint {
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.18);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+.eg-hint-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #f59e0b;
+  margin-bottom: 6px;
+}
+.eg-hint-body {
+  font-size: 0.87rem;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.65;
+}
+.eg-hint-body .formula-box {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+}
+
+/* Botón mostrar solución */
+.eg-reveal-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid rgba(148,163,184,0.2);
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  cursor: pointer;
+  width: 100%;
+  transition: border-color 0.18s, color 0.18s, background 0.18s;
+  margin-bottom: 4px;
+}
+.eg-reveal-btn:hover {
+  border-color: rgba(59,130,246,0.4);
+  color: #60a5fa;
+  background: rgba(59,130,246,0.05);
+}
+.eg-reveal-btn.open {
+  border-color: rgba(16,185,129,0.35);
+  color: #34d399;
+  background: rgba(16,185,129,0.05);
+}
+
+.eg-chevron {
+  margin-left: auto;
+  font-size: 0.7rem;
+  transition: transform 0.25s;
+}
+.eg-reveal-btn.open .eg-chevron { transform: rotate(180deg); }
+
+/* Solución desplegable */
+.eg-solution {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.eg-solution.open { max-height: 800px; }
+
+.eg-solution-inner {
+  background: rgba(15,23,42,0.6);
+  border: 1px solid rgba(16,185,129,0.18);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 0.87rem;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.7;
+}
+.eg-solution-inner .formula-box {
+  font-size: 0.85rem;
+  margin: 10px 0;
+}
+.eg-solution-inner strong { color: var(--text-primary, #f1f5f9); }
+.eg-solution-inner .result {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+  border-radius: 6px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+/* ── Controles del paso ────────────────────── */
+.eg-step-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(148,163,184,0.1);
+}
+
+.eg-btn-done {
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.3);
+  color: #34d399;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.eg-btn-done:hover { background: rgba(16,185,129,0.25); }
+
+.eg-btn-next {
+  background: #3b82f6;
+  border: none;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.eg-btn-next:hover { background: #2563eb; }
+
+/* ── Progreso ──────────────────────────────── */
+.eg-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.eg-progress-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: rgba(148,163,184,0.12);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.eg-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #10b981);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+.eg-progress-label {
+  font-size: 0.78rem;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+/* ── Final ─────────────────────────────────── */
+.eg-complete {
+  text-align: center;
+  padding: 32px;
+  background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(59,130,246,0.08));
+  border: 1px solid rgba(16,185,129,0.25);
+  border-radius: 12px;
+  margin-top: 24px;
+}
+.eg-complete h3 { color: #34d399; margin: 0 0 8px; font-size: 1.1rem; }
+.eg-complete p  { color: #94a3b8; font-size: 0.88rem; margin: 0; }
