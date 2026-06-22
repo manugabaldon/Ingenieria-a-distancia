@@ -262,7 +262,7 @@ const videos: IADVideo[] = [
     description:
       'Una partícula describe un movimiento plano con r = 3(2−e⁻ᵗ) y θ = 4(t+2e⁻ᵗ). ' +
       'Calculamos la velocidad y la aceleración en t=0 y en el límite t→∞ (movimiento circular uniforme).',
-    youtubeId: 'prVclIFxQYo',
+    youtubeId: 'kzdKjtr53SE',
     date: '2026-06-18',
     theory: theoryCP3,
     exerciseGuide: {
