@@ -965,3 +965,54 @@ canvas {
 }
 
 .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ══════════════════════════════════════════════════════════════════
+   RESPONSIVE — móvil (≤ 640px)
+══════════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  /* ── Hero ── */
+  .home-hero { padding: 56px 18px 40px; }
+  .home-hero-cta { margin-bottom: 40px; }
+
+  /* ── Barra de estadísticas: 2×2 en vez de fila que se desborda ── */
+  .home-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 340px;
+  }
+  .home-stat {
+    padding: 16px 8px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .home-stat:nth-child(odd) { border-right: 1px solid var(--border); }
+  .home-stat:nth-child(3),
+  .home-stat:nth-child(4) { border-bottom: none; }
+  .home-stat-val { font-size: 1.5rem; }
+
+  /* ── Secciones de cards ── */
+  .home-section-wrap { padding: 48px 18px; }
+  .home-section-title { font-size: 1.5rem; }
+
+  /* ── Simulador: apilar canvas y panel en vertical ── */
+  .sim-body {
+    flex-direction: column;
+    overflow: visible;
+  }
+  .canvas-area {
+    padding: 12px;
+    overflow: visible;
+  }
+  canvas {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+  .params-panel {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    overflow: visible;
+  }
+}
