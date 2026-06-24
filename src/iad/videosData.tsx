@@ -4,12 +4,15 @@ import type { ExerciseStep } from './ExerciseGuide';
 import HeliceCP2 from '../simulators/HeliceCP2';
 import PolaresCP3 from '../simulators/PolaresCP3';
 import CircularCP5 from '../simulators/CircularCP5';
+import CircularCP35 from '../simulators/CircularCP35';
 import stepsCP2  from './exerciseCP2';
 import stepsCP3  from './exerciseCP3';
 import stepsCP5  from './exerciseCP5';
+import stepsCP35 from './exerciseCP35';
 import SolucionCP2 from './SolucionCP2';
 import SolucionCP3 from './SolucionCP3';
 import SolucionCP5 from './SolucionCP5';
+import SolucionCP35 from './SolucionCP35';
 
 // ─── Teoría CP-2 ──────────────────────────────────────────────────────────────
 const theoryCP2: TheoryContent = {
@@ -293,6 +296,101 @@ const theoryCP5: TheoryContent = {
   ],
 };
 
+// ─── Teoría CP-35 ─────────────────────────────────────────────────────────────
+const theoryCP35: TheoryContent = {
+  intro: (
+    <>
+      A un punto material se le da la <strong>velocidad como función del tiempo</strong>,{' '}
+      <strong>Vx = −v·sen(v/a·t)</strong> y <strong>Vy = v·cos(v/a·t)</strong>, partiendo de{' '}
+      <strong>A(a,0)</strong>. El ejercicio practica cómo, a partir de la velocidad, se obtienen
+      las <em>ecuaciones horarias</em> (integrando directamente respecto al tiempo), la{' '}
+      <em>trayectoria</em> (eliminando el parámetro t) y la <em>ley horaria</em> s(t). El
+      resultado es un movimiento circular uniforme.
+    </>
+  ),
+  sections: [
+    {
+      title: '1. De la velocidad a las ecuaciones horarias',
+      body: (
+        <div>
+          <p>
+            Como la velocidad está dada en función del tiempo, sus componentes son derivadas
+            que se integran directamente respecto a <em>t</em> (no hace falta eliminar el tiempo
+            primero, al contrario que con un campo de velocidades V(x,y)):
+          </p>
+          <div className="formula-box">
+            ẋ = −v·sen(v/a·t) &nbsp;⟶&nbsp; x = a·cos(v/a·t) + C<br />
+            ẏ = &nbsp;v·cos(v/a·t) &nbsp;⟶&nbsp; y = a·sen(v/a·t) + C
+          </div>
+          <p>
+            Las primitivas usan ∫sen(kt)dt = −(1/k)cos(kt) y ∫cos(kt)dt = (1/k)sen(kt), con
+            k = v/a (por eso la a/v de fuera cancela la v).
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: '2. Condiciones iniciales en A(a,0)',
+      body: (
+        <div>
+          <p>El punto parte de A(a,0) en t=0, lo que fija las dos constantes:</p>
+          <div className="formula-box">
+            x(0) = a: &nbsp; a = a·cos(0) + C ⟹ C = 0<br />
+            y(0) = 0: &nbsp; 0 = a·sen(0) + C ⟹ C = 0
+          </div>
+          <p>Quedando las ecuaciones horarias del movimiento:</p>
+          <div className="formula-box">
+            <strong>x = a·cos(v/a·t)</strong> &nbsp;&nbsp; <strong>y = a·sen(v/a·t)</strong>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: '3. Trayectoria: eliminar el parámetro t',
+      body: (
+        <div>
+          <p>Elevando al cuadrado y sumando, con sen²α + cos²α = 1:</p>
+          <div className="formula-box">
+            x² + y² = a²cos²(v/a·t) + a²sen²(v/a·t)<br />
+            <strong>x² + y² = a²</strong>
+          </div>
+          <p>
+            Es una circunferencia de radio a centrada en el origen. Las horarias son un
+            movimiento circular uniforme de velocidad angular ω = v/a y periodo T = 2πa/v.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: '4. Ley horaria y aceleración',
+      body: (
+        <div>
+          <p>El módulo de la velocidad es constante:</p>
+          <div className="formula-box">
+            |V| = √(ẋ²+ẏ²) = √(v²sen²(v/a·t) + v²cos²(v/a·t)) = v
+          </div>
+          <p>Por tanto el arco recorrido (ley horaria) es lineal en el tiempo:</p>
+          <div className="formula-box">
+            s = ∫₀ᵗ |V| dt = <strong>v·t</strong>
+          </div>
+          <p>
+            Al ser v constante, la aceleración tangencial es nula (aₜ = 0) y toda la
+            aceleración es <strong>normal (centrípeta)</strong>, dirigida al centro:
+          </p>
+          <div className="formula-box">
+            <strong>aₙ = v²/a = ω²·a</strong>
+          </div>
+        </div>
+      ),
+    },
+  ],
+  references: [
+    'Beer & Johnston — Mecánica vectorial para ingenieros: Dinámica (Ed. 12)',
+    'Meriam & Kraige — Engineering Mechanics: Dynamics',
+    'UNED — Mecánica, Tema 1: Cinemática del punto',
+  ],
+};
+
 // ─── Tipo de datos ─────────────────────────────────────────────────────────────
 export interface ExerciseGuideData {
   title: string;
@@ -394,6 +492,33 @@ const videos: IADVideo[] = [
     },
     Solution: SolucionCP5,
     Simulator: CircularCP5,
+  },
+  {
+    id: 'mecanica-cp35',
+    title: 'CP-35: Velocidad como función del tiempo e integración directa',
+    subject: 'Mecánica',
+    exerciseRef: 'CP-35',
+    description:
+      'Dada la velocidad Vx = −v·sen(v/a·t), Vy = v·cos(v/a·t) desde A(a,0), integramos directamente ' +
+      'para las ecuaciones horarias x = a·cos(ωt), y = a·sen(ωt), eliminamos t para la trayectoria (x²+y² = a²) ' +
+      'y obtenemos la ley horaria s = v·t.',
+    youtubeId: 'T-tiYkTxjYs',
+    date: '2026-06-24',
+    theory: theoryCP35,
+    exerciseGuide: {
+      title: 'CP-35 — Velocidad como función del tiempo e integración directa',
+      intro: (
+        <>
+          Resuelve el ejercicio paso a paso. Cada paso te da una pista con la
+          teoría y fórmulas que necesitas. Haz los cálculos en papel y luego
+          despliega la solución para comprobar. Cuando termines un paso, pulsa
+          "He completado este paso" para avanzar al siguiente.
+        </>
+      ),
+      steps: stepsCP35,
+    },
+    Solution: SolucionCP35,
+    Simulator: CircularCP35,
   },
 ];
 
