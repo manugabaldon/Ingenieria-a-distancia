@@ -289,7 +289,7 @@ export default function App() {
                   </button>
                   <a
                     className="hero-btn-secondary"
-                    href="https://www.youtube.com/@IngenieriaADistancia"
+                    href="https://www.youtube.com/@ingenieriaadistancia"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

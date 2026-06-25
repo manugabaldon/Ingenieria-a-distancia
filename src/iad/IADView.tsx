@@ -25,7 +25,7 @@ function VideoDetail({ video, onBack }: { video: IADVideo; onBack: () => void })
         <span className="iad-subject-badge">{video.subject}</span>
         <h2>{video.title}</h2>
         <p className="iad-detail-desc">{video.description}</p>
-        <span className="iad-detail-ref">Ejercicio {video.exerciseRef} · {video.date}</span>
+        <span className="iad-detail-ref">{video.topic} · Ejercicio {video.exerciseRef} · {video.date}</span>
       </div>
 
       <div className="iad-tabs">
@@ -150,7 +150,7 @@ export default function IADView({ initialExerciseId }: { initialExerciseId?: str
         </p>
         <a
           className="iad-yt-btn"
-          href="https://www.youtube.com/@IngenieriaADistancia"
+          href="https://www.youtube.com/@ingenieriaadistancia"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -158,18 +158,31 @@ export default function IADView({ initialExerciseId }: { initialExerciseId?: str
         </a>
       </div>
 
-      {subjects.map(subject => (
-        <div key={subject} className="iad-subject-group">
-          <h3 className="iad-subject-title">{subject}</h3>
-          <div className="iad-grid">
-            {videos
-              .filter(v => v.subject === subject)
-              .map(v => (
-                <VideoCard key={v.id} video={v} onClick={() => setSelected(v)} />
-              ))}
+      {subjects.map(subject => {
+        const subjectVideos = videos.filter(v => v.subject === subject);
+        const topics = [...new Set(subjectVideos.map(v => v.topic))];
+        return (
+          <div key={subject} className="iad-subject-group">
+            <h3 className="iad-subject-title">{subject}</h3>
+            {topics.map(topic => {
+              const topicVideos = subjectVideos.filter(v => v.topic === topic);
+              return (
+                <div key={topic} className="iad-topic-group">
+                  <h4 className="iad-topic-title">
+                    {topic}
+                    <span className="iad-topic-count">{topicVideos.length}</span>
+                  </h4>
+                  <div className="iad-grid">
+                    {topicVideos.map(v => (
+                      <VideoCard key={v.id} video={v} onClick={() => setSelected(v)} />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

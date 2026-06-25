@@ -5,14 +5,17 @@ import HeliceCP2 from '../simulators/HeliceCP2';
 import PolaresCP3 from '../simulators/PolaresCP3';
 import CircularCP5 from '../simulators/CircularCP5';
 import CircularCP35 from '../simulators/CircularCP35';
+import CircularCP40 from '../simulators/CircularCP40';
 import stepsCP2  from './exerciseCP2';
 import stepsCP3  from './exerciseCP3';
 import stepsCP5  from './exerciseCP5';
 import stepsCP35 from './exerciseCP35';
+import stepsCP40 from './exerciseCP40';
 import SolucionCP2 from './SolucionCP2';
 import SolucionCP3 from './SolucionCP3';
 import SolucionCP5 from './SolucionCP5';
 import SolucionCP35 from './SolucionCP35';
+import SolucionCP40 from './SolucionCP40';
 
 // ─── Teoría CP-2 ──────────────────────────────────────────────────────────────
 const theoryCP2: TheoryContent = {
@@ -391,6 +394,101 @@ const theoryCP35: TheoryContent = {
   ],
 };
 
+// ─── Teoría CP-40 ─────────────────────────────────────────────────────────────
+const theoryCP40: TheoryContent = {
+  intro: (
+    <>
+      A un punto material se le da la <strong>aceleración como función del tiempo</strong>,{' '}
+      <strong>aₓ = −(v²/a)·cos(v/a·t)</strong> y <strong>aᵧ = −(v²/a)·sen(v/a·t)</strong>, partiendo de{' '}
+      <strong>A(a,0)</strong> con velocidad inicial <strong>v·ĵ</strong>. El ejercicio practica la{' '}
+      <em>doble integración</em> respecto al tiempo: aceleración → velocidad → posición, fijando las
+      constantes con las condiciones iniciales. Es el "escalón anterior" al CP-35 (la velocidad que
+      resulta de la primera integración es justo el dato del CP-35) y el resultado vuelve a ser un
+      movimiento circular uniforme.
+    </>
+  ),
+  sections: [
+    {
+      title: '1. De la aceleración a la velocidad (1ª integración)',
+      body: (
+        <div>
+          <p>
+            La aceleración está dada en función del tiempo, así que sus componentes son segundas
+            derivadas que se integran directamente respecto a <em>t</em>:
+          </p>
+          <div className="formula-box">
+            ẍ = −(v²/a)·cos(v/a·t) &nbsp;⟶&nbsp; ẋ = −v·sen(v/a·t) + C<br />
+            ÿ = −(v²/a)·sen(v/a·t) &nbsp;⟶&nbsp; ẏ = v·cos(v/a·t) + C
+          </div>
+          <p>
+            Las primitivas usan ∫cos(kt)dt = (1/k)sen(kt) y ∫sen(kt)dt = −(1/k)cos(kt), con k = v/a
+            (la a/v cancela una v de la v²/a).
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: '2. Velocidad inicial v·ĵ fija las constantes',
+      body: (
+        <div>
+          <p>En t=0 la velocidad es v·ĵ, es decir ẋ(0)=0 y ẏ(0)=v:</p>
+          <div className="formula-box">
+            ẋ(0)=0: &nbsp; 0 = −v·sen(0) + C ⟹ C = 0<br />
+            ẏ(0)=v: &nbsp; v = v·cos(0) + C ⟹ C = 0
+          </div>
+          <p>Quedando la velocidad (justo el dato del CP-35):</p>
+          <div className="formula-box">
+            <strong>ẋ = −v·sen(v/a·t)</strong> &nbsp;&nbsp; <strong>ẏ = v·cos(v/a·t)</strong>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: '3. De la velocidad a las horarias (2ª integración)',
+      body: (
+        <div>
+          <p>Integramos otra vez y aplicamos la posición inicial A(a,0):</p>
+          <div className="formula-box">
+            x = a·cos(v/a·t) + C &nbsp;⟶&nbsp; x(0)=a ⟹ C = 0<br />
+            y = a·sen(v/a·t) + C &nbsp;⟶&nbsp; y(0)=0 ⟹ C = 0
+          </div>
+          <p>Las ecuaciones horarias son un movimiento circular uniforme de radio a y ω = v/a:</p>
+          <div className="formula-box">
+            <strong>x = a·cos(v/a·t)</strong> &nbsp;&nbsp; <strong>y = a·sen(v/a·t)</strong>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: '4. Trayectoria, ley horaria y aceleración',
+      body: (
+        <div>
+          <p>Eliminando t (sen²α + cos²α = 1) se obtiene la trayectoria:</p>
+          <div className="formula-box">
+            x² + y² = a²&nbsp;&nbsp;(circunferencia de radio a)
+          </div>
+          <p>El módulo de la velocidad es constante, así que la ley horaria es lineal:</p>
+          <div className="formula-box">
+            |V| = √(ẋ²+ẏ²) = v &nbsp;⟶&nbsp; s = ∫₀ᵗ |V| dt = <strong>v·t</strong>
+          </div>
+          <p>
+            Al ser v constante, aₜ = 0 y toda la aceleración es <strong>normal (centrípeta)</strong>.
+            El módulo del dato inicial era justamente esa centrípeta:
+          </p>
+          <div className="formula-box">
+            <strong>aₙ = |a| = v²/a = ω²·a</strong>
+          </div>
+        </div>
+      ),
+    },
+  ],
+  references: [
+    'Beer & Johnston — Mecánica vectorial para ingenieros: Dinámica (Ed. 12)',
+    'Meriam & Kraige — Engineering Mechanics: Dynamics',
+    'UNED — Mecánica, Tema 1: Cinemática del punto',
+  ],
+};
+
 // ─── Tipo de datos ─────────────────────────────────────────────────────────────
 export interface ExerciseGuideData {
   title: string;
@@ -402,6 +500,8 @@ export interface IADVideo {
   id: string;
   title: string;
   subject: string;
+  /** Tema dentro de la asignatura (p. ej. "Cinemática del punto") */
+  topic: string;
   exerciseRef: string;
   description: string;
   youtubeId: string | null;
@@ -419,6 +519,7 @@ const videos: IADVideo[] = [
     id: 'mecanica-cp2',
     title: 'CP-2: Cinemática de la hélice',
     subject: 'Mecánica',
+    topic: 'Cinemática del punto',
     exerciseRef: 'CP-2',
     description:
       'Un punto recorre una hélice circular con velocidad constante. ' +
@@ -445,6 +546,7 @@ const videos: IADVideo[] = [
     id: 'mecanica-cp3',
     title: 'CP-3: Cinemática en coordenadas polares',
     subject: 'Mecánica',
+    topic: 'Cinemática del punto',
     exerciseRef: 'CP-3',
     description:
       'Una partícula describe un movimiento plano con r = 3(2−e⁻ᵗ) y θ = 4(t+2e⁻ᵗ). ' +
@@ -471,6 +573,7 @@ const videos: IADVideo[] = [
     id: 'mecanica-cp5',
     title: 'CP-5: Campo de velocidades y movimiento circular',
     subject: 'Mecánica',
+    topic: 'Cinemática del punto',
     exerciseRef: 'CP-5',
     description:
       'Dada la velocidad V = −(v/a)y·i + (v/a)x·j desde A(a,0), obtenemos la trayectoria ' +
@@ -497,6 +600,7 @@ const videos: IADVideo[] = [
     id: 'mecanica-cp35',
     title: 'CP-35: Velocidad como función del tiempo e integración directa',
     subject: 'Mecánica',
+    topic: 'Cinemática del punto',
     exerciseRef: 'CP-35',
     description:
       'Dada la velocidad Vx = −v·sen(v/a·t), Vy = v·cos(v/a·t) desde A(a,0), integramos directamente ' +
@@ -519,6 +623,34 @@ const videos: IADVideo[] = [
     },
     Solution: SolucionCP35,
     Simulator: CircularCP35,
+  },
+  {
+    id: 'mecanica-cp40',
+    title: 'CP-40: Aceleración como función del tiempo y doble integración',
+    subject: 'Mecánica',
+    topic: 'Cinemática del punto',
+    exerciseRef: 'CP-40',
+    description:
+      'Dada la aceleración aₓ = −(v²/a)·cos(v/a·t), aᵧ = −(v²/a)·sen(v/a·t) desde A(a,0) con velocidad inicial v·ĵ, ' +
+      'integramos dos veces (a → v → r) para las ecuaciones horarias x = a·cos(ωt), y = a·sen(ωt), eliminamos t ' +
+      'para la trayectoria (x²+y² = a²) y obtenemos la ley horaria s = v·t.',
+    youtubeId: 'zHB3yRZ9Z9E',
+    date: '2026-06-25',
+    theory: theoryCP40,
+    exerciseGuide: {
+      title: 'CP-40 — Aceleración como función del tiempo y doble integración',
+      intro: (
+        <>
+          Resuelve el ejercicio paso a paso. Cada paso te da una pista con la
+          teoría y fórmulas que necesitas. Haz los cálculos en papel y luego
+          despliega la solución para comprobar. Cuando termines un paso, pulsa
+          "He completado este paso" para avanzar al siguiente.
+        </>
+      ),
+      steps: stepsCP40,
+    },
+    Solution: SolucionCP40,
+    Simulator: CircularCP40,
   },
 ];
 
