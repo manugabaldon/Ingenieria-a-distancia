@@ -62,18 +62,57 @@ const TOOL_BG: Record<string, string> = {
 
 const HOME_BG = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80';
 
+// ─── Caminos ─────────────────────────────────────────────────────────────────
+type PathId = 'estudia' | 'calcula' | 'simula';
+
+interface PathDef {
+  id: PathId;
+  icon: string;
+  label: string;
+  eyebrow: string;
+  blurb: string;
+  bg: string;
+}
+
+const PATHS: PathDef[] = [
+  {
+    id: 'estudia', icon: '📚', label: 'Estudia',
+    eyebrow: 'Aprende ingeniería',
+    blurb: 'Ejercicios resueltos paso a paso y el temario oficial LMA / EASA Part-66.',
+    bg: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1400&q=75',
+  },
+  {
+    id: 'calcula', icon: '🧮', label: 'Calcula',
+    eyebrow: 'Resuelve y convierte',
+    blurb: 'Calculadora de integrales y conversor de unidades, con resultados paso a paso.',
+    bg: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=75',
+  },
+  {
+    id: 'simula', icon: '🎛️', label: 'Simula',
+    eyebrow: 'Experimenta y visualiza',
+    blurb: 'Simuladores interactivos de aeronáutica y electrónica aeronáutica.',
+    bg: 'https://images.unsplash.com/photo-1569601811497-03a05e22d8e3?w=1400&q=75',
+  },
+];
+
+const isPathId = (v: string): v is PathId =>
+  v === 'estudia' || v === 'calcula' || v === 'simula';
+
+// ─── Herramientas ─────────────────────────────────────────────────────────────
 type ToolId =
-  | 'home'
   | 'rotor' | 'balanceo' | 'wyc' | 'isa' | 'conv'
   | 'radar' | 'pitot' | 'antenna' | 'filtros'
   | 'integ'
   | 'curso-lma' | 'iad';
+
+type View = 'home' | PathId | ToolId;
 
 interface Tool {
   id: ToolId;
   icon: string;
   label: string;
   subtitle: string;
+  path: PathId;
   section: string;
   description: string;
   tag?: 'free' | 'pro';
@@ -81,84 +120,103 @@ interface Tool {
 }
 
 const TOOLS: Tool[] = [
+  // ── Estudia ──
   {
-    id: 'iad', icon: '📡', section: 'Ingeniería a Distancia',
+    id: 'iad', icon: '📡', path: 'estudia', section: 'Ejercicios resueltos',
     label: 'Ingeniería a Distancia', subtitle: 'UNED · Ejercicios resueltos en vídeo',
     description: 'Canal de YouTube donde resuelvo ejercicios de Ingeniería Electrónica Industrial (UNED). Cada entrada incluye el vídeo, la teoría y un simulador interactivo del problema.',
     tag: 'free',
   },
   {
-    id: 'rotor', icon: '⚙', section: 'Aeronáutica',
-    label: 'Desequilibrio de rotor', subtitle: 'Estático / dinámico',
-    description: 'Simula desequilibrio estático y dinámico. Visualiza vibración de cojinetes, órbitas y fuerzas centrífugas en tiempo real.',
-    tag: 'free', theory: theoryRotor,
-  },
-  {
-    id: 'balanceo', icon: '⚖', section: 'Aeronáutica',
-    label: 'Balanceo de hélice', subtitle: 'Método vectorial — plano único',
-    description: 'Calcula la masa y ángulo de corrección a partir de dos mediciones de vibración. Método vectorial (AMM 61-20 / EASA Part-66).',
-    tag: 'free', theory: theoryBalanceo,
-  },
-  {
-    id: 'wyc', icon: '✈', section: 'Aeronáutica',
-    label: 'Peso y Centrado', subtitle: 'Envolvente CG — Cessna 172S',
-    description: 'Introduce pesos en cada estación y comprueba si el CG queda dentro de la envolvente de vuelo según el POH.',
-    tag: 'free', theory: theoryWyC,
-  },
-  {
-    id: 'isa', icon: '🌍', section: 'Aeronáutica',
-    label: 'Atmósfera ISA', subtitle: 'T, P, ρ, a a cualquier altitud',
-    description: 'Calcula las propiedades del aire según la Atmósfera Estándar Internacional (ISA) en troposfera y estratosfera.',
-    tag: 'free', theory: theoryISA,
-  },
-  {
-    id: 'conv', icon: '🔄', section: 'Aeronáutica',
-    label: 'Conversiones aeronáuticas', subtitle: 'Velocidad, presión, temperatura…',
-    description: 'Convierte entre unidades aeronáuticas: kt, ft, nm, inHg, hPa, °C/K/°F y más.',
+    id: 'curso-lma', icon: '🎓', path: 'estudia', section: 'Formación LMA / EASA Part-66',
+    label: 'Temario oficial LMA', subtitle: 'M3 · M4 — Electricidad y Electrónica',
+    description: 'Temario completo para la Licencia de Mecánico de Aeronave (LMA) en las especialidades de Electricidad (M3) y Electrónica (M4), siguiendo el programa oficial EASA Part-66.',
     tag: 'free',
   },
+
+  // ── Calcula ──
   {
-    id: 'radar', icon: '📡', section: 'Electrónica Aeronáutica',
-    label: 'Ecuación del Radar', subtitle: 'Alcance máximo & diagrama de cobertura',
-    description: 'Calcula el alcance máximo (Rmax) con la radar range equation. Ajusta potencia, ganancia, frecuencia y RCS del blanco.',
-    tag: 'free', theory: theoryRadar,
-  },
-  {
-    id: 'pitot', icon: '💨', section: 'Electrónica Aeronáutica',
-    label: 'Sistema Pitot-Estático', subtitle: 'IAS → CAS → TAS → Mach',
-    description: 'Convierte presión dinámica en velocidades aerodinámicas con corrección de compresibilidad e ISA.',
-    tag: 'free', theory: theoryPitot,
-  },
-  {
-    id: 'antenna', icon: '🔭', section: 'Electrónica Aeronáutica',
-    label: 'Diseño de Antena', subtitle: 'Friis, HPBW, diagrama polar',
-    description: 'Calcula ganancia, ancho de haz, apertura efectiva y enlace de radio (ecuación de Friis). Diagrama de radiación polar interactivo.',
-    tag: 'free', theory: theoryAntenna,
-  },
-  {
-    id: 'filtros', icon: '〜', section: 'Electrónica Aeronáutica',
-    label: 'Filtros para Aviónica', subtitle: 'Bode — RC / RLC, presets ARINC/ILS/GPS',
-    description: 'Diseña filtros RC y RLC con diagrama de Bode (módulo y fase). Presets reales: sensor pitot, ARINC 429, VOR/ILS, ADS-B, GPS.',
-    tag: 'free', theory: theoryFiltros,
-  },
-  {
-    id: 'integ', icon: '∫', section: 'Matemáticas',
+    id: 'integ', icon: '∫', path: 'calcula', section: 'Cálculo',
     label: 'Calculadora de Integrales', subtitle: 'Indefinida simbólica · Definida numérica',
     description: 'Resuelve integrales indefinidas (simbólicas) y definidas (numéricas, Simpson). Visualiza la función y el área bajo la curva, con resultado en notación matemática y pasos de resolución.',
     tag: 'free', theory: theoryIntegrales,
   },
   {
-    id: 'curso-lma', icon: '🎓', section: 'Formación LMA / EASA Part-66',
-    label: 'Temario oficial LMA', subtitle: 'M3 · M4 — Electricidad y Electrónica',
-    description: 'Temario completo para la Licencia de Mecánico de Aeronave (LMA) en las especialidades de Electricidad (M3) y Electrónica (M4), siguiendo el programa oficial EASA Part-66.',
+    id: 'conv', icon: '🔄', path: 'calcula', section: 'Cálculo',
+    label: 'Conversor de unidades', subtitle: 'Velocidad, presión, temperatura…',
+    description: 'Convierte entre unidades técnicas: kt, ft, nm, inHg, hPa, °C/K/°F, kg, lb y más.',
     tag: 'free',
+  },
+
+  // ── Simula ──
+  {
+    id: 'rotor', icon: '⚙', path: 'simula', section: 'Aeronáutica',
+    label: 'Desequilibrio de rotor', subtitle: 'Estático / dinámico',
+    description: 'Simula desequilibrio estático y dinámico. Visualiza vibración de cojinetes, órbitas y fuerzas centrífugas en tiempo real.',
+    tag: 'free', theory: theoryRotor,
+  },
+  {
+    id: 'balanceo', icon: '⚖', path: 'simula', section: 'Aeronáutica',
+    label: 'Balanceo de hélice', subtitle: 'Método vectorial — plano único',
+    description: 'Calcula la masa y ángulo de corrección a partir de dos mediciones de vibración. Método vectorial (AMM 61-20 / EASA Part-66).',
+    tag: 'free', theory: theoryBalanceo,
+  },
+  {
+    id: 'wyc', icon: '✈', path: 'simula', section: 'Aeronáutica',
+    label: 'Peso y Centrado', subtitle: 'Envolvente CG — Cessna 172S',
+    description: 'Introduce pesos en cada estación y comprueba si el CG queda dentro de la envolvente de vuelo según el POH.',
+    tag: 'free', theory: theoryWyC,
+  },
+  {
+    id: 'isa', icon: '🌍', path: 'simula', section: 'Aeronáutica',
+    label: 'Atmósfera ISA', subtitle: 'T, P, ρ, a a cualquier altitud',
+    description: 'Calcula las propiedades del aire según la Atmósfera Estándar Internacional (ISA) en troposfera y estratosfera.',
+    tag: 'free', theory: theoryISA,
+  },
+  {
+    id: 'radar', icon: '📡', path: 'simula', section: 'Electrónica Aeronáutica',
+    label: 'Ecuación del Radar', subtitle: 'Alcance máximo & diagrama de cobertura',
+    description: 'Calcula el alcance máximo (Rmax) con la radar range equation. Ajusta potencia, ganancia, frecuencia y RCS del blanco.',
+    tag: 'free', theory: theoryRadar,
+  },
+  {
+    id: 'pitot', icon: '💨', path: 'simula', section: 'Electrónica Aeronáutica',
+    label: 'Sistema Pitot-Estático', subtitle: 'IAS → CAS → TAS → Mach',
+    description: 'Convierte presión dinámica en velocidades aerodinámicas con corrección de compresibilidad e ISA.',
+    tag: 'free', theory: theoryPitot,
+  },
+  {
+    id: 'antenna', icon: '🔭', path: 'simula', section: 'Electrónica Aeronáutica',
+    label: 'Diseño de Antena', subtitle: 'Friis, HPBW, diagrama polar',
+    description: 'Calcula ganancia, ancho de haz, apertura efectiva y enlace de radio (ecuación de Friis). Diagrama de radiación polar interactivo.',
+    tag: 'free', theory: theoryAntenna,
+  },
+  {
+    id: 'filtros', icon: '〜', path: 'simula', section: 'Electrónica Aeronáutica',
+    label: 'Filtros para Aviónica', subtitle: 'Bode — RC / RLC, presets ARINC/ILS/GPS',
+    description: 'Diseña filtros RC y RLC con diagrama de Bode (módulo y fase). Presets reales: sensor pitot, ARINC 429, VOR/ILS, ADS-B, GPS.',
+    tag: 'free', theory: theoryFiltros,
   },
 ];
 
-const sections = [...new Set(TOOLS.map(t => t.section))];
+// ─── Tarjeta de herramienta reutilizable ────────────────────────────────────
+function ToolCard({ tool, onClick }: { tool: Tool; onClick: () => void }) {
+  return (
+    <div className="home-card" onClick={onClick}>
+      <span className="home-card-icon">{tool.icon}</span>
+      <h3>{tool.label}</h3>
+      <p>{tool.description}</p>
+      <div className="home-card-tags">
+        {tool.tag === 'free' && <span className="tag-free">Gratis</span>}
+        {tool.theory        && <span className="tag-theory">Teoría</span>}
+      </div>
+      <span className="home-card-cta">Abrir →</span>
+    </div>
+  );
+}
 
 export default function App() {
-  const [active, setActive]         = useState<ToolId>('home');
+  const [active, setActive]         = useState<View>('home');
   const [showTheory, setShowTheory] = useState(false);
   const [menuOpen, setMenuOpen]     = useState(false);
   // Ejercicio IAD a abrir directamente (deep-link desde la home)
@@ -178,7 +236,7 @@ export default function App() {
     if (hideTimer.current) clearTimeout(hideTimer.current);
   }, []);
 
-  const handleNav = (id: ToolId) => {
+  const handleNav = (id: View) => {
     setActive(id);
     setShowTheory(false);
     setMenuOpen(false);
@@ -199,6 +257,150 @@ export default function App() {
   if (typeof window !== 'undefined') {
     (window as any).__nav = handleNav;
   }
+
+  // ── Contenido de cada camino ──────────────────────────────────────────────
+  const renderPathBody = (path: PathId) => {
+    if (path === 'estudia') {
+      const iad = TOOLS.find(t => t.id === 'iad')!;
+      const lma = TOOLS.find(t => t.id === 'curso-lma')!;
+      return (
+        <>
+          {/* Ejercicios resueltos */}
+          <div className="home-section-wrap">
+            <div className="home-section-header">
+              <div className="home-section-icon elec">📡</div>
+              <span className="home-section-eyebrow">{iad.section}</span>
+            </div>
+            <h2 className="home-section-title">Ejercicios resueltos paso a paso</h2>
+            <p className="home-section-subtitle">
+              Cada ejercicio incluye el vídeo de la resolución, el desarrollo
+              completo, la teoría y un simulador interactivo del problema.
+            </p>
+            <div className="home-hero-cta" style={{ justifyContent: 'flex-start', marginBottom: 24 }}>
+              <button className="hero-btn-primary" onClick={() => handleNav('iad')}>
+                Ver el canal completo
+              </button>
+              <a
+                className="hero-btn-secondary"
+                href="https://www.youtube.com/@ingenieriaadistancia"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ▶ Suscríbete en YouTube
+              </a>
+            </div>
+            <div className="home-cards">
+              {iadVideos.map(v => (
+                <div key={v.id} className="home-card" onClick={() => openExercise(v.id)}>
+                  <span className="home-card-icon">📐</span>
+                  <h3>{v.title}</h3>
+                  <p>{v.description}</p>
+                  <div className="home-card-tags">
+                    <span className="tag-curso">{v.exerciseRef}</span>
+                    {v.Solution  && <span className="tag-theory">Solución</span>}
+                    {v.Simulator && <span className="tag-free">Simulador</span>}
+                    {v.youtubeId
+                      ? <span className="tag-theory">Vídeo</span>
+                      : <span className="tag-curso">Vídeo pronto</span>}
+                  </div>
+                  <span className="home-card-cta">Abrir ejercicio →</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="home-divider" />
+
+          {/* Formación LMA — apartado pero dentro de Estudia */}
+          <div className="home-section-wrap">
+            <div className="home-section-header">
+              <div className="home-section-icon curso">🎓</div>
+              <span className="home-section-eyebrow">{lma.section}</span>
+            </div>
+            <h2 className="home-section-title">Temario oficial completo</h2>
+            <p className="home-section-subtitle">
+              Módulos M2 a M17 siguiendo el programa oficial para la
+              Licencia de Mecánico de Aeronave.
+            </p>
+            <div className="home-cards">
+              <div
+                className="home-card home-card-featured"
+                onClick={() => handleNav('curso-lma')}
+              >
+                <span className="home-card-icon">{lma.icon}</span>
+                <div className="card-featured-right">
+                  <h3>{lma.label}</h3>
+                  <p>{lma.description}</p>
+                  <div className="home-card-tags" style={{ marginTop: '12px' }}>
+                    <span className="tag-free">Gratis</span>
+                    <span className="tag-curso">7 módulos · 75 capítulos</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      );
+    }
+
+    if (path === 'calcula') {
+      return (
+        <div className="home-section-wrap">
+          <div className="home-section-header">
+            <div className="home-section-icon elec">🧮</div>
+            <span className="home-section-eyebrow">Cálculo y conversión</span>
+          </div>
+          <h2 className="home-section-title">Herramientas de cálculo</h2>
+          <p className="home-section-subtitle">
+            Resuelve integrales con desarrollo paso a paso y convierte entre
+            unidades técnicas al instante.
+          </p>
+          <div className="home-cards">
+            {TOOLS.filter(t => t.path === 'calcula').map(tool => (
+              <ToolCard key={tool.id} tool={tool} onClick={() => handleNav(tool.id)} />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // simula — agrupado por sub-sección
+    const simSections = [...new Set(TOOLS.filter(t => t.path === 'simula').map(t => t.section))];
+    return (
+      <>
+        {simSections.map((section, i) => (
+          <div key={section}>
+            {i > 0 && <div className="home-divider" />}
+            <div className="home-section-wrap">
+              <div className="home-section-header">
+                <div className={`home-section-icon ${section === 'Aeronáutica' ? 'aero' : 'elec'}`}>
+                  {section === 'Aeronáutica' ? '✈' : '📡'}
+                </div>
+                <span className="home-section-eyebrow">{section}</span>
+              </div>
+              <h2 className="home-section-title">
+                {section === 'Aeronáutica'
+                  ? 'Cálculo y simulación de vuelo'
+                  : 'Sistemas de aviónica y señales'}
+              </h2>
+              <p className="home-section-subtitle">
+                {section === 'Aeronáutica'
+                  ? 'Simuladores de análisis estructural, rendimiento y sistemas de aeronave conformes con EASA Part-66.'
+                  : 'Diseño y análisis de sistemas electrónicos embarcados: radar, antenas, Pitot-estático y filtros.'}
+              </p>
+              <div className="home-cards">
+                {TOOLS.filter(t => t.path === 'simula' && t.section === section).map(tool => (
+                  <ToolCard key={tool.id} tool={tool} onClick={() => handleNav(tool.id)} />
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </>
+    );
+  };
+
+  const activePath = isPathId(active) ? PATHS.find(p => p.id === active)! : null;
 
   return (
     <div className="app">
@@ -241,14 +443,23 @@ export default function App() {
                 <span className="fm-label">Inicio</span>
               </div>
 
-              {/* Secciones y herramientas */}
-              {sections.map(section => (
-                <div key={section}>
-                  <div className="fm-section">{section}</div>
-                  {TOOLS.filter(t => t.section === section).map(tool => (
+              {/* Caminos y herramientas */}
+              {PATHS.map(path => (
+                <div key={path.id}>
+                  <button
+                    className={`fm-item fm-path${active === path.id ? ' active' : ''}`}
+                    onClick={() => handleNav(path.id)}
+                  >
+                    <span className="fm-icon">{path.icon}</span>
+                    <span className="fm-text">
+                      <span className="fm-label">{path.label}</span>
+                      <span className="fm-sub">{path.eyebrow}</span>
+                    </span>
+                  </button>
+                  {TOOLS.filter(t => t.path === path.id).map(tool => (
                     <button
                       key={tool.id}
-                      className={`fm-item${active === tool.id ? ' active' : ''}`}
+                      className={`fm-item fm-sub-item${active === tool.id ? ' active' : ''}`}
                       onClick={() => handleNav(tool.id)}
                     >
                       <span className="fm-icon">{tool.icon}</span>
@@ -265,16 +476,20 @@ export default function App() {
           )}
         </div>
 
-        <div className="header-logo">
+        <div
+          className="header-logo"
+          onClick={() => handleNav('home')}
+          style={{ cursor: 'pointer' }}
+        >
           <span className="header-logo-icon">✈</span>
           <h1>AeroTech Tools</h1>
         </div>
         <span className="header-badge">Beta</span>
-        <span className="header-tagline">Suite técnica · Aeronáutica &amp; Electrónica</span>
+        <span className="header-tagline">Estudia · Calcula · Simula</span>
       </header>
 
       {/* ══════════════════════════════════════════════
-          CONTENIDO PRINCIPAL — sin sidebar fijo
+          CONTENIDO PRINCIPAL
       ══════════════════════════════════════════════ */}
       <main className="main">
 
@@ -285,29 +500,16 @@ export default function App() {
 
             <div className="home-content">
 
-              {/* ── HERO — Ingeniería a Distancia ── */}
+              {/* ── HERO ── */}
               <div className="home-hero">
-                <span className="home-hero-eyebrow">UNED · Ejercicios resueltos</span>
+                <span className="home-hero-eyebrow">UNED · EASA Part-66 · Herramientas técnicas</span>
                 <span className="home-hero-icon">📡</span>
                 <h2>Ingeniería a <em>Distancia</em></h2>
                 <p className="home-hero-sub">
-                  Resuelvo en vídeo ejercicios de Ingeniería Electrónica Industrial,
-                  con teoría y un simulador interactivo de cada problema. Aprende
-                  paso a paso y repasa con desarrollos completos.
+                  Aprende, calcula y simula. Ejercicios resueltos en vídeo,
+                  herramientas de cálculo y simuladores interactivos de
+                  ingeniería en un solo sitio.
                 </p>
-                <div className="home-hero-cta">
-                  <button className="hero-btn-primary" onClick={() => handleNav('iad')}>
-                    Ver ejercicios
-                  </button>
-                  <a
-                    className="hero-btn-secondary"
-                    href="https://www.youtube.com/@ingenieriaadistancia"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    ▶ Suscríbete en YouTube
-                  </a>
-                </div>
                 <div className="home-stats">
                   <div className="home-stat">
                     <div className="home-stat-val">{iadVideos.length}</div>
@@ -317,7 +519,7 @@ export default function App() {
                   </div>
                   <div className="home-stat">
                     <div className="home-stat-val">3</div>
-                    <div className="home-stat-lbl">Recursos por ejercicio</div>
+                    <div className="home-stat-lbl">Caminos de aprendizaje</div>
                   </div>
                   <div className="home-stat">
                     <div className="home-stat-val">10</div>
@@ -330,184 +532,58 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="home-divider" />
-
-              {/* ── INGENIERÍA A DISTANCIA (principal) ── */}
+              {/* ── ELIGE TU CAMINO ── */}
               <div className="home-section-wrap">
-                <div className="home-section-header">
-                  <div className="home-section-icon elec">📡</div>
-                  <span className="home-section-eyebrow">Ingeniería a Distancia</span>
+                <div className="home-section-header" style={{ justifyContent: 'center' }}>
+                  <span className="home-section-eyebrow">Elige tu camino</span>
                 </div>
-                <h2 className="home-section-title">Ejercicios resueltos paso a paso</h2>
-                <p className="home-section-subtitle">
-                  Cada ejercicio incluye el vídeo de la resolución, el desarrollo
-                  completo, la teoría y un simulador interactivo del problema.
-                </p>
-                <div className="home-cards">
-                  {iadVideos.map(v => (
-                    <div key={v.id} className="home-card" onClick={() => openExercise(v.id)}>
-                      <span className="home-card-icon">📐</span>
-                      <h3>{v.title}</h3>
-                      <p>{v.description}</p>
-                      <div className="home-card-tags">
-                        <span className="tag-curso">{v.exerciseRef}</span>
-                        {v.Solution  && <span className="tag-theory">Solución</span>}
-                        {v.Simulator && <span className="tag-free">Simulador</span>}
-                        {v.youtubeId
-                          ? <span className="tag-theory">Vídeo</span>
-                          : <span className="tag-curso">Vídeo pronto</span>}
-                      </div>
-                      <span className="home-card-cta">Abrir ejercicio →</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="home-divider" />
-
-              {/* ── Esencia AeroTech: herramientas técnicas (secundario) ── */}
-              <div className="home-section-wrap home-section-secondary">
-                <span className="home-hero-eyebrow">También en AeroTech ✈</span>
-                <h2 className="home-section-title">Herramientas técnicas de aeronáutica y aviónica</h2>
-                <p className="home-section-subtitle">
-                  Suite de cálculo y simulación conforme a EASA Part-66, además del
-                  temario oficial LMA. La base aeronáutica del proyecto.
-                </p>
-              </div>
-
-              {/* ── AERONÁUTICA ── */}
-              <div className="home-section-wrap">
-                <div className="home-section-header">
-                  <div className="home-section-icon aero">✈</div>
-                  <span className="home-section-eyebrow">Aeronáutica</span>
-                </div>
-                <h2 className="home-section-title">Cálculo y simulación de vuelo</h2>
-                <p className="home-section-subtitle">
-                  Herramientas para análisis estructural, rendimiento y sistemas
-                  de aeronave conformes con EASA Part-66.
-                </p>
-                <div className="home-cards">
-                  {TOOLS.filter(t => t.section === 'Aeronáutica').map(tool => (
-                    <div key={tool.id} className="home-card" onClick={() => handleNav(tool.id)}>
-                      <span className="home-card-icon">{tool.icon}</span>
-                      <h3>{tool.label}</h3>
-                      <p>{tool.description}</p>
-                      <div className="home-card-tags">
-                        {tool.tag === 'free' && <span className="tag-free">Gratis</span>}
-                        {tool.theory        && <span className="tag-theory">Teoría</span>}
-                      </div>
-                      <span className="home-card-cta">Abrir herramienta →</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="home-divider" />
-
-              {/* ── ELECTRÓNICA ── */}
-              <div className="home-section-wrap">
-                <div className="home-section-header">
-                  <div className="home-section-icon elec">📡</div>
-                  <span className="home-section-eyebrow">Electrónica Aeronáutica</span>
-                </div>
-                <h2 className="home-section-title">Sistemas de aviónica y señales</h2>
-                <p className="home-section-subtitle">
-                  Diseño y análisis de sistemas electrónicos embarcados: radar,
-                  antenas, Pitot-estático y filtros para aviónica.
-                </p>
-                <div className="home-cards">
-                  {TOOLS.filter(t => t.section === 'Electrónica Aeronáutica').map(tool => (
-                    <div key={tool.id} className="home-card" onClick={() => handleNav(tool.id)}>
-                      <span className="home-card-icon">{tool.icon}</span>
-                      <h3>{tool.label}</h3>
-                      <p>{tool.description}</p>
-                      <div className="home-card-tags">
-                        {tool.tag === 'free' && <span className="tag-free">Gratis</span>}
-                        {tool.theory        && <span className="tag-theory">Teoría</span>}
-                      </div>
-                      <span className="home-card-cta">Abrir herramienta →</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="home-divider" />
-
-              {/* ── MATEMÁTICAS ── */}
-              <div className="home-section-wrap">
-                <div className="home-section-header">
-                  <div className="home-section-icon elec">∫</div>
-                  <span className="home-section-eyebrow">Matemáticas</span>
-                </div>
-                <h2 className="home-section-title">Cálculo y análisis</h2>
-                <p className="home-section-subtitle">
-                  Herramientas de cálculo simbólico y numérico para apoyar la
-                  resolución de ejercicios de ingeniería.
-                </p>
-                <div className="home-cards">
-                  {TOOLS.filter(t => t.section === 'Matemáticas').map(tool => (
-                    <div key={tool.id} className="home-card" onClick={() => handleNav(tool.id)}>
-                      <span className="home-card-icon">{tool.icon}</span>
-                      <h3>{tool.label}</h3>
-                      <p>{tool.description}</p>
-                      <div className="home-card-tags">
-                        {tool.tag === 'free' && <span className="tag-free">Gratis</span>}
-                        {tool.theory        && <span className="tag-theory">Teoría</span>}
-                      </div>
-                      <span className="home-card-cta">Abrir herramienta →</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="home-divider" />
-
-              {/* ── LMA ── */}
-              <div className="home-section-wrap">
-                <div className="home-section-header">
-                  <div className="home-section-icon curso">🎓</div>
-                  <span className="home-section-eyebrow">Formación LMA / EASA Part-66</span>
-                </div>
-                <h2 className="home-section-title">Temario oficial completo</h2>
-                <p className="home-section-subtitle">
-                  Módulos M2 a M17 siguiendo el programa oficial para la
-                  Licencia de Mecánico de Aeronave.
-                </p>
-                <div className="home-cards">
-                  {TOOLS.filter(t => t.section === 'Formación LMA / EASA Part-66').map(tool => (
+                <h2 className="home-section-title" style={{ textAlign: 'center' }}>
+                  ¿Qué quieres hacer hoy?
+                </h2>
+                <div className="path-cards">
+                  {PATHS.map(path => (
                     <div
-                      key={tool.id}
-                      className={`home-card ${tool.id === 'curso-lma' ? 'home-card-featured' : ''}`}
-                      onClick={() => handleNav(tool.id)}
+                      key={path.id}
+                      className={`path-card path-card-${path.id}`}
+                      onClick={() => handleNav(path.id)}
+                      style={{ backgroundImage: `url(${path.bg})` }}
                     >
-                      {tool.id === 'curso-lma' ? (
-                        <>
-                          <span className="home-card-icon">{tool.icon}</span>
-                          <div className="card-featured-right">
-                            <h3>{tool.label}</h3>
-                            <p>{tool.description}</p>
-                            <div className="home-card-tags" style={{ marginTop: '12px' }}>
-                              <span className="tag-free">Gratis</span>
-                              <span className="tag-curso">7 módulos · 75 capítulos</span>
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <span className="home-card-icon">{tool.icon}</span>
-                          <h3>{tool.label}</h3>
-                          <p>{tool.description}</p>
-                          <div className="home-card-tags">
-                            {tool.tag === 'free' && <span className="tag-free">Gratis</span>}
-                          </div>
-                        </>
-                      )}
+                      <div className="path-card-overlay" />
+                      <div className="path-card-content">
+                        <span className="path-card-icon">{path.icon}</span>
+                        <h3 className="path-card-title">{path.label}</h3>
+                        <span className="path-card-eyebrow">{path.eyebrow}</span>
+                        <p className="path-card-blurb">{path.blurb}</p>
+                        <span className="path-card-cta">Entrar →</span>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
             </div>{/* /home-content */}
+          </div>
+
+        /* ════ CAMINO (landing) ════ */
+        ) : activePath ? (
+          <div className="home">
+            <div
+              className="sim-header"
+              style={{ backgroundImage: `url(${activePath.bg})` }}
+            >
+              <div className="sim-header-inner">
+                <div>
+                  <h2>{activePath.icon} {activePath.label}</h2>
+                  <p>{activePath.blurb}</p>
+                </div>
+                <button className="theory-toggle-btn" onClick={() => handleNav('home')}>
+                  ⌂ Inicio
+                </button>
+              </div>
+            </div>
+            <div className="home-content">
+              {renderPathBody(activePath.id)}
+            </div>
           </div>
 
         /* ════ HERRAMIENTA ACTIVA ════ */
