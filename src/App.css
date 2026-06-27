@@ -1016,3 +1016,296 @@ canvas {
     overflow: visible;
   }
 }
+
+/* ══════════════════════════════════════════════
+   CALCULADORA DE INTEGRALES
+══════════════════════════════════════════════ */
+.integ-wrap {
+  flex: 1;
+  overflow: auto;
+  padding: 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(360px, 1.2fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.integ-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem 1.35rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.integ-field { margin-bottom: 1rem; }
+.integ-field:last-child { margin-bottom: 0; }
+
+.integ-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-2);
+  margin-bottom: 0.45rem;
+}
+
+.integ-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 0.35rem 0.75rem;
+  transition: border-color 0.15s;
+}
+.integ-input-row:focus-within { border-color: var(--blue); }
+
+.integ-prefix { font-size: 1.6rem; color: var(--blue); line-height: 1; }
+.integ-suffix { font-style: italic; color: var(--text-2); font-size: 1.05rem; }
+
+.integ-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 1.05rem;
+  color: var(--text);
+  outline: none;
+  min-width: 0;
+}
+.integ-input.small {
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  background: var(--bg);
+  padding: 0.55rem 0.75rem;
+  width: 100%;
+}
+.integ-input.small:focus { border-color: var(--blue); }
+
+.integ-preview {
+  margin-top: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--blue-light);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.integ-error {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--red);
+}
+
+.integ-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.integ-chip {
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 0.82rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.integ-chip:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+
+.integ-modes {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.integ-mode-btn {
+  flex: 1;
+  padding: 0.55rem 0.5rem;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--text-2);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.integ-mode-btn.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+
+.integ-limits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.integ-result-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+  margin-bottom: 0.75rem;
+}
+
+.integ-values {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+.integ-value-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.85rem;
+  background: var(--bg);
+  border-radius: 10px;
+}
+.integ-value-row.exact {
+  background: var(--green-bg);
+}
+.integ-value-label { font-size: 0.85rem; color: var(--text-2); }
+.integ-value-num {
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.integ-value-row.exact .integ-value-num { color: var(--green); }
+
+.integ-note {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+.integ-note code {
+  background: var(--surface2);
+  padding: 0.05rem 0.3rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+.integ-note.warn {
+  background: var(--amber-bg);
+  color: var(--amber);
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+}
+
+/* ── Pasos de resolución (plegable) ── */
+.integ-steps {
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg2);
+  overflow: hidden;
+}
+.integ-steps-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+.integ-steps-toggle:hover { background: var(--bg); }
+.integ-steps-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+}
+.integ-steps-arrow {
+  font-size: 0.9rem;
+  color: var(--blue);
+  transition: transform 0.2s ease;
+}
+.integ-steps.open .integ-steps-arrow { transform: rotate(180deg); }
+.integ-steps-content {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid var(--border);
+}
+.integ-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+.integ-step:last-of-type { border-bottom: none; }
+.integ-step-num {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.integ-step-body { flex: 1; min-width: 0; }
+.integ-step-rule {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+}
+.integ-step-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--blue-light);
+  color: var(--blue);
+}
+.integ-step-badge.chain {
+  background: var(--indigo-bg);
+  color: var(--indigo);
+}
+.integ-step-desc {
+  font-size: 0.85rem;
+  color: var(--text-2);
+}
+.integ-step .math-block { margin: 0.35rem 0 0; }
+.integ-step-summary {
+  margin-top: 0.85rem;
+  font-size: 0.8rem;
+  color: var(--text-2);
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 0.6rem 0.85rem;
+}
+.integ-step-summary { font-style: italic; }
+
+.integ-plot { margin-top: 1rem; }
+.integ-canvas {
+  width: 100%;
+  height: auto;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: block;
+}
+
+@media (max-width: 880px) {
+  .integ-wrap {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}

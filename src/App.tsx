@@ -25,6 +25,9 @@ import PitotEstatico      from './electronics/PitotEstatico';
 import AntennaDesigner    from './electronics/AntennaDesigner';
 import FiltrosAvionica    from './electronics/FiltrosAvionica';
 
+// Math tools
+import Integrales         from './mathtools/Integrales';
+
 // IAD — Ingeniería a Distancia
 import IADView from './iad/IADView';
 import iadVideos from './iad/videosData';
@@ -39,6 +42,7 @@ import theoryRadar    from './theories/theoryRadar';
 import theoryPitot    from './theories/theoryPitot';
 import theoryAntenna  from './theories/theoryAntenna';
 import theoryFiltros  from './theories/theoryFiltros';
+import theoryIntegrales from './theories/theoryIntegrales';
 
 // ─── Imágenes por herramienta ───────────────────────────────────────────────
 const TOOL_BG: Record<string, string> = {
@@ -53,6 +57,7 @@ const TOOL_BG: Record<string, string> = {
   filtros:     'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=75',
   'curso-lma': 'https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=1400&q=75',
   'iad':       'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1400&q=75',
+  'integ':     'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=75',
 };
 
 const HOME_BG = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80';
@@ -61,6 +66,7 @@ type ToolId =
   | 'home'
   | 'rotor' | 'balanceo' | 'wyc' | 'isa' | 'conv'
   | 'radar' | 'pitot' | 'antenna' | 'filtros'
+  | 'integ'
   | 'curso-lma' | 'iad';
 
 interface Tool {
@@ -134,6 +140,12 @@ const TOOLS: Tool[] = [
     label: 'Filtros para Aviónica', subtitle: 'Bode — RC / RLC, presets ARINC/ILS/GPS',
     description: 'Diseña filtros RC y RLC con diagrama de Bode (módulo y fase). Presets reales: sensor pitot, ARINC 429, VOR/ILS, ADS-B, GPS.',
     tag: 'free', theory: theoryFiltros,
+  },
+  {
+    id: 'integ', icon: '∫', section: 'Matemáticas',
+    label: 'Calculadora de Integrales', subtitle: 'Indefinida simbólica · Definida numérica',
+    description: 'Resuelve integrales indefinidas (simbólicas) y definidas (numéricas, Simpson). Visualiza la función y el área bajo la curva, con resultado en notación matemática y pasos de resolución.',
+    tag: 'free', theory: theoryIntegrales,
   },
   {
     id: 'curso-lma', icon: '🎓', section: 'Formación LMA / EASA Part-66',
@@ -308,7 +320,7 @@ export default function App() {
                     <div className="home-stat-lbl">Recursos por ejercicio</div>
                   </div>
                   <div className="home-stat">
-                    <div className="home-stat-val">9</div>
+                    <div className="home-stat-val">10</div>
                     <div className="home-stat-lbl">Herramientas técnicas</div>
                   </div>
                   <div className="home-stat">
@@ -421,6 +433,35 @@ export default function App() {
 
               <div className="home-divider" />
 
+              {/* ── MATEMÁTICAS ── */}
+              <div className="home-section-wrap">
+                <div className="home-section-header">
+                  <div className="home-section-icon elec">∫</div>
+                  <span className="home-section-eyebrow">Matemáticas</span>
+                </div>
+                <h2 className="home-section-title">Cálculo y análisis</h2>
+                <p className="home-section-subtitle">
+                  Herramientas de cálculo simbólico y numérico para apoyar la
+                  resolución de ejercicios de ingeniería.
+                </p>
+                <div className="home-cards">
+                  {TOOLS.filter(t => t.section === 'Matemáticas').map(tool => (
+                    <div key={tool.id} className="home-card" onClick={() => handleNav(tool.id)}>
+                      <span className="home-card-icon">{tool.icon}</span>
+                      <h3>{tool.label}</h3>
+                      <p>{tool.description}</p>
+                      <div className="home-card-tags">
+                        {tool.tag === 'free' && <span className="tag-free">Gratis</span>}
+                        {tool.theory        && <span className="tag-theory">Teoría</span>}
+                      </div>
+                      <span className="home-card-cta">Abrir herramienta →</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="home-divider" />
+
               {/* ── LMA ── */}
               <div className="home-section-wrap">
                 <div className="home-section-header">
@@ -505,6 +546,7 @@ export default function App() {
                 {active === 'pitot'     && <PitotEstatico />}
                 {active === 'antenna'   && <AntennaDesigner />}
                 {active === 'filtros'   && <FiltrosAvionica />}
+                {active === 'integ'     && <Integrales />}
                 {active === 'curso-lma' && <CourseView modules={[m2, m3, m4, m8, m15, m16, m17]} />}
                 {active === 'iad'       && (
                   <IADView
