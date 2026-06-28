@@ -124,7 +124,7 @@ const theoryCP2: TheoryContent = {
   references: [
     'Beer & Johnston — Mecánica vectorial para ingenieros: Dinámica (Ed. 12)',
     'Meriam & Kraige — Engineering Mechanics: Dynamics',
-    'UNED — Mecánica, Tema 1: Cinemática del punto',
+    'Mecánica, Tema 1: Cinemática del punto',
   ],
 };
 
@@ -209,7 +209,7 @@ const theoryCP3: TheoryContent = {
   references: [
     'Beer & Johnston — Mecánica vectorial para ingenieros: Dinámica (Ed. 12)',
     'Meriam & Kraige — Engineering Mechanics: Dynamics',
-    'UNED — Mecánica, Tema 1: Cinemática del punto (coordenadas polares)',
+    'Mecánica, Tema 1: Cinemática del punto (coordenadas polares)',
   ],
 };
 
@@ -295,7 +295,7 @@ const theoryCP5: TheoryContent = {
   references: [
     'Beer & Johnston — Mecánica vectorial para ingenieros: Dinámica (Ed. 12)',
     'Meriam & Kraige — Engineering Mechanics: Dynamics',
-    'UNED — Mecánica, Tema 1: Cinemática del punto (campo de velocidades)',
+    'Mecánica, Tema 1: Cinemática del punto (campo de velocidades)',
   ],
 };
 
@@ -390,7 +390,7 @@ const theoryCP35: TheoryContent = {
   references: [
     'Beer & Johnston — Mecánica vectorial para ingenieros: Dinámica (Ed. 12)',
     'Meriam & Kraige — Engineering Mechanics: Dynamics',
-    'UNED — Mecánica, Tema 1: Cinemática del punto',
+    'Mecánica, Tema 1: Cinemática del punto',
   ],
 };
 
@@ -485,7 +485,7 @@ const theoryCP40: TheoryContent = {
   references: [
     'Beer & Johnston — Mecánica vectorial para ingenieros: Dinámica (Ed. 12)',
     'Meriam & Kraige — Engineering Mechanics: Dynamics',
-    'UNED — Mecánica, Tema 1: Cinemática del punto',
+    'Mecánica, Tema 1: Cinemática del punto',
   ],
 };
 

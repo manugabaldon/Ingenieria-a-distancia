@@ -62,6 +62,8 @@ const TOOL_BG: Record<string, string> = {
 
 const HOME_BG = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80';
 
+const BUYMEACOFFEE_URL = 'https://buymeacoffee.com/manugabaldon';
+
 // ─── Caminos ─────────────────────────────────────────────────────────────────
 type PathId = 'estudia' | 'calcula' | 'simula';
 
@@ -123,8 +125,8 @@ const TOOLS: Tool[] = [
   // ── Estudia ──
   {
     id: 'iad', icon: '📡', path: 'estudia', section: 'Ejercicios resueltos',
-    label: 'Ingeniería a Distancia', subtitle: 'UNED · Ejercicios resueltos en vídeo',
-    description: 'Canal de YouTube donde resuelvo ejercicios de Ingeniería Electrónica Industrial (UNED). Cada entrada incluye el vídeo, la teoría y un simulador interactivo del problema.',
+    label: 'Ingeniería a Distancia', subtitle: 'Ejercicios resueltos en vídeo',
+    description: 'Canal de YouTube donde resuelvo ejercicios de Ingeniería Electrónica Industrial. Cada entrada incluye el vídeo, la teoría y un simulador interactivo del problema.',
     tag: 'free',
   },
   {
@@ -482,10 +484,21 @@ export default function App() {
           style={{ cursor: 'pointer' }}
         >
           <span className="header-logo-icon">✈</span>
-          <h1>AeroTech Tools</h1>
+          <h1>Ingeniería a Distancia</h1>
         </div>
         <span className="header-badge">Beta</span>
         <span className="header-tagline">Estudia · Calcula · Simula</span>
+
+        <a
+          className="bmc-btn"
+          href={BUYMEACOFFEE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Invítame a un café en Buy Me a Coffee"
+        >
+          <span className="bmc-emoji">☕</span>
+          <span className="bmc-text">Invítame a un café</span>
+        </a>
       </header>
 
       {/* ══════════════════════════════════════════════
@@ -501,45 +514,13 @@ export default function App() {
             <div className="home-content">
 
               {/* ── HERO ── */}
-              <div className="home-hero">
-                <span className="home-hero-eyebrow">UNED · EASA Part-66 · Herramientas técnicas</span>
+              <div className="home-hero home-hero-compact">
                 <span className="home-hero-icon">📡</span>
                 <h2>Ingeniería a <em>Distancia</em></h2>
-                <p className="home-hero-sub">
-                  Aprende, calcula y simula. Ejercicios resueltos en vídeo,
-                  herramientas de cálculo y simuladores interactivos de
-                  ingeniería en un solo sitio.
-                </p>
-                <div className="home-stats">
-                  <div className="home-stat">
-                    <div className="home-stat-val">{iadVideos.length}</div>
-                    <div className="home-stat-lbl">
-                      {iadVideos.length === 1 ? 'Ejercicio resuelto' : 'Ejercicios resueltos'}
-                    </div>
-                  </div>
-                  <div className="home-stat">
-                    <div className="home-stat-val">3</div>
-                    <div className="home-stat-lbl">Caminos de aprendizaje</div>
-                  </div>
-                  <div className="home-stat">
-                    <div className="home-stat-val">10</div>
-                    <div className="home-stat-lbl">Herramientas técnicas</div>
-                  </div>
-                  <div className="home-stat">
-                    <div className="home-stat-val">100%</div>
-                    <div className="home-stat-lbl">Gratuito</div>
-                  </div>
-                </div>
               </div>
 
-              {/* ── ELIGE TU CAMINO ── */}
-              <div className="home-section-wrap">
-                <div className="home-section-header" style={{ justifyContent: 'center' }}>
-                  <span className="home-section-eyebrow">Elige tu camino</span>
-                </div>
-                <h2 className="home-section-title" style={{ textAlign: 'center' }}>
-                  ¿Qué quieres hacer hoy?
-                </h2>
+              {/* ── CAMINOS ── */}
+              <div className="home-section-wrap home-paths-wrap">
                 <div className="path-cards">
                   {PATHS.map(path => (
                     <div
@@ -559,6 +540,11 @@ export default function App() {
                     </div>
                   ))}
                 </div>
+                <p className="home-hero-sub home-paths-caption">
+                  Aprende, calcula y simula. Ejercicios resueltos en vídeo,
+                  herramientas de cálculo y simuladores interactivos de
+                  ingeniería en un solo sitio.
+                </p>
               </div>
 
             </div>{/* /home-content */}

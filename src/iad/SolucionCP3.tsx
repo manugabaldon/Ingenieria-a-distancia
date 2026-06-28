@@ -235,7 +235,7 @@ export default function SolucionCP3() {
       </section>
 
       <p className="sol-foot">
-        Desarrollo propio · Cinemática del punto y de los sistemas (UNED, Ingeniería Electrónica Industrial).
+        Desarrollo propio · Cinemática del punto y de los sistemas (Ingeniería Electrónica Industrial).
       </p>
     </div>
   );

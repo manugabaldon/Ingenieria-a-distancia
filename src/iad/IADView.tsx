@@ -144,7 +144,7 @@ export default function IADView({ initialExerciseId }: { initialExerciseId?: str
         <h2>Ingeniería a Distancia</h2>
         <p className="iad-hero-sub">
           Canal de YouTube donde resuelvo ejercicios de la carrera de
-          <strong> Ingeniería Electrónica Industrial</strong> por la UNED.
+          <strong> Ingeniería Electrónica Industrial</strong>.
           Cada entrada incluye el vídeo de la resolución, la teoría relacionada
           y un simulador interactivo del problema.
         </p>
