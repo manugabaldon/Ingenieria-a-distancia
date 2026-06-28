@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import './App.css';
 import ParallaxBg from './components/ParallaxSection';
 
@@ -204,6 +204,33 @@ const TOOLS: Tool[] = [
   },
 ];
 
+// ─── Navegación por URL (historial del navegador) ───────────────────────────
+const VALID_IDS = new Set<string>([
+  ...PATHS.map(p => p.id),
+  ...TOOLS.map(t => t.id),
+]);
+
+interface NavState {
+  active: View;
+  pendingExercise: string | null;
+}
+
+/** Vista → fragmento de URL (#…) */
+function viewToHash(active: View, pendingExercise: string | null): string {
+  if (active === 'home') return '';
+  if (active === 'iad' && pendingExercise) return `#iad/${pendingExercise}`;
+  return `#${active}`;
+}
+
+/** Fragmento de URL → vista */
+function hashToView(hash: string): NavState {
+  const h = hash.replace(/^#/, '');
+  if (!h) return { active: 'home', pendingExercise: null };
+  if (h.startsWith('iad/')) return { active: 'iad', pendingExercise: h.slice(4) };
+  if (VALID_IDS.has(h)) return { active: h as View, pendingExercise: null };
+  return { active: 'home', pendingExercise: null };
+}
+
 // ─── Tarjeta de herramienta reutilizable ────────────────────────────────────
 function ToolCard({ tool, onClick }: { tool: Tool; onClick: () => void }) {
   return (
@@ -221,11 +248,17 @@ function ToolCard({ tool, onClick }: { tool: Tool; onClick: () => void }) {
 }
 
 export default function App() {
-  const [active, setActive]         = useState<View>('home');
+  // Estado inicial leído de la URL (permite recargar/compartir y volver atrás)
+  const initialNav: NavState =
+    typeof window !== 'undefined'
+      ? hashToView(window.location.hash)
+      : { active: 'home', pendingExercise: null };
+
+  const [active, setActive]         = useState<View>(initialNav.active);
   const [showTheory, setShowTheory] = useState(false);
   const [menuOpen, setMenuOpen]     = useState(false);
   // Ejercicio IAD a abrir directamente (deep-link desde la home)
-  const [pendingExercise, setPendingExercise] = useState<string | null>(null);
+  const [pendingExercise, setPendingExercise] = useState<string | null>(initialNav.pendingExercise);
 
   // Temporizador para cerrar el menú al salir con el cursor
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -241,20 +274,37 @@ export default function App() {
     if (hideTimer.current) clearTimeout(hideTimer.current);
   }, []);
 
-  const handleNav = (id: View) => {
+  // Aplica una vista SIN tocar el historial (uso interno y en popstate)
+  const applyView = useCallback((id: View, exercise: string | null = null) => {
     setActive(id);
+    setPendingExercise(exercise);
     setShowTheory(false);
     setMenuOpen(false);
-    setPendingExercise(null);
-  };
+  }, []);
+
+  // Navega y registra una entrada en el historial del navegador
+  const pushNav = useCallback((id: View, exercise: string | null = null) => {
+    applyView(id, exercise);
+    const hash = viewToHash(id, exercise);
+    const url = hash || window.location.pathname + window.location.search;
+    window.history.pushState({ active: id, pendingExercise: exercise }, '', url);
+    window.scrollTo(0, 0);
+  }, [applyView]);
+
+  const handleNav = (id: View) => pushNav(id);
 
   // Abre la sección IAD directamente en un ejercicio concreto
-  const openExercise = (exerciseId: string) => {
-    setActive('iad');
-    setPendingExercise(exerciseId);
-    setShowTheory(false);
-    setMenuOpen(false);
-  };
+  const openExercise = (exerciseId: string) => pushNav('iad', exerciseId);
+
+  // Sincroniza con los botones atrás/adelante del navegador
+  useEffect(() => {
+    const onPop = () => {
+      const v = hashToView(window.location.hash);
+      applyView(v.active, v.pendingExercise);
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, [applyView]);
 
   const current = TOOLS.find(t => t.id === active);
 
