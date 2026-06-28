@@ -1,19 +1,25 @@
 /* ══════════════════════════════════════════════════════════════════
    APP SHELL
 ══════════════════════════════════════════════════════════════════ */
+:root {
+  /* Altura de la cabecera (incluye el safe-area superior en móvil) */
+  --header-h: calc(48px + env(safe-area-inset-top, 0px));
+}
+
 .app {
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
   background: var(--white);
+  position: relative;
 }
 
 /* ══════════════════════════════════════════════════════════════════
    NAVBAR — Apple.com style: blanco + blur, 48px, tipografía pequeña
 ══════════════════════════════════════════════════════════════════ */
 .header {
-  height: calc(48px + env(safe-area-inset-top, 0px));
+  height: var(--header-h);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -23,15 +29,25 @@
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  position: relative;
+  /* Flota por encima del contenido para que su movimiento no lo arrastre */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
-  transition: margin-top 0.28s ease;
+  transition: transform 0.28s ease;
+}
+
+/* El contenido arranca justo debajo de la cabecera flotante */
+.main > .home,
+.main > .sim-header {
+  padding-top: var(--header-h);
 }
 
 /* Auto-ocultar la cabecera al hacer scroll (solo en móvil/táctil) */
 @media (max-width: 820px) {
   .header.header--hidden {
-    margin-top: calc(-48px - env(safe-area-inset-top, 0px));
+    transform: translateY(-100%);
   }
 }
 
