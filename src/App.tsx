@@ -27,6 +27,7 @@ import FiltrosAvionica    from './electronics/FiltrosAvionica';
 
 // Math tools
 import Integrales         from './mathtools/Integrales';
+import Derivadas          from './mathtools/Derivadas';
 
 // IAD — Ingeniería a Distancia
 import IADView from './iad/IADView';
@@ -43,6 +44,7 @@ import theoryPitot    from './theories/theoryPitot';
 import theoryAntenna  from './theories/theoryAntenna';
 import theoryFiltros  from './theories/theoryFiltros';
 import theoryIntegrales from './theories/theoryIntegrales';
+import theoryDerivadas  from './theories/theoryDerivadas';
 
 // ─── Imágenes por herramienta ───────────────────────────────────────────────
 const TOOL_BG: Record<string, string> = {
@@ -58,6 +60,7 @@ const TOOL_BG: Record<string, string> = {
   'curso-lma': 'https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=1400&q=75',
   'iad':       'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1400&q=75',
   'integ':     'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=75',
+  'deriv':     'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?w=1400&q=75',
 };
 
 const HOME_BG = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80';
@@ -107,7 +110,7 @@ const isPathId = (v: string): v is PathId =>
 type ToolId =
   | 'rotor' | 'balanceo' | 'wyc' | 'isa' | 'conv'
   | 'radar' | 'pitot' | 'antenna' | 'filtros'
-  | 'integ'
+  | 'integ' | 'deriv'
   | 'curso-lma' | 'iad';
 
 type View = 'home' | PathId | ToolId;
@@ -145,6 +148,12 @@ const TOOLS: Tool[] = [
     label: 'Calculadora de Integrales', subtitle: 'Indefinida simbólica · Definida numérica',
     description: 'Resuelve integrales indefinidas (simbólicas) y definidas (numéricas, Simpson). Visualiza la función y el área bajo la curva, con resultado en notación matemática y pasos de resolución.',
     tag: 'free', theory: theoryIntegrales,
+  },
+  {
+    id: 'deriv', icon: 'ƒ′', path: 'calcula', section: 'Cálculo',
+    label: 'Calculadora de Derivadas', subtitle: 'Simbólica · Derivada en un punto',
+    description: 'Deriva funciones paso a paso (potencia, producto, cociente, cadena). Calcula la derivada en un punto con su recta tangente y visualiza f(x) y f′(x) en la gráfica.',
+    tag: 'free', theory: theoryDerivadas,
   },
   {
     id: 'conv', icon: '🔄', path: 'calcula', section: 'Cálculo',
@@ -588,23 +597,60 @@ export default function App() {
               {/* ── CAMINOS ── */}
               <div className="home-section-wrap home-paths-wrap">
                 <div className="path-cards">
-                  {PATHS.map(path => (
-                    <div
-                      key={path.id}
-                      className={`path-card path-card-${path.id}`}
-                      onClick={() => handleNav(path.id)}
-                      style={{ backgroundImage: `url(${path.bg})` }}
-                    >
-                      <div className="path-card-overlay" />
-                      <div className="path-card-content">
-                        <span className="path-card-icon">{path.icon}</span>
-                        <h3 className="path-card-title">{path.label}</h3>
-                        <span className="path-card-eyebrow">{path.eyebrow}</span>
-                        <p className="path-card-blurb">{path.blurb}</p>
-                        <span className="path-card-cta">Entrar →</span>
+                  {PATHS.map(path => {
+                    const items = TOOLS.filter(t => t.path === path.id);
+                    const preview = items.length > 3 ? items.slice(0, 3) : items;
+                    const hasMore = items.length > preview.length;
+                    return (
+                      <div key={path.id} className="path-card-wrap">
+                        <div
+                          className={`path-card path-card-${path.id}`}
+                          onClick={() => handleNav(path.id)}
+                          style={{ backgroundImage: `url(${path.bg})` }}
+                        >
+                          <div className="path-card-overlay" />
+                          <div className="path-card-content">
+                            <span className="path-card-icon">{path.icon}</span>
+                            <h3 className="path-card-title">{path.label}</h3>
+                            <span className="path-card-eyebrow">{path.eyebrow}</span>
+                            <p className="path-card-blurb">{path.blurb}</p>
+                            <span className="path-card-cta">Entrar →</span>
+                          </div>
+                        </div>
+
+                        {/* Popover al pasar el cursor: accesos directos */}
+                        <div
+                          className="path-popover"
+                          onClick={() => handleNav(path.id)}
+                        >
+                          <div className="path-popover-header">
+                            <span className="path-popover-h-icon">{path.icon}</span>
+                            {path.label}
+                          </div>
+                          <div className="path-popover-list">
+                            {preview.map(tool => (
+                              <button
+                                key={tool.id}
+                                className="path-popover-item"
+                                onClick={(e) => { e.stopPropagation(); handleNav(tool.id); }}
+                              >
+                                <span className="path-popover-icon">{tool.icon}</span>
+                                <span className="path-popover-text">
+                                  <span className="path-popover-label">{tool.label}</span>
+                                  <span className="path-popover-sub">{tool.subtitle}</span>
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                          <span className="path-popover-all">
+                            {hasMore
+                              ? `Mostrar todo el contenido (${items.length}) →`
+                              : 'Abrir sección →'}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 <p className="home-hero-sub home-paths-caption">
                   Aprende, calcula y simula. Ejercicios resueltos en vídeo,
@@ -675,6 +721,7 @@ export default function App() {
                 {active === 'antenna'   && <AntennaDesigner />}
                 {active === 'filtros'   && <FiltrosAvionica />}
                 {active === 'integ'     && <Integrales />}
+                {active === 'deriv'     && <Derivadas />}
                 {active === 'curso-lma' && <CourseView modules={[m2, m3, m4, m8, m15, m16, m17]} />}
                 {active === 'iad'       && (
                   <IADView

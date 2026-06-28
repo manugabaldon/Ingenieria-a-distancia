@@ -851,6 +851,109 @@ canvas {
   .path-cards { grid-template-columns: 1fr; }
 }
 
+.path-card-wrap {
+  position: relative;
+}
+
+/* Popover de accesos directos al pasar el cursor */
+.path-popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 0.5px solid var(--border);
+  border-radius: 22px;
+  box-shadow: var(--shadow-lg);
+  padding: 16px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+@media (hover: hover) {
+  .path-card-wrap:hover .path-popover {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+.path-popover-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  padding: 2px 4px 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.path-popover-h-icon { font-size: 1.1rem; }
+
+.path-popover-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.path-popover-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 8px;
+  cursor: pointer;
+  transition: background 0.13s ease;
+  font-family: inherit;
+}
+.path-popover-item:hover { background: var(--blue-light); }
+
+.path-popover-icon {
+  font-size: 1.05rem;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.path-popover-text { display: flex; flex-direction: column; min-width: 0; }
+.path-popover-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.path-popover-sub {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.path-popover-all {
+  display: block;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+
 .path-card {
   position: relative;
   min-height: 260px;
