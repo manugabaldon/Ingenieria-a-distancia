@@ -275,6 +275,7 @@ export default function App() {
   const [active, setActive]         = useState<View>(initialNav.active);
   const [showTheory, setShowTheory] = useState(false);
   const [menuOpen, setMenuOpen]     = useState(false);
+  const [hideHeader, setHideHeader] = useState(false);
   // Ejercicio IAD a abrir directamente (deep-link desde la home)
   const [pendingExercise, setPendingExercise] = useState<string | null>(initialNav.pendingExercise);
 
@@ -298,6 +299,7 @@ export default function App() {
     setPendingExercise(exercise);
     setShowTheory(false);
     setMenuOpen(false);
+    setHideHeader(false);
   }, []);
 
   // Navega y registra una entrada en el historial del navegador
@@ -313,6 +315,28 @@ export default function App() {
 
   // Abre la sección IAD directamente en un ejercicio concreto
   const openExercise = (exerciseId: string) => pushNav('iad', exerciseId);
+
+  // Auto-ocultar la cabecera al bajar y mostrarla al subir (cualquier contenedor)
+  useEffect(() => {
+    let lastY = 0;
+    let lastTarget: EventTarget | null = null;
+    const onScroll = (e: Event) => {
+      const el = e.target as HTMLElement;
+      if (!el || typeof el.scrollTop !== 'number') return;
+      const y = el.scrollTop;
+      if (el !== lastTarget) {
+        lastTarget = el;
+        lastY = y;
+        return;
+      }
+      if (y <= 4) setHideHeader(false);
+      else if (y - lastY > 6) setHideHeader(true);
+      else if (lastY - y > 6) setHideHeader(false);
+      lastY = y;
+    };
+    window.addEventListener('scroll', onScroll, true);
+    return () => window.removeEventListener('scroll', onScroll, true);
+  }, []);
 
   // Sincroniza con los botones atrás/adelante del navegador
   useEffect(() => {
@@ -481,7 +505,7 @@ export default function App() {
       {/* ══════════════════════════════════════════════
           NAVBAR
       ══════════════════════════════════════════════ */}
-      <header className="header">
+      <header className={`header${hideHeader && !menuOpen ? ' header--hidden' : ''}`}>
 
         {/* Botón hamburguesa — abre el menú flotante */}
         <div
