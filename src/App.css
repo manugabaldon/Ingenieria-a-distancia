@@ -1478,6 +1478,48 @@ canvas {
   border-radius: 10px;
 }
 
+/* ── Lista de funciones (representador) ── */
+.fn-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.fn-swatch {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+.fn-input { flex: 1; min-width: 0; padding: 0.5rem 0.7rem; border: 1px solid var(--border2); border-radius: 10px; background: var(--bg); }
+.fn-input:focus { outline: none; border-color: var(--blue); }
+.fn-remove {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--text-2);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.13s;
+}
+.fn-remove:hover { border-color: var(--red); color: var(--red); }
+.fn-add {
+  margin-top: 2px;
+  background: none;
+  border: 1px dashed var(--border2);
+  border-radius: 10px;
+  padding: 0.5rem 0.85rem;
+  color: var(--blue);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.13s;
+}
+.fn-add:hover { background: var(--blue-light); border-color: var(--blue); }
+
 /* ── Pasos de resolución (plegable) ── */
 .integ-steps {
   margin: 1rem 0;

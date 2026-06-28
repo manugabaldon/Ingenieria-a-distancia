@@ -28,6 +28,7 @@ import FiltrosAvionica    from './electronics/FiltrosAvionica';
 // Math tools
 import Integrales         from './mathtools/Integrales';
 import Derivadas          from './mathtools/Derivadas';
+import Funciones          from './mathtools/Funciones';
 
 // IAD — Ingeniería a Distancia
 import IADView from './iad/IADView';
@@ -45,6 +46,7 @@ import theoryAntenna  from './theories/theoryAntenna';
 import theoryFiltros  from './theories/theoryFiltros';
 import theoryIntegrales from './theories/theoryIntegrales';
 import theoryDerivadas  from './theories/theoryDerivadas';
+import theoryFunciones  from './theories/theoryFunciones';
 
 // ─── Imágenes por herramienta ───────────────────────────────────────────────
 const TOOL_BG: Record<string, string> = {
@@ -61,6 +63,7 @@ const TOOL_BG: Record<string, string> = {
   'iad':       'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1400&q=75',
   'integ':     'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=75',
   'deriv':     'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?w=1400&q=75',
+  'grafica':   'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=75',
 };
 
 const HOME_BG = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80';
@@ -110,7 +113,7 @@ const isPathId = (v: string): v is PathId =>
 type ToolId =
   | 'rotor' | 'balanceo' | 'wyc' | 'isa' | 'conv'
   | 'radar' | 'pitot' | 'antenna' | 'filtros'
-  | 'integ' | 'deriv'
+  | 'integ' | 'deriv' | 'grafica'
   | 'curso-lma' | 'iad';
 
 type View = 'home' | PathId | ToolId;
@@ -154,6 +157,12 @@ const TOOLS: Tool[] = [
     label: 'Calculadora de Derivadas', subtitle: 'Simbólica · Derivada en un punto',
     description: 'Deriva funciones paso a paso (potencia, producto, cociente, cadena). Calcula la derivada en un punto con su recta tangente y visualiza f(x) y f′(x) en la gráfica.',
     tag: 'free', theory: theoryDerivadas,
+  },
+  {
+    id: 'grafica', icon: '📈', path: 'calcula', section: 'Cálculo',
+    label: 'Representación de Funciones', subtitle: 'Gráfica · raíces, máximos y mínimos',
+    description: 'Representa una o varias funciones y analízalas: raíces, máximos y mínimos, corte con el eje Y y derivada superpuesta, con rango ajustable.',
+    tag: 'free', theory: theoryFunciones,
   },
   {
     id: 'conv', icon: '🔄', path: 'calcula', section: 'Cálculo',
@@ -722,6 +731,7 @@ export default function App() {
                 {active === 'filtros'   && <FiltrosAvionica />}
                 {active === 'integ'     && <Integrales />}
                 {active === 'deriv'     && <Derivadas />}
+                {active === 'grafica'   && <Funciones />}
                 {active === 'curso-lma' && <CourseView modules={[m2, m3, m4, m8, m15, m16, m17]} />}
                 {active === 'iad'       && (
                   <IADView
