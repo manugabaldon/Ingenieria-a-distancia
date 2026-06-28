@@ -150,11 +150,11 @@ export default function IADView({ initialExerciseId }: { initialExerciseId?: str
         </p>
         <a
           className="iad-yt-btn"
-          href="https://www.youtube.com/@ingenieriaadistancia"
+          href="https://www.youtube.com/@ingenieriaadistancia?sub_confirmation=1"
           target="_blank"
           rel="noopener noreferrer"
         >
-          ▶ Ver canal en YouTube
+          ▶ Suscríbete en YouTube
         </a>
       </div>
 

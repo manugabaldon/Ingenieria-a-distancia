@@ -64,6 +64,9 @@ const HOME_BG = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=
 
 const BUYMEACOFFEE_URL = 'https://buymeacoffee.com/manugabaldon';
 
+// ?sub_confirmation=1 abre directamente el diálogo de suscripción de YouTube
+const YOUTUBE_SUB_URL = 'https://www.youtube.com/@ingenieriaadistancia?sub_confirmation=1';
+
 // ─── Caminos ─────────────────────────────────────────────────────────────────
 type PathId = 'estudia' | 'calcula' | 'simula';
 
@@ -284,7 +287,7 @@ export default function App() {
               </button>
               <a
                 className="hero-btn-secondary"
-                href="https://www.youtube.com/@ingenieriaadistancia"
+                href={YOUTUBE_SUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -488,6 +491,19 @@ export default function App() {
         </div>
         <span className="header-badge">Beta</span>
         <span className="header-tagline">Estudia · Calcula · Simula</span>
+
+        <a
+          className="yt-btn"
+          href={YOUTUBE_SUB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Suscríbete en YouTube"
+        >
+          <svg className="yt-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="currentColor">
+            <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/>
+          </svg>
+          <span className="yt-text">Suscríbete</span>
+        </a>
 
         <a
           className="bmc-btn"
