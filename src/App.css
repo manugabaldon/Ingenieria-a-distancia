@@ -13,12 +13,12 @@
    NAVBAR — Apple.com style: blanco + blur, 48px, tipografía pequeña
 ══════════════════════════════════════════════════════════════════ */
 .header {
-  height: 48px;
+  height: calc(48px + env(safe-area-inset-top, 0px));
   flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0 24px;
+  padding: env(safe-area-inset-top, 0px) 24px 0;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
