@@ -679,7 +679,9 @@ export default function App() {
                 {active === 'iad'       && (
                   <IADView
                     key={pendingExercise ?? 'channel'}
-                    initialExerciseId={pendingExercise}
+                    exerciseId={pendingExercise}
+                    onOpenExercise={openExercise}
+                    onBack={() => handleNav('iad')}
                   />
                 )}
               </>

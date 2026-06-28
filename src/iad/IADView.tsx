@@ -126,13 +126,19 @@ function VideoCard({ video, onClick }: { video: IADVideo; onClick: () => void })
 }
 
 // ─── Vista principal ───────────────────────────────────────────────────────────
-export default function IADView({ initialExerciseId }: { initialExerciseId?: string | null } = {}) {
-  const [selected, setSelected] = useState<IADVideo | null>(
-    () => (initialExerciseId ? videos.find(v => v.id === initialExerciseId) ?? null : null),
-  );
+export default function IADView({
+  exerciseId,
+  onOpenExercise,
+  onBack,
+}: {
+  exerciseId?: string | null;
+  onOpenExercise: (id: string) => void;
+  onBack: () => void;
+}) {
+  const selected = exerciseId ? videos.find(v => v.id === exerciseId) ?? null : null;
 
   if (selected) {
-    return <VideoDetail video={selected} onBack={() => setSelected(null)} />;
+    return <VideoDetail video={selected} onBack={onBack} />;
   }
 
   const subjects = [...new Set(videos.map(v => v.subject))];
@@ -174,7 +180,7 @@ export default function IADView({ initialExerciseId }: { initialExerciseId?: str
                   </h4>
                   <div className="iad-grid">
                     {topicVideos.map(v => (
-                      <VideoCard key={v.id} video={v} onClick={() => setSelected(v)} />
+                      <VideoCard key={v.id} video={v} onClick={() => onOpenExercise(v.id)} />
                     ))}
                   </div>
                 </div>
