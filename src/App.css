@@ -1478,6 +1478,164 @@ canvas {
   border-radius: 10px;
 }
 
+/* ══════════════════════════════════════════════
+   HERRAMIENTAS MATEMÁTICAS — pestañas Calculadora / Practica
+══════════════════════════════════════════════ */
+.mathtool {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.mathtool-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 1rem 2rem 0;
+  flex-shrink: 0;
+}
+.mathtool-tab {
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--text-2);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.mathtool-tab.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+.mathtool .integ-wrap { overflow: visible; }
+
+/* ── Sección Practica (quiz) ── */
+.prac-wrap {
+  flex: 1;
+  overflow: auto;
+  padding: 1.25rem 2rem 2rem;
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+}
+.prac-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+.prac-levels { display: flex; gap: 8px; }
+.prac-level-btn {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--text-2);
+  font-weight: 600;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.prac-level-btn.active {
+  background: var(--blue-light);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.prac-score { font-size: 0.85rem; color: var(--text-2); }
+.prac-score strong { color: var(--text); }
+
+.prac-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+.prac-prompt-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+}
+
+.prac-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 1rem;
+}
+@media (max-width: 620px) { .prac-options { grid-template-columns: 1fr; } }
+
+.prac-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  background: var(--bg);
+  border: 1.5px solid var(--border2);
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.13s;
+  min-height: 52px;
+}
+.prac-option:hover:not(:disabled) { border-color: var(--blue); background: var(--blue-light); }
+.prac-option:disabled { cursor: default; }
+.prac-option.is-correct { border-color: var(--green); background: var(--green-bg); }
+.prac-option.is-wrong { border-color: var(--red); background: #fdeceb; }
+.prac-option.is-dim { opacity: 0.55; }
+
+.prac-option-letter {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--surface2);
+  color: var(--text-2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prac-option.is-correct .prac-option-letter { background: var(--green); color: #fff; }
+.prac-option.is-wrong .prac-option-letter { background: var(--red); color: #fff; }
+.prac-option-tex { flex: 1; min-width: 0; overflow-x: auto; }
+.prac-mark { font-weight: 700; font-size: 1rem; }
+.prac-mark.ok { color: var(--green); }
+.prac-mark.no { color: var(--red); }
+
+.prac-feedback {
+  margin-top: 1.1rem;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.prac-feedback.ok { background: var(--green-bg); color: var(--green); }
+.prac-feedback.no { background: var(--amber-bg); color: var(--amber); }
+
+.prac-resolution {
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+.prac-resolution-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+  margin-bottom: 0.75rem;
+}
+.prac-actions { margin-top: 1.25rem; }
+
 /* ── Lista de funciones (representador) ── */
 .fn-row {
   display: flex;

@@ -10,7 +10,8 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { parse } from 'mathjs';
 import { BlockMath, InlineMath } from '../components/Math';
-import { derivativeExpr, evalAt, derivativeSteps } from './derivate';
+import { derivativeExpr, evalAt, derivativeSteps, generateDerivativeProblem } from './derivate';
+import Practica from './Practica';
 
 type Mode = 'simbolica' | 'punto';
 
@@ -348,6 +349,7 @@ function StepsPanel({ steps }: { steps: ReturnType<typeof derivativeSteps> }) {
 }
 
 export default function Derivadas() {
+  const [view, setView] = useState<'calc' | 'practica'>('calc');
   const [expr, setExpr] = useState('x^3');
   const [mode, setMode] = useState<Mode>('simbolica');
   const [x0Str, setX0Str] = useState('2');
@@ -369,6 +371,25 @@ export default function Derivadas() {
   }, [expr, x0, mode]);
 
   return (
+    <div className="mathtool">
+      <div className="mathtool-tabs">
+        <button
+          className={`mathtool-tab ${view === 'calc' ? 'active' : ''}`}
+          onClick={() => setView('calc')}
+        >
+          ƒ′ Calculadora
+        </button>
+        <button
+          className={`mathtool-tab ${view === 'practica' ? 'active' : ''}`}
+          onClick={() => setView('practica')}
+        >
+          🎯 Practica
+        </button>
+      </div>
+
+      {view === 'practica' ? (
+        <Practica kind="derivada" generate={generateDerivativeProblem} />
+      ) : (
     <div className="integ-wrap">
       {/* ── Entrada ── */}
       <div className="integ-card">
@@ -507,6 +528,8 @@ export default function Derivadas() {
           <DerivPlot expr={expr} derivRaw={symbolic?.raw ?? null} mode={mode} x0={x0} />
         </div>
       </div>
+    </div>
+      )}
     </div>
   );
 }

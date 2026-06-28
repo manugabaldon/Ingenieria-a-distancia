@@ -15,7 +15,9 @@ import {
   integrationSteps,
   definiteIntegral,
   evalDefiniteSymbolic,
+  generateIntegralProblem,
 } from './integrate';
+import Practica from './Practica';
 
 type Mode = 'indef' | 'def';
 
@@ -365,6 +367,7 @@ function StepsPanel({ steps }: { steps: ReturnType<typeof integrationSteps> }) {
 }
 
 export default function Integrales() {
+  const [view, setView] = useState<'calc' | 'practica'>('calc');
   const [expr, setExpr] = useState('x^2');
   const [mode, setMode] = useState<Mode>('indef');
   const [aStr, setAStr] = useState('0');
@@ -388,6 +391,25 @@ export default function Integrales() {
   }, [symbolic, a, b, mode]);
 
   return (
+    <div className="mathtool">
+      <div className="mathtool-tabs">
+        <button
+          className={`mathtool-tab ${view === 'calc' ? 'active' : ''}`}
+          onClick={() => setView('calc')}
+        >
+          🧮 Calculadora
+        </button>
+        <button
+          className={`mathtool-tab ${view === 'practica' ? 'active' : ''}`}
+          onClick={() => setView('practica')}
+        >
+          🎯 Practica
+        </button>
+      </div>
+
+      {view === 'practica' ? (
+        <Practica kind="integral" generate={generateIntegralProblem} />
+      ) : (
     <div className="integ-wrap">
       {/* ── Entrada ── */}
       <div className="integ-card">
@@ -566,6 +588,8 @@ export default function Integrales() {
           />
         </div>
       </div>
+    </div>
+      )}
     </div>
   );
 }

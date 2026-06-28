@@ -17,6 +17,13 @@
  * definida siempre puede calcularse numéricamente.
  */
 import { parse, simplify, derivative } from 'mathjs';
+import {
+  buildOptions,
+  choice,
+  randInt,
+  type Level,
+  type PracticeProblem,
+} from './practice';
 
 const V = 'x';
 
@@ -393,4 +400,70 @@ export function evalDefiniteSymbolic(raw: string, a: number, b: number): number 
   } catch {
     return null;
   }
+}
+
+// ─── Generador de problemas para "Practica" ─────────────────────────────────
+
+/** Construye el integrando aleatorio (en bruto) según el nivel. */
+function randIntegrand(level: Level): string {
+  const a = randInt(2, 6);
+  const b = randInt(1, 5);
+  const c = randInt(2, 6);
+  const n = randInt(2, 5);
+  const k = randInt(2, 4);
+  if (level === 1) {
+    return choice([
+      `${a}*x^${n}`,
+      `${a}*x^${randInt(1, 4)} + ${b}*x`,
+      `${a}*x^2 + ${b}`,
+    ]);
+  }
+  if (level === 2) {
+    return choice([
+      `${a}*x^${n} + ${b}*x + ${c}`,
+      `${a}/x`,
+      `${a}*exp(x)`,
+      `${a}*sin(x)`,
+      `${a}*cos(x)`,
+      `${a}*sqrt(x)`,
+    ]);
+  }
+  return choice([
+    `sin(${k}*x)`,
+    `cos(${k}*x)`,
+    `exp(${k}*x)`,
+    `(${k}*x + ${b})^${randInt(2, 4)}`,
+    `${a}*x^${n} + ${b}*cos(x)`,
+  ]);
+}
+
+/** Genera un problema de integral de opción múltiple. */
+export function generateIntegralProblem(level: Level): PracticeProblem | null {
+  for (let attempt = 0; attempt < 25; attempt++) {
+    const f = randIntegrand(level);
+    const correct = integrateExpr(f);
+    const steps = integrationSteps(f);
+    if (!correct || !steps) continue;
+    const fTex = (() => {
+      try {
+        return parse(f).toTex();
+      } catch {
+        return f;
+      }
+    })();
+    const candidates = [
+      f, // olvida integrar
+      `-(${correct.raw})`, // signo
+      `(2)*(${correct.raw})`, // coeficiente
+      `(1/2)*(${correct.raw})`,
+    ];
+    const options = buildOptions(correct.raw, correct.tex, candidates, ' + C');
+    if (options.length < 4) continue;
+    return {
+      promptTex: `\\int ${fTex}\\,dx`,
+      options,
+      steps,
+    };
+  }
+  return null;
 }

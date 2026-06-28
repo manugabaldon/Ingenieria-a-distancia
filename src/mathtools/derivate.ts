@@ -13,6 +13,13 @@
  * mostrarla con fines didácticos.
  */
 import { parse, simplify, derivative } from 'mathjs';
+import {
+  buildOptions,
+  choice,
+  randInt,
+  type Level,
+  type PracticeProblem,
+} from './practice';
 
 const V = 'x';
 
@@ -209,4 +216,72 @@ export function derivativeSteps(expr: string): DerivationSteps | null {
   } catch {
     return null;
   }
+}
+
+// ─── Generador de problemas para "Practica" ─────────────────────────────────
+
+/** Construye la función aleatoria (en bruto) a derivar según el nivel. */
+function randFunction(level: Level): string {
+  const a = randInt(2, 6);
+  const b = randInt(1, 5);
+  const c = randInt(2, 6);
+  const n = randInt(2, 5);
+  const k = randInt(2, 4);
+  if (level === 1) {
+    return choice([
+      `${a}*x^${n}`,
+      `${a}*x^${randInt(2, 5)} + ${b}*x`,
+      `${a}*x^2 + ${b}*x + ${c}`,
+    ]);
+  }
+  if (level === 2) {
+    return choice([
+      `${a}*x^${n} + ${b}*x + ${c}`,
+      `${a}*sin(x)`,
+      `${a}*cos(x)`,
+      `${a}*exp(x)`,
+      `${a}*log(x)`,
+      `${a}*sqrt(x)`,
+    ]);
+  }
+  return choice([
+    `sin(${k}*x)`,
+    `exp(${k}*x)`,
+    `(${k}*x + ${b})^${randInt(2, 4)}`,
+    `x*sin(x)`,
+    `x*exp(x)`,
+    `x^2*log(x)`,
+    `x/(x + ${b})`,
+  ]);
+}
+
+/** Genera un problema de derivada de opción múltiple. */
+export function generateDerivativeProblem(level: Level): PracticeProblem | null {
+  for (let attempt = 0; attempt < 25; attempt++) {
+    const f = randFunction(level);
+    const correct = derivativeExpr(f);
+    const steps = derivativeSteps(f);
+    if (!correct || !steps) continue;
+    const fTex = (() => {
+      try {
+        return parse(f).toTex();
+      } catch {
+        return f;
+      }
+    })();
+    const candidates = [
+      f, // olvida derivar
+      `-(${correct.raw})`, // signo
+      `(2)*(${correct.raw})`, // coeficiente
+      `(1/2)*(${correct.raw})`,
+    ];
+    const options = buildOptions(correct.raw, correct.tex, candidates, '');
+    if (options.length < 4) continue;
+    return {
+      promptTex: `\\frac{d}{dx}\\left[${fTex}\\right]`,
+      options,
+      steps,
+    };
+  }
+  return null;
 }
