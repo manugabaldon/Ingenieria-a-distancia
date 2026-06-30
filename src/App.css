@@ -1,11 +1,6 @@
 /* ══════════════════════════════════════════════════════════════════
    APP SHELL
 ══════════════════════════════════════════════════════════════════ */
-:root {
-  /* Altura de la cabecera (incluye el safe-area superior en móvil) */
-  --header-h: calc(48px + env(safe-area-inset-top, 0px));
-}
-
 .app {
   display: flex;
   flex-direction: column;
@@ -19,12 +14,15 @@
    NAVBAR — Apple.com style: blanco + blur, 48px, tipografía pequeña
 ══════════════════════════════════════════════════════════════════ */
 .header {
-  height: var(--header-h);
+  /* env() directo (no dentro de variables: algunos móviles no lo resuelven ahí) */
+  height: 48px;
+  height: calc(48px + env(safe-area-inset-top, 0px));
   flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: env(safe-area-inset-top, 0px) 24px 0;
+  padding: 0 24px;
+  padding-top: env(safe-area-inset-top, 0px);
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -41,7 +39,8 @@
 /* El contenido arranca justo debajo de la cabecera flotante */
 .main > .home,
 .main > .sim-header {
-  padding-top: var(--header-h);
+  padding-top: 48px;
+  padding-top: calc(48px + env(safe-area-inset-top, 0px));
 }
 
 /* Auto-ocultar la cabecera al hacer scroll (solo en móvil/táctil) */
