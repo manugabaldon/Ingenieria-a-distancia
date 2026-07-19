@@ -566,65 +566,90 @@ export function DiagramAntenaPattern() {
    CINEMÁTICA DEL MOVIMIENTO RELATIVO — Sistemas fijo y móvil
 ═══════════════════════════════════════════════════════════════ */
 export function DiagramSistemasReferencia() {
-  // Origen fijo O y origen móvil o
-  const O: [number, number] = [70, 262];
-  const o: [number, number] = [190, 158];
-  const P: [number, number] = [318, 56];
+  // Origen fijo O, origen móvil o, punto P — coordenadas fieles al apunte manuscrito
+  const O: [number, number] = [70, 250];
+  const o: [number, number] = [185, 138];
+  const P: [number, number] = [222, 20];
 
   return (
-    <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" fontFamily="-apple-system,sans-serif">
+    <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg" fontFamily="-apple-system,sans-serif">
       {/* ── Ejes del sistema FIJO OXYZ ── */}
-      <line x1={O[0]} y1={O[1]} x2="24"  y2="296" stroke={T2} strokeWidth="1.8" markerEnd="url(#axArr)"/>
-      <text x="14" y="292" fontSize="13" fontWeight="700" fill={T2}>X</text>
+      <line x1={O[0]} y1={O[1]} x2={O[0]} y2="15" stroke={T2} strokeWidth="1.6" markerEnd="url(#sysArr)"/>
+      <text x={O[0] - 12} y="14" fontSize="14" fontWeight="700" fill={T}>Z</text>
 
-      <line x1={O[0]} y1={O[1]} x2="392" y2="238" stroke={T2} strokeWidth="1.8" markerEnd="url(#axArr)"/>
-      <text x="398" y="242" fontSize="13" fontWeight="700" fill={T2}>Y</text>
+      <line x1={O[0]} y1={O[1]} x2="330" y2="215" stroke={T2} strokeWidth="1.6" markerEnd="url(#sysArr)"/>
+      <text x="336" y="220" fontSize="14" fontWeight="700" fill={T}>Y</text>
 
-      <line x1={O[0]} y1={O[1]} x2={O[0]} y2="18" stroke={T2} strokeWidth="1.8" markerEnd="url(#axArr)"/>
-      <text x={O[0] - 14} y="20" fontSize="13" fontWeight="700" fill={T2}>Z</text>
+      <line x1={O[0]} y1={O[1]} x2="18" y2="305" stroke={T2} strokeWidth="1.6" markerEnd="url(#sysArr)"/>
+      <text x="4" y="316" fontSize="14" fontWeight="700" fill={T}>X</text>
 
-      <circle cx={O[0]} cy={O[1]} r="3.2" fill={T}/>
-      <text x={O[0] - 16} y={O[1] + 16} fontSize="12" fontWeight="700" fill={T}>O</text>
+      <circle cx={O[0]} cy={O[1]} r="2.6" fill={T}/>
+      <text x={O[0] - 16} y={O[1] + 16} fontSize="13" fontWeight="700" fill={T}>O</text>
 
-      {/* ── Ejes del sistema MÓVIL oxyz (más cortos, mismo estilo) ── */}
-      <line x1={o[0]} y1={o[1]} x2={o[0] - 34} y2={o[1] + 26} stroke={B} strokeWidth="1.6" markerEnd="url(#axArrB)"/>
-      <text x={o[0] - 50} y={o[1] + 34} fontSize="11" fontWeight="700" fill={B}>x</text>
+      {/* ── Vectores unitarios del sistema fijo, en O ── */}
+      <line x1={O[0]} y1={O[1]} x2="48" y2="216" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="24" y="212" fontSize="11" fontWeight="600" fill={T}>K̄</text>
 
-      <line x1={o[0]} y1={o[1]} x2={o[0] + 66} y2={o[1] - 12} stroke={B} strokeWidth="1.6" markerEnd="url(#axArrB)"/>
-      <text x={o[0] + 72} y={o[1] - 14} fontSize="11" fontWeight="700" fill={B}>y</text>
+      <line x1={O[0]} y1={O[1]} x2="34" y2="278" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="8" y="272" fontSize="11" fontWeight="600" fill={T}>Ī</text>
 
-      <line x1={o[0]} y1={o[1]} x2={o[0]} y2={o[1] - 66} stroke={B} strokeWidth="1.6" markerEnd="url(#axArrB)"/>
-      <text x={o[0] - 12} y={o[1] - 66} fontSize="11" fontWeight="700" fill={B}>z</text>
+      <line x1={O[0]} y1={O[1]} x2="104" y2="254" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="98" y="270" fontSize="11" fontWeight="600" fill={T}>J̄</text>
 
-      <circle cx={o[0]} cy={o[1]} r="3" fill={B}/>
-      <text x={o[0] - 12} y={o[1] + 18} fontSize="12" fontWeight="700" fill={B}>o</text>
+      {/* ── r̄₀ : O → o (posición del origen móvil) ── */}
+      <line x1={O[0]} y1={O[1]} x2={o[0] - 4} y2={o[1] + 4} stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="98" y="208" fontSize="11" fill={T}>r̄₀</text>
 
-      {/* ── Vector de arrastre r₀ (O → o) ── */}
-      <line x1={O[0]} y1={O[1]} x2={o[0] - 6} y2={o[1] + 5} stroke={T2} strokeWidth="1.4" strokeDasharray="4,3" markerEnd="url(#axArr)"/>
-      <text x={(O[0]+o[0])/2 - 22} y={(O[1]+o[1])/2 + 14} fontSize="10.5" fill={T2}>r₀</text>
+      <circle cx={o[0]} cy={o[1]} r="2.6" fill={T}/>
+      <text x={o[0] + 6} y={o[1] + 6} fontSize="13" fontWeight="700" fill={T}>o</text>
+
+      {/* ── Ejes del sistema MÓVIL oxyz (orientación propia, girada) ── */}
+      <line x1={o[0]} y1={o[1]} x2="168" y2="78" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="148" y="74" fontSize="11" fontWeight="600" fill={T}>z</text>
+
+      <line x1={o[0]} y1={o[1]} x2="272" y2="98" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="278" y="92" fontSize="11" fontWeight="600" fill={T}>y</text>
+
+      <line x1={o[0]} y1={o[1]} x2="145" y2="180" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="122" y="192" fontSize="11" fontWeight="600" fill={T}>x</text>
+
+      {/* ── Vectores unitarios del sistema móvil, en o ── */}
+      <line x1={o[0]} y1={o[1]} x2="166" y2="112" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="148" y="120" fontSize="11" fontWeight="600" fill={T}>k̄</text>
+
+      <line x1={o[0]} y1={o[1]} x2="222" y2="118" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="206" y="108" fontSize="11" fontWeight="600" fill={T}>j̄</text>
+
+      <line x1={o[0]} y1={o[1]} x2="160" y2="158" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <text x="140" y="167" fontSize="11" fontWeight="600" fill={T}>ī</text>
+
+      {/* ── ω̄ : velocidad angular del sistema móvil ── */}
+      <line x1="230" y1="100" x2="230" y2="48" stroke={T} strokeWidth="1.8" markerEnd="url(#sysArrBold)"/>
+      <text x="236" y="54" fontSize="12" fontWeight="700" fill={T}>ω̄</text>
+
+      {/* ── v̄₀ : velocidad del origen móvil o ── */}
+      <line x1={o[0]} y1={o[1]} x2="270" y2="156" stroke={T} strokeWidth="1.8" markerEnd="url(#sysArrBold)"/>
+      <text x="274" y="162" fontSize="11" fontWeight="600" fill={T}>v̄₀</text>
 
       {/* ── Punto P ── */}
-      <circle cx={P[0]} cy={P[1]} r="4" fill={T}/>
-      <text x={P[0] + 8} y={P[1] - 4} fontSize="13" fontWeight="700" fill={T}>P</text>
+      <circle cx={P[0]} cy={P[1]} r="3" fill={T}/>
+      <text x={P[0] + 6} y={P[1] + 2} fontSize="14" fontWeight="700" fill={T}>P</text>
 
-      {/* ── R̄ : O → P (rojo) ── */}
-      <line x1={O[0]} y1={O[1]} x2={P[0] - 6} y2={P[1] + 5} stroke={R} strokeWidth="2.4" markerEnd="url(#axArrR)"/>
-      <text x={O[0] + 60} y={O[1] - 108} fontSize="12" fontWeight="700" fill={R}>R̄</text>
+      {/* ── R̄ : O → P (verde) ── */}
+      <line x1={O[0]} y1={O[1]} x2={P[0] - 3} y2={P[1] + 6} stroke={G} strokeWidth="2.6" markerEnd="url(#sysArrG)"/>
+      <rect x="106" y="160" width="32" height="21" rx="3" fill="#fff3a3"/>
+      <text x="110" y="175" fontSize="13" fontWeight="700" fill={T}>R̄</text>
 
-      {/* ── r̄ : o → P (verde) ── */}
-      <line x1={o[0]} y1={o[1]} x2={P[0] - 6} y2={P[1] + 5} stroke={G} strokeWidth="2.4" markerEnd="url(#axArrG)"/>
-      <text x={(o[0]+P[0])/2 + 8} y={(o[1]+P[1])/2 - 2} fontSize="12" fontWeight="700" fill={G}>r̄</text>
-
-      {/* ── ω : velocidad angular del sistema móvil ── */}
-      <line x1={o[0]} y1={o[1] - 66} x2={o[0]} y2={o[1] - 92} stroke={A} strokeWidth="2" markerEnd="url(#axArrA)"/>
-      <text x={o[0] + 6} y={o[1] - 86} fontSize="11" fontWeight="700" fill={A}>ω̄</text>
+      {/* ── r̄ : o → P (rojo) ── */}
+      <line x1={o[0]} y1={o[1]} x2={P[0] - 3} y2={P[1] + 6} stroke={R} strokeWidth="2.6" markerEnd="url(#sysArrR)"/>
+      <rect x="187" y="81" width="26" height="21" rx="3" fill="#fff3a3"/>
+      <text x="191" y="96" fontSize="13" fontWeight="700" fill={T}>r̄</text>
 
       <defs>
-        <marker id="axArr"  markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={T2}/></marker>
-        <marker id="axArrB" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={B}/></marker>
-        <marker id="axArrR" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={R}/></marker>
-        <marker id="axArrG" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={G}/></marker>
-        <marker id="axArrA" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={A}/></marker>
+        <marker id="sysArr"     markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={T2}/></marker>
+        <marker id="sysArrBold" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={T}/></marker>
+        <marker id="sysArrR"    markerWidth="8" markerHeight="8" refX="4"   refY="4"   orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill={R}/></marker>
+        <marker id="sysArrG"    markerWidth="8" markerHeight="8" refX="4"   refY="4"   orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill={G}/></marker>
       </defs>
     </svg>
   );
