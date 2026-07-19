@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TheoryPanel from '../components/TheoryPanel';
 import ExerciseGuide from './ExerciseGuide';
 import videos, { type IADVideo } from './videosData';
+import theoryEntries, { type TheoryEntry } from './theoryLibraryData';
 import './IADView.css';
 
 type Tab = 'video' | 'solution' | 'theory' | 'exercise' | 'simulator';
@@ -90,6 +91,24 @@ function VideoDetail({ video, onBack }: { video: IADVideo; onBack: () => void })
   );
 }
 
+// ─── Detalle de una subsección de teoría ────────────────────────────────────────
+function TheoryDetail({ entry, onBack }: { entry: TheoryEntry; onBack: () => void }) {
+  return (
+    <div className="iad-detail">
+      <button className="iad-back" onClick={onBack}>← Volver al canal</button>
+
+      <div className="iad-detail-header">
+        <span className="iad-subject-badge">{entry.subject}</span>
+        <h2>{entry.title}</h2>
+        <p className="iad-detail-desc">{entry.summary}</p>
+        <span className="iad-detail-ref">{entry.topic}</span>
+      </div>
+
+      <TheoryPanel content={entry.content} />
+    </div>
+  );
+}
+
 // ─── Card de vídeo ─────────────────────────────────────────────────────────────
 function VideoCard({ video, onClick }: { video: IADVideo; onClick: () => void }) {
   return (
@@ -136,12 +155,21 @@ export default function IADView({
   onBack: () => void;
 }) {
   const selected = exerciseId ? videos.find(v => v.id === exerciseId) ?? null : null;
+  const [openTheoryId, setOpenTheoryId] = useState<string | null>(null);
 
   if (selected) {
     return <VideoDetail video={selected} onBack={onBack} />;
   }
 
+  if (openTheoryId) {
+    const entry = theoryEntries.find(e => e.id === openTheoryId);
+    if (entry) {
+      return <TheoryDetail entry={entry} onBack={() => setOpenTheoryId(null)} />;
+    }
+  }
+
   const subjects = [...new Set(videos.map(v => v.subject))];
+  const theorySubjects = [...new Set(theoryEntries.map(e => e.subject))];
 
   return (
     <div className="iad-home">
@@ -163,6 +191,58 @@ export default function IADView({
           ▶ Suscríbete en YouTube
         </a>
       </div>
+
+      {theoryEntries.length > 0 && (
+        <div className="iad-theory-block">
+          <div className="iad-theory-header">
+            <span className="iad-theory-icon">📖</span>
+            <div>
+              <h3 className="iad-theory-title">Teoría</h3>
+              <p className="iad-theory-sub">
+                Los conceptos clave de cada tema, explicados de forma clara y
+                con ejemplos, para repasar antes o después de los ejercicios.
+              </p>
+            </div>
+          </div>
+
+          {theorySubjects.map(subject => {
+            const subjectEntries = theoryEntries.filter(e => e.subject === subject);
+            const topics = [...new Set(subjectEntries.map(e => e.topic))];
+            return (
+              <div key={subject} className="iad-subject-group">
+                <h4 className="iad-subject-title">{subject}</h4>
+                {topics.map(topic => {
+                  const topicEntries = subjectEntries.filter(e => e.topic === topic);
+                  return (
+                    <div key={topic} className="iad-topic-group">
+                      <h4 className="iad-topic-title">
+                        {topic}
+                        <span className="iad-topic-count">{topicEntries.length}</span>
+                      </h4>
+                      <div className="iad-grid">
+                        {topicEntries.map(e => (
+                          <div
+                            key={e.id}
+                            className="iad-card iad-theory-card"
+                            onClick={() => setOpenTheoryId(e.id)}
+                          >
+                            <div className="iad-theory-card-icon">📘</div>
+                            <div className="iad-card-body">
+                              <h3 className="iad-card-title">{e.title}</h3>
+                              <p className="iad-card-desc">{e.summary}</p>
+                              <span className="chip chip-theory">Teoría</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {subjects.map(subject => {
         const subjectVideos = videos.filter(v => v.subject === subject);

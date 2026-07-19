@@ -562,6 +562,74 @@ export function DiagramAntenaPattern() {
 /* ═══════════════════════════════════════════════════════════════
    FILTROS RLC — circuito de segundo orden
 ═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   CINEMÁTICA DEL MOVIMIENTO RELATIVO — Sistemas fijo y móvil
+═══════════════════════════════════════════════════════════════ */
+export function DiagramSistemasReferencia() {
+  // Origen fijo O y origen móvil o
+  const O: [number, number] = [70, 262];
+  const o: [number, number] = [190, 158];
+  const P: [number, number] = [318, 56];
+
+  return (
+    <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" fontFamily="-apple-system,sans-serif">
+      {/* ── Ejes del sistema FIJO OXYZ ── */}
+      <line x1={O[0]} y1={O[1]} x2="24"  y2="296" stroke={T2} strokeWidth="1.8" markerEnd="url(#axArr)"/>
+      <text x="14" y="292" fontSize="13" fontWeight="700" fill={T2}>X</text>
+
+      <line x1={O[0]} y1={O[1]} x2="392" y2="238" stroke={T2} strokeWidth="1.8" markerEnd="url(#axArr)"/>
+      <text x="398" y="242" fontSize="13" fontWeight="700" fill={T2}>Y</text>
+
+      <line x1={O[0]} y1={O[1]} x2={O[0]} y2="18" stroke={T2} strokeWidth="1.8" markerEnd="url(#axArr)"/>
+      <text x={O[0] - 14} y="20" fontSize="13" fontWeight="700" fill={T2}>Z</text>
+
+      <circle cx={O[0]} cy={O[1]} r="3.2" fill={T}/>
+      <text x={O[0] - 16} y={O[1] + 16} fontSize="12" fontWeight="700" fill={T}>O</text>
+
+      {/* ── Ejes del sistema MÓVIL oxyz (más cortos, mismo estilo) ── */}
+      <line x1={o[0]} y1={o[1]} x2={o[0] - 34} y2={o[1] + 26} stroke={B} strokeWidth="1.6" markerEnd="url(#axArrB)"/>
+      <text x={o[0] - 50} y={o[1] + 34} fontSize="11" fontWeight="700" fill={B}>x</text>
+
+      <line x1={o[0]} y1={o[1]} x2={o[0] + 66} y2={o[1] - 12} stroke={B} strokeWidth="1.6" markerEnd="url(#axArrB)"/>
+      <text x={o[0] + 72} y={o[1] - 14} fontSize="11" fontWeight="700" fill={B}>y</text>
+
+      <line x1={o[0]} y1={o[1]} x2={o[0]} y2={o[1] - 66} stroke={B} strokeWidth="1.6" markerEnd="url(#axArrB)"/>
+      <text x={o[0] - 12} y={o[1] - 66} fontSize="11" fontWeight="700" fill={B}>z</text>
+
+      <circle cx={o[0]} cy={o[1]} r="3" fill={B}/>
+      <text x={o[0] - 12} y={o[1] + 18} fontSize="12" fontWeight="700" fill={B}>o</text>
+
+      {/* ── Vector de arrastre r₀ (O → o) ── */}
+      <line x1={O[0]} y1={O[1]} x2={o[0] - 6} y2={o[1] + 5} stroke={T2} strokeWidth="1.4" strokeDasharray="4,3" markerEnd="url(#axArr)"/>
+      <text x={(O[0]+o[0])/2 - 22} y={(O[1]+o[1])/2 + 14} fontSize="10.5" fill={T2}>r₀</text>
+
+      {/* ── Punto P ── */}
+      <circle cx={P[0]} cy={P[1]} r="4" fill={T}/>
+      <text x={P[0] + 8} y={P[1] - 4} fontSize="13" fontWeight="700" fill={T}>P</text>
+
+      {/* ── R̄ : O → P (rojo) ── */}
+      <line x1={O[0]} y1={O[1]} x2={P[0] - 6} y2={P[1] + 5} stroke={R} strokeWidth="2.4" markerEnd="url(#axArrR)"/>
+      <text x={O[0] + 60} y={O[1] - 108} fontSize="12" fontWeight="700" fill={R}>R̄</text>
+
+      {/* ── r̄ : o → P (verde) ── */}
+      <line x1={o[0]} y1={o[1]} x2={P[0] - 6} y2={P[1] + 5} stroke={G} strokeWidth="2.4" markerEnd="url(#axArrG)"/>
+      <text x={(o[0]+P[0])/2 + 8} y={(o[1]+P[1])/2 - 2} fontSize="12" fontWeight="700" fill={G}>r̄</text>
+
+      {/* ── ω : velocidad angular del sistema móvil ── */}
+      <line x1={o[0]} y1={o[1] - 66} x2={o[0]} y2={o[1] - 92} stroke={A} strokeWidth="2" markerEnd="url(#axArrA)"/>
+      <text x={o[0] + 6} y={o[1] - 86} fontSize="11" fontWeight="700" fill={A}>ω̄</text>
+
+      <defs>
+        <marker id="axArr"  markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={T2}/></marker>
+        <marker id="axArrB" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={B}/></marker>
+        <marker id="axArrR" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={R}/></marker>
+        <marker id="axArrG" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={G}/></marker>
+        <marker id="axArrA" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={A}/></marker>
+      </defs>
+    </svg>
+  );
+}
+
 export function DiagramRLC() {
   return (
     <svg viewBox="0 0 380 130" xmlns="http://www.w3.org/2000/svg" fontFamily="-apple-system,sans-serif">

@@ -62,6 +62,11 @@ export function Warn({ children }: { children: React.ReactNode }) {
   return <div className="theory-warn">{children}</div>;
 }
 
+/** Resaltado estilo "marcador amarillo" (para reproducir apuntes subrayados) */
+export function Mark({ children }: { children: React.ReactNode }) {
+  return <mark className="theory-mark">{children}</mark>;
+}
+
 /** Foto con pie de foto */
 export function TheoryFigure({
   src, alt, caption, height = 220,

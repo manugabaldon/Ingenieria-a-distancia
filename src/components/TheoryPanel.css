@@ -144,6 +144,15 @@
   color: #d97706;
 }
 
+/* ── Resaltado tipo marcador (mimetiza los apuntes subrayados) ── */
+.theory-mark {
+  background: #fff3a3;
+  color: var(--text, #1d1d1f);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
 /* ── Table ── */
 .theory-table-wrap {
   overflow-x: auto;
