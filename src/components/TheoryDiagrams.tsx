@@ -593,7 +593,7 @@ export function DiagramSistemasReferencia() {
       <text x="48" y="206" fontSize="11" fontWeight="600" fill={T}>K̄</text>
 
       <line x1={O[0]} y1={O[1]} x2="110" y2={O[1]} stroke={T} strokeWidth="1.8" markerEnd="url(#sysArrBold)"/>
-      <text x="104" y="262" fontSize="11" fontWeight="600" fill={T}>J̄</text>
+      <text x="112" y="270" fontSize="11" fontWeight="600" fill={T}>J̄</text>
 
       <line x1={O[0]} y1={O[1]} x2="42" y2="278" stroke={T} strokeWidth="1.8" markerEnd="url(#sysArrBold)"/>
       <text x="55" y="296" fontSize="11" fontWeight="600" fill={T}>Ī</text>
@@ -605,19 +605,19 @@ export function DiagramSistemasReferencia() {
       <circle cx={o[0]} cy={o[1]} r="2.6" fill={T}/>
       <text x="164" y="144" fontSize="13" fontWeight="700" fill={T}>o</text>
 
-      {/* ── Ejes del sistema MÓVIL oxyz: 120° entre ellos, x más hacia abajo que X ── */}
-      <line x1={o[0]} y1={o[1]} x2="148" y2="94" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      {/* ── Ejes del sistema MÓVIL oxyz: 120° entre ellos, x más hacia abajo que X, sin flecha ── */}
+      <line x1={o[0]} y1={o[1]} x2="148" y2="94" stroke={T2} strokeWidth="1.4"/>
       <text x="132" y="80" fontSize="11" fontWeight="600" fill={T}>z</text>
 
-      <line x1={o[0]} y1={o[1]} x2="242" y2="128" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <line x1={o[0]} y1={o[1]} x2="242" y2="128" stroke={T2} strokeWidth="1.4"/>
       <text x="262" y="130" fontSize="11" fontWeight="600" fill={T}>y</text>
 
-      <line x1={o[0]} y1={o[1]} x2="165" y2="193" stroke={T2} strokeWidth="1.4" markerEnd="url(#sysArr)"/>
+      <line x1={o[0]} y1={o[1]} x2="165" y2="193" stroke={T2} strokeWidth="1.4"/>
       <text x="150" y="200" fontSize="11" fontWeight="600" fill={T}>x</text>
 
       {/* ── Vectores unitarios k̄, j̄, ī: superpuestos a z, y, x ── */}
       <line x1={o[0]} y1={o[1]} x2="167" y2="117" stroke={T} strokeWidth="1.8" markerEnd="url(#sysArrBold)"/>
-      <text x="152" y="130" fontSize="11" fontWeight="600" fill={T}>k̄</text>
+      <text x="144" y="136" fontSize="11" fontWeight="600" fill={T}>k̄</text>
 
       <line x1={o[0]} y1={o[1]} x2="213" y2="133" stroke={T} strokeWidth="1.8" markerEnd="url(#sysArrBold)"/>
       <text x="218" y="158" fontSize="11" fontWeight="600" fill={T}>j̄</text>
