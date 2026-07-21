@@ -67,6 +67,20 @@ export function Mark({ children }: { children: React.ReactNode }) {
   return <mark className="theory-mark">{children}</mark>;
 }
 
+/** Desplegable colapsable (para desarrollos intermedios que no interesan a todo el mundo) */
+export function Collapsible({
+  summary, children,
+}: {
+  summary: React.ReactNode; children: React.ReactNode;
+}) {
+  return (
+    <details className="theory-details">
+      <summary className="theory-summary">{summary}</summary>
+      <div className="theory-details-body">{children}</div>
+    </details>
+  );
+}
+
 /** Foto con pie de foto */
 export function TheoryFigure({
   src, alt, caption, height = 220,
@@ -100,7 +114,7 @@ export function TheorySvg({
   );
 }
 
-export function DefList({ items }: { items: { term: string; def: React.ReactNode }[] }) {
+export function DefList({ items }: { items: { term: React.ReactNode; def: React.ReactNode }[] }) {
   return (
     <dl className="theory-deflist">
       {items.map(({ term, def }, i) => (

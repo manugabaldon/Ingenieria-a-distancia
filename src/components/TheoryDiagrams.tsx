@@ -740,6 +740,109 @@ export function DiagramVelocidadRelativa() {
   );
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   CINEMÁTICA DEL MOVIMIENTO RELATIVO — Aceleración (ā₀ y ω̇̄ protagonistas)
+═══════════════════════════════════════════════════════════════ */
+export function DiagramAceleracionRelativa() {
+  // Origen fijo O, origen móvil o, punto P — mismas coordenadas que los otros diagramas del tema
+  const O: [number, number] = [70, 250];
+  const o: [number, number] = [185, 138];
+  const P: [number, number] = [222, 20];
+
+  return (
+    <svg viewBox="0 0 360 340" xmlns="http://www.w3.org/2000/svg" fontFamily="-apple-system,sans-serif">
+      <style>{`text { paint-order: stroke; stroke: #ffffff; stroke-width: 3px; stroke-linejoin: round; }`}</style>
+
+      {/* ── Ejes del sistema FIJO OXYZ: líneas de referencia, sin flecha ── */}
+      <line x1={O[0]} y1={O[1]} x2={O[0]} y2="15" stroke={T2} strokeWidth="1.4"/>
+      <text x={O[0] - 12} y="14" fontSize="14" fontWeight="700" fill={T}>Z</text>
+
+      <line x1={O[0]} y1={O[1]} x2="330" y2={O[1]} stroke={T2} strokeWidth="1.4"/>
+      <text x="336" y={O[1] + 6} fontSize="14" fontWeight="700" fill={T}>Y</text>
+
+      <line x1={O[0]} y1={O[1]} x2="6" y2="314" stroke={T2} strokeWidth="1.4"/>
+      <text x="0" y="332" fontSize="14" fontWeight="700" fill={T}>X</text>
+
+      <circle cx={O[0]} cy={O[1]} r="2.6" fill={T}/>
+      <text x={O[0] + 10} y={O[1] + 24} fontSize="13" fontWeight="700" fill={T}>O</text>
+
+      {/* ── Vectores unitarios K̄, J̄, Ī: superpuestos a Z, Y, X ── */}
+      <line x1={O[0]} y1={O[1]} x2={O[0]} y2="210" stroke={T} strokeWidth="1.8" markerEnd="url(#accArrBold)"/>
+      <text x="48" y="206" fontSize="11" fontWeight="600" fill={T}>K̄</text>
+
+      <line x1={O[0]} y1={O[1]} x2="110" y2={O[1]} stroke={T} strokeWidth="1.8" markerEnd="url(#accArrBold)"/>
+      <text x="112" y="270" fontSize="11" fontWeight="600" fill={T}>J̄</text>
+
+      <line x1={O[0]} y1={O[1]} x2="42" y2="278" stroke={T} strokeWidth="1.8" markerEnd="url(#accArrBold)"/>
+      <text x="55" y="296" fontSize="11" fontWeight="600" fill={T}>Ī</text>
+
+      {/* ── r̄₀ : O → o (posición del origen móvil) ── */}
+      <line x1={O[0]} y1={O[1]} x2={o[0] - 4} y2={o[1] + 4} stroke={T2} strokeWidth="1.4" markerEnd="url(#accArr)"/>
+      <text x="124" y="222" fontSize="11" fill={T}>r̄₀</text>
+
+      <circle cx={o[0]} cy={o[1]} r="2.6" fill={T}/>
+      <text x="164" y="144" fontSize="13" fontWeight="700" fill={T}>o</text>
+
+      {/* ── Ejes del sistema MÓVIL oxyz: 120° entre ellos, x más hacia abajo que X, sin flecha ── */}
+      <line x1={o[0]} y1={o[1]} x2="148" y2="94" stroke={T2} strokeWidth="1.4"/>
+      <text x="132" y="80" fontSize="11" fontWeight="600" fill={T}>z</text>
+
+      <line x1={o[0]} y1={o[1]} x2="242" y2="128" stroke={T2} strokeWidth="1.4"/>
+      <text x="262" y="130" fontSize="11" fontWeight="600" fill={T}>y</text>
+
+      <line x1={o[0]} y1={o[1]} x2="165" y2="193" stroke={T2} strokeWidth="1.4"/>
+      <text x="150" y="200" fontSize="11" fontWeight="600" fill={T}>x</text>
+
+      {/* ── Vectores unitarios k̄, j̄, ī: superpuestos a z, y, x ── */}
+      <line x1={o[0]} y1={o[1]} x2="167" y2="117" stroke={T} strokeWidth="1.8" markerEnd="url(#accArrBold)"/>
+      <text x="144" y="136" fontSize="11" fontWeight="600" fill={T}>k̄</text>
+
+      <line x1={o[0]} y1={o[1]} x2="213" y2="133" stroke={T} strokeWidth="1.8" markerEnd="url(#accArrBold)"/>
+      <text x="218" y="158" fontSize="11" fontWeight="600" fill={T}>j̄</text>
+
+      <line x1={o[0]} y1={o[1]} x2="175" y2="164" stroke={T} strokeWidth="1.8" markerEnd="url(#accArrBold)"/>
+      <text x="194" y="171" fontSize="11" fontWeight="600" fill={T}>ī</text>
+
+      {/* ── Punto P ── */}
+      <circle cx={P[0]} cy={P[1]} r="3" fill={T}/>
+      <text x={P[0] + 8} y={P[1] + 2} fontSize="14" fontWeight="700" fill={T}>P</text>
+
+      {/* ── R̄ : O → P (gris, ya no es protagonista) ── */}
+      <line x1={O[0]} y1={O[1]} x2={P[0] - 3} y2={P[1] + 6} stroke={T2} strokeWidth="1.4" markerEnd="url(#accArr)"/>
+      <text x="108" y="169" fontSize="13" fontWeight="700" fill={T}>R̄</text>
+
+      {/* ── r̄ : o → P (gris, ya no es protagonista) ── */}
+      <line x1={o[0]} y1={o[1]} x2={P[0] - 3} y2={P[1] + 6} stroke={T2} strokeWidth="1.4" markerEnd="url(#accArr)"/>
+      <text x="208" y="102" fontSize="13" fontWeight="700" fill={T}>r̄</text>
+
+      {/* ── ā₀ : aceleración del origen móvil respecto al fijo (verde) — sale de o ── */}
+      <line x1={o[0]} y1={o[1]} x2="253" y2="132" stroke={G} strokeWidth="2.2" markerEnd="url(#accArrG)"/>
+      <text x="258" y="147" fontSize="13" fontWeight="700" fill={G}>ā₀</text>
+
+      {/* ── ω̇̄ = dω̄/dt : aceleración angular del sistema móvil (rojo) — sale de o ── */}
+      <line x1={o[0]} y1={o[1]} x2="248" y2="22" stroke={R} strokeWidth="2.2" markerEnd="url(#accArrR)"/>
+      <text x="250" y="18" fontSize="13" fontWeight="700" fill={R}>ω̇̄</text>
+
+      {/* ── v̄_r : velocidad relativa (azul), en P, tangente a la trayectoria dentro del sistema móvil ── */}
+      <line x1={P[0]} y1={P[1]} x2="300" y2="8" stroke={B} strokeWidth="2.2" markerEnd="url(#accArrB)"/>
+      <text x="303" y="6" fontSize="12" fontWeight="700" fill={B}>v̄_r</text>
+
+      {/* ── ā_r : aceleración relativa (magenta), en P ── */}
+      <line x1={P[0]} y1={P[1]} x2="272" y2="52" stroke="#af52de" strokeWidth="2.2" markerEnd="url(#accArrM)"/>
+      <text x="276" y="60" fontSize="12" fontWeight="700" fill="#af52de">ā_r</text>
+
+      <defs>
+        <marker id="accArr"     markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={T2}/></marker>
+        <marker id="accArrBold" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={T}/></marker>
+        <marker id="accArrR"    markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={R}/></marker>
+        <marker id="accArrG"    markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={G}/></marker>
+        <marker id="accArrB"    markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill={B}/></marker>
+        <marker id="accArrM"    markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#af52de"/></marker>
+      </defs>
+    </svg>
+  );
+}
+
 export function DiagramRLC() {
   return (
     <svg viewBox="0 0 380 130" xmlns="http://www.w3.org/2000/svg" fontFamily="-apple-system,sans-serif">

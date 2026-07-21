@@ -153,6 +153,51 @@
   font-weight: 600;
 }
 
+/* ── Desplegable (desarrollo intermedio oculto) ── */
+.theory-details {
+  margin: 1.2rem 0;
+  border: 1px solid var(--border, #d2d2d7);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fafbfd;
+}
+
+.theory-summary {
+  cursor: pointer;
+  padding: 0.75rem 1.1rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--blue, #0071e3);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  user-select: none;
+}
+
+.theory-summary::-webkit-details-marker { display: none; }
+
+.theory-summary::before {
+  content: '▸';
+  display: inline-block;
+  font-size: 0.7rem;
+  transition: transform 0.15s ease;
+}
+
+.theory-details[open] .theory-summary::before {
+  transform: rotate(90deg);
+}
+
+.theory-details[open] .theory-summary {
+  border-bottom: 1px solid var(--border, #d2d2d7);
+}
+
+.theory-details-body {
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+.theory-details-body .theory-p:last-child { margin-bottom: 0; }
+
 /* ── Table ── */
 .theory-table-wrap {
   overflow-x: auto;
