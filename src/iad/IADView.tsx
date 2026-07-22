@@ -4,22 +4,11 @@ import TheoryPanel from '../components/TheoryPanel';
 import ExerciseGuide from './ExerciseGuide';
 import videos, { type IADVideo } from './videosData';
 import theoryEntries, { type TheoryEntry } from './theoryLibraryData';
+import { slugify } from './slug';
+import { SUBJECT_ART } from './SubjectArt';
 import './IADView.css';
 
 type Tab = 'video' | 'solution' | 'theory' | 'exercise' | 'simulator';
-
-/** "Cinemática del punto" → "cinematica-del-punto" (para las rutas #estudia/...) */
-const ACCENTS: Record<string, string> = {
-  á: 'a', é: 'e', í: 'i', ó: 'o', ú: 'u', ü: 'u', ñ: 'n',
-  Á: 'a', É: 'e', Í: 'i', Ó: 'o', Ú: 'u', Ü: 'u', Ñ: 'n',
-};
-function slugify(s: string): string {
-  return s
-    .split('').map(ch => ACCENTS[ch] ?? ch).join('')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-+|-+$)/g, '');
-}
 
 // ─── Detalle de un ejercicio (vídeo/solución/ejercicio/teoría/simulador) ────────
 function VideoDetail({ video, onBack }: { video: IADVideo; onBack: () => void }) {
@@ -181,25 +170,6 @@ function SubjectsLevel({
 }) {
   return (
     <div className="iad-home">
-      <div className="iad-hero">
-        <div className="iad-hero-icon">📡</div>
-        <h2>Ingeniería a Distancia</h2>
-        <p className="iad-hero-sub">
-          Canal de YouTube donde resuelvo ejercicios de la carrera de
-          <strong> Ingeniería Electrónica Industrial</strong>.
-          Cada tema incluye la teoría y los ejercicios resueltos, con vídeo,
-          desarrollo completo y un simulador interactivo.
-        </p>
-        <a
-          className="iad-yt-btn"
-          href="https://www.youtube.com/@ingenieriaadistancia?sub_confirmation=1"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ▶ Suscríbete en YouTube
-        </a>
-      </div>
-
       <div className="iad-subject-group">
         <h3 className="iad-subject-title">Asignaturas</h3>
         <div className="iad-grid">
@@ -210,14 +180,21 @@ function SubjectsLevel({
             ]).size;
             const theoryCount = theoryEntries.filter(e => e.subject === subject).length;
             const exerciseCount = videos.filter(v => v.subject === subject).length;
+            const Art = SUBJECT_ART[subject];
             return (
               <div
                 key={subject}
-                className="iad-card iad-theory-card"
+                className="iad-card iad-subject-card"
                 onClick={() => go([slugify(subject)])}
               >
-                <div className="iad-theory-card-icon">📚</div>
-                <div className="iad-card-body">
+                {Art && (
+                  <>
+                    <div className="iad-subject-card-art"><Art /></div>
+                    <div className="iad-subject-card-scrim" />
+                  </>
+                )}
+                <div className="iad-subject-card-body">
+                  <div className="iad-theory-card-icon">📚</div>
                   <h3 className="iad-card-title">{subject}</h3>
                   <p className="iad-card-desc">
                     {temaCount} tema{temaCount !== 1 ? 's' : ''}

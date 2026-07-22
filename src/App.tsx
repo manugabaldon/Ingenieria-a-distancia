@@ -32,6 +32,9 @@ import Funciones          from './mathtools/Funciones';
 
 // IAD — Ingeniería a Distancia
 import IADView from './iad/IADView';
+import iadVideos from './iad/videosData';
+import iadTheoryEntries from './iad/theoryLibraryData';
+import { slugify } from './iad/slug';
 
 // Theory
 import TheoryPanel, { TheoryContent } from './components/TheoryPanel';
@@ -115,6 +118,18 @@ type ToolId =
   | 'curso-lma';
 
 type View = 'home' | PathId | ToolId;
+
+// Acceso directo dentro del popover de un camino (herramienta o asignatura IAD)
+interface PopoverItem {
+  id: string;
+  icon: string;
+  label: string;
+  subtitle: string;
+  onNav: () => void;
+}
+
+// Asignaturas de "Ingeniería a Distancia" (para el acceso directo en el popover de Estudia)
+const iadSubjects = [...new Set([...iadVideos, ...iadTheoryEntries].map(x => x.subject))];
 
 interface Tool {
   id: ToolId;
@@ -577,7 +592,18 @@ export default function App() {
               <div className="home-section-wrap home-paths-wrap">
                 <div className="path-cards">
                   {PATHS.map(path => {
-                    const items = TOOLS.filter(t => t.path === path.id);
+                    // "Estudia" antepone un acceso directo por asignatura (Mecánica…)
+                    // antes que las demás herramientas del camino (Temario LMA).
+                    const subjectItems: PopoverItem[] = path.id === 'estudia'
+                      ? iadSubjects.map(s => ({
+                          id: `subject-${s}`, icon: '📚', label: s, subtitle: 'Asignatura',
+                          onNav: () => pushNav('estudia', slugify(s)),
+                        }))
+                      : [];
+                    const toolItems: PopoverItem[] = TOOLS
+                      .filter(t => t.path === path.id)
+                      .map(t => ({ id: t.id, icon: t.icon, label: t.label, subtitle: t.subtitle, onNav: () => handleNav(t.id) }));
+                    const items = [...subjectItems, ...toolItems];
                     const preview = items.length > 3 ? items.slice(0, 3) : items;
                     const hasMore = items.length > preview.length;
                     return (
@@ -607,16 +633,16 @@ export default function App() {
                             {path.label}
                           </div>
                           <div className="path-popover-list">
-                            {preview.map(tool => (
+                            {preview.map(item => (
                               <button
-                                key={tool.id}
+                                key={item.id}
                                 className="path-popover-item"
-                                onClick={(e) => { e.stopPropagation(); handleNav(tool.id); }}
+                                onClick={(e) => { e.stopPropagation(); item.onNav(); }}
                               >
-                                <span className="path-popover-icon">{tool.icon}</span>
+                                <span className="path-popover-icon">{item.icon}</span>
                                 <span className="path-popover-text">
-                                  <span className="path-popover-label">{tool.label}</span>
-                                  <span className="path-popover-sub">{tool.subtitle}</span>
+                                  <span className="path-popover-label">{item.label}</span>
+                                  <span className="path-popover-sub">{item.subtitle}</span>
                                 </span>
                               </button>
                             ))}
