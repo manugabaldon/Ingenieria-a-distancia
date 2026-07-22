@@ -500,7 +500,9 @@ export interface IADVideo {
   id: string;
   title: string;
   subject: string;
-  /** Tema dentro de la asignatura (p. ej. "Cinemática del punto") */
+  /** Tema dentro de la asignatura, usado para la navegación (p. ej. "Cinemática") */
+  tema: string;
+  /** Subtema, más fino, mostrado como etiqueta (p. ej. "Cinemática del punto") */
   topic: string;
   exerciseRef: string;
   description: string;
@@ -519,6 +521,7 @@ const videos: IADVideo[] = [
     id: 'mecanica-cp2',
     title: 'CP-2: Cinemática de la hélice',
     subject: 'Mecánica',
+    tema: 'Cinemática',
     topic: 'Cinemática del punto',
     exerciseRef: 'CP-2',
     description:
@@ -546,6 +549,7 @@ const videos: IADVideo[] = [
     id: 'mecanica-cp3',
     title: 'CP-3: Cinemática en coordenadas polares',
     subject: 'Mecánica',
+    tema: 'Cinemática',
     topic: 'Cinemática del punto',
     exerciseRef: 'CP-3',
     description:
@@ -573,6 +577,7 @@ const videos: IADVideo[] = [
     id: 'mecanica-cp5',
     title: 'CP-5: Campo de velocidades y movimiento circular',
     subject: 'Mecánica',
+    tema: 'Cinemática',
     topic: 'Cinemática del punto',
     exerciseRef: 'CP-5',
     description:
@@ -600,6 +605,7 @@ const videos: IADVideo[] = [
     id: 'mecanica-cp35',
     title: 'CP-35: Velocidad como función del tiempo e integración directa',
     subject: 'Mecánica',
+    tema: 'Cinemática',
     topic: 'Cinemática del punto',
     exerciseRef: 'CP-35',
     description:
@@ -628,6 +634,7 @@ const videos: IADVideo[] = [
     id: 'mecanica-cp40',
     title: 'CP-40: Aceleración como función del tiempo y doble integración',
     subject: 'Mecánica',
+    tema: 'Cinemática',
     topic: 'Cinemática del punto',
     exerciseRef: 'CP-40',
     description:

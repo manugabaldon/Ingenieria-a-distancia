@@ -427,7 +427,9 @@ const theoryAceleracionRelativa: TheoryContent = {
 export interface TheoryEntry {
   id: string;
   subject: string;
-  /** Tema dentro de la asignatura */
+  /** Tema dentro de la asignatura, usado para la navegación (p. ej. "Cinemática") */
+  tema: string;
+  /** Subtema, más fino, mostrado como etiqueta (p. ej. "Cinemática del movimiento relativo") */
   topic: string;
   /** Título de la subsección */
   title: string;
@@ -439,6 +441,7 @@ const theoryEntries: TheoryEntry[] = [
   {
     id: 'sistemas-referencia',
     subject: 'Mecánica',
+    tema: 'Cinemática',
     topic: 'Cinemática del movimiento relativo',
     title: 'Sistemas de referencia fijo y móvil',
     summary:
@@ -449,6 +452,7 @@ const theoryEntries: TheoryEntry[] = [
   {
     id: 'velocidad-movimiento-relativo',
     subject: 'Mecánica',
+    tema: 'Cinemática',
     topic: 'Cinemática del movimiento relativo',
     title: 'Velocidad en el movimiento relativo',
     summary:
@@ -460,6 +464,7 @@ const theoryEntries: TheoryEntry[] = [
   {
     id: 'aceleracion-movimiento-relativo',
     subject: 'Mecánica',
+    tema: 'Cinemática',
     topic: 'Cinemática del movimiento relativo',
     title: 'Aceleración en el movimiento relativo',
     summary:

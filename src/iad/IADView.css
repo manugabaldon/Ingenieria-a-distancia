@@ -137,6 +137,49 @@
   color: #60a5fa;
 }
 
+/* ── Rutas de un tema (Teoría / Ejercicios resueltos) ── */
+.iad-route-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.iad-route-card {
+  background: var(--surface, #1e293b);
+  border: 1px solid rgba(148,163,184,0.12);
+  border-radius: 14px;
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+.iad-route-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59,130,246,0.4);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.iad-route-card.iad-route-empty {
+  cursor: default;
+  opacity: 0.45;
+}
+.iad-route-card.iad-route-empty:hover {
+  transform: none;
+  border-color: rgba(148,163,184,0.12);
+  box-shadow: none;
+}
+.iad-route-icon { font-size: 2.4rem; display: block; margin-bottom: 12px; }
+.iad-route-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary, #f1f5f9);
+  margin: 0 0 6px;
+}
+.iad-route-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted, #94a3b8);
+  margin: 0;
+}
+
 /* ── Grid de tarjetas ─────────────────────────────── */
 .iad-grid {
   display: grid;

@@ -32,7 +32,6 @@ import Funciones          from './mathtools/Funciones';
 
 // IAD — Ingeniería a Distancia
 import IADView from './iad/IADView';
-import iadVideos from './iad/videosData';
 
 // Theory
 import TheoryPanel, { TheoryContent } from './components/TheoryPanel';
@@ -60,7 +59,6 @@ const TOOL_BG: Record<string, string> = {
   antenna:     'https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?w=1400&q=75',
   filtros:     'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=75',
   'curso-lma': 'https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=1400&q=75',
-  'iad':       'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1400&q=75',
   'integ':     'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=75',
   'deriv':     'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?w=1400&q=75',
   'grafica':   'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=75',
@@ -114,7 +112,7 @@ type ToolId =
   | 'rotor' | 'balanceo' | 'wyc' | 'isa' | 'conv'
   | 'radar' | 'pitot' | 'antenna' | 'filtros'
   | 'integ' | 'deriv' | 'grafica'
-  | 'curso-lma' | 'iad';
+  | 'curso-lma';
 
 type View = 'home' | PathId | ToolId;
 
@@ -132,12 +130,6 @@ interface Tool {
 
 const TOOLS: Tool[] = [
   // ── Estudia ──
-  {
-    id: 'iad', icon: '📡', path: 'estudia', section: 'Ejercicios resueltos',
-    label: 'Ingeniería a Distancia', subtitle: 'Ejercicios resueltos en vídeo',
-    description: 'Canal de YouTube donde resuelvo ejercicios de Ingeniería Electrónica Industrial. Cada entrada incluye el vídeo, la teoría y un simulador interactivo del problema.',
-    tag: 'free',
-  },
   {
     id: 'curso-lma', icon: '🎓', path: 'estudia', section: 'Formación LMA / EASA Part-66',
     label: 'Temario oficial LMA', subtitle: 'M3 · M4 — Electricidad y Electrónica',
@@ -230,23 +222,24 @@ const VALID_IDS = new Set<string>([
 
 interface NavState {
   active: View;
-  pendingExercise: string | null;
+  /** Ruta tras '#estudia/' (asignatura/tema/teoria|ejercicios/id…), solo relevante cuando active === 'estudia' */
+  estudiaPath: string | null;
 }
 
 /** Vista → fragmento de URL (#…) */
-function viewToHash(active: View, pendingExercise: string | null): string {
+function viewToHash(active: View, estudiaPath: string | null): string {
   if (active === 'home') return '';
-  if (active === 'iad' && pendingExercise) return `#iad/${pendingExercise}`;
+  if (active === 'estudia' && estudiaPath) return `#estudia/${estudiaPath}`;
   return `#${active}`;
 }
 
 /** Fragmento de URL → vista */
 function hashToView(hash: string): NavState {
   const h = hash.replace(/^#/, '');
-  if (!h) return { active: 'home', pendingExercise: null };
-  if (h.startsWith('iad/')) return { active: 'iad', pendingExercise: h.slice(4) };
-  if (VALID_IDS.has(h)) return { active: h as View, pendingExercise: null };
-  return { active: 'home', pendingExercise: null };
+  if (!h) return { active: 'home', estudiaPath: null };
+  if (h.startsWith('estudia/')) return { active: 'estudia', estudiaPath: h.slice(8) };
+  if (VALID_IDS.has(h)) return { active: h as View, estudiaPath: null };
+  return { active: 'home', estudiaPath: null };
 }
 
 // ─── Tarjeta de herramienta reutilizable ────────────────────────────────────
@@ -270,14 +263,14 @@ export default function App() {
   const initialNav: NavState =
     typeof window !== 'undefined'
       ? hashToView(window.location.hash)
-      : { active: 'home', pendingExercise: null };
+      : { active: 'home', estudiaPath: null };
 
   const [active, setActive]         = useState<View>(initialNav.active);
   const [showTheory, setShowTheory] = useState(false);
   const [menuOpen, setMenuOpen]     = useState(false);
   const [hideHeader, setHideHeader] = useState(false);
-  // Ejercicio IAD a abrir directamente (deep-link desde la home)
-  const [pendingExercise, setPendingExercise] = useState<string | null>(initialNav.pendingExercise);
+  // Ruta dentro de "Estudia" (asignatura/tema/teoría|ejercicios/id…), sincronizada con la URL
+  const [estudiaPath, setEstudiaPath] = useState<string | null>(initialNav.estudiaPath);
 
   // Temporizador para cerrar el menú al salir con el cursor
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -294,27 +287,24 @@ export default function App() {
   }, []);
 
   // Aplica una vista SIN tocar el historial (uso interno y en popstate)
-  const applyView = useCallback((id: View, exercise: string | null = null) => {
+  const applyView = useCallback((id: View, path: string | null = null) => {
     setActive(id);
-    setPendingExercise(exercise);
+    setEstudiaPath(path);
     setShowTheory(false);
     setMenuOpen(false);
     setHideHeader(false);
   }, []);
 
   // Navega y registra una entrada en el historial del navegador
-  const pushNav = useCallback((id: View, exercise: string | null = null) => {
-    applyView(id, exercise);
-    const hash = viewToHash(id, exercise);
+  const pushNav = useCallback((id: View, path: string | null = null) => {
+    applyView(id, path);
+    const hash = viewToHash(id, path);
     const url = hash || window.location.pathname + window.location.search;
-    window.history.pushState({ active: id, pendingExercise: exercise }, '', url);
+    window.history.pushState({ active: id, estudiaPath: path }, '', url);
     window.scrollTo(0, 0);
   }, [applyView]);
 
   const handleNav = (id: View) => pushNav(id);
-
-  // Abre la sección IAD directamente en un ejercicio concreto
-  const openExercise = (exerciseId: string) => pushNav('iad', exerciseId);
 
   // Auto-ocultar la cabecera al bajar y mostrarla al subir (cualquier contenedor)
   useEffect(() => {
@@ -342,7 +332,7 @@ export default function App() {
   useEffect(() => {
     const onPop = () => {
       const v = hashToView(window.location.hash);
-      applyView(v.active, v.pendingExercise);
+      applyView(v.active, v.estudiaPath);
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
@@ -358,85 +348,41 @@ export default function App() {
   // ── Contenido de cada camino ──────────────────────────────────────────────
   const renderPathBody = (path: PathId) => {
     if (path === 'estudia') {
-      const iad = TOOLS.find(t => t.id === 'iad')!;
       const lma = TOOLS.find(t => t.id === 'curso-lma')!;
       return (
-        <>
-          {/* Ejercicios resueltos */}
-          <div className="home-section-wrap">
-            <div className="home-section-header">
-              <div className="home-section-icon elec">📡</div>
-              <span className="home-section-eyebrow">{iad.section}</span>
-            </div>
-            <h2 className="home-section-title">Ejercicios resueltos paso a paso</h2>
-            <p className="home-section-subtitle">
-              Cada ejercicio incluye el vídeo de la resolución, el desarrollo
-              completo, la teoría y un simulador interactivo del problema.
-            </p>
-            <div className="home-hero-cta" style={{ justifyContent: 'flex-start', marginBottom: 24 }}>
-              <button className="hero-btn-primary" onClick={() => handleNav('iad')}>
-                Ver el canal completo
-              </button>
-              <a
-                className="hero-btn-secondary"
-                href={YOUTUBE_SUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                ▶ Suscríbete en YouTube
-              </a>
-            </div>
-            <div className="home-cards">
-              {iadVideos.map(v => (
-                <div key={v.id} className="home-card" onClick={() => openExercise(v.id)}>
-                  <span className="home-card-icon">📐</span>
-                  <h3>{v.title}</h3>
-                  <p>{v.description}</p>
-                  <div className="home-card-tags">
-                    <span className="tag-curso">{v.exerciseRef}</span>
-                    {v.Solution  && <span className="tag-theory">Solución</span>}
-                    {v.Simulator && <span className="tag-free">Simulador</span>}
-                    {v.youtubeId
-                      ? <span className="tag-theory">Vídeo</span>
-                      : <span className="tag-curso">Vídeo pronto</span>}
-                  </div>
-                  <span className="home-card-cta">Abrir ejercicio →</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="home-divider" />
-
-          {/* Formación LMA — apartado pero dentro de Estudia */}
-          <div className="home-section-wrap">
-            <div className="home-section-header">
-              <div className="home-section-icon curso">🎓</div>
-              <span className="home-section-eyebrow">{lma.section}</span>
-            </div>
-            <h2 className="home-section-title">Temario oficial completo</h2>
-            <p className="home-section-subtitle">
-              Módulos M2 a M17 siguiendo el programa oficial para la
-              Licencia de Mecánico de Aeronave.
-            </p>
-            <div className="home-cards">
-              <div
-                className="home-card home-card-featured"
-                onClick={() => handleNav('curso-lma')}
-              >
-                <span className="home-card-icon">{lma.icon}</span>
-                <div className="card-featured-right">
-                  <h3>{lma.label}</h3>
-                  <p>{lma.description}</p>
-                  <div className="home-card-tags" style={{ marginTop: '12px' }}>
-                    <span className="tag-free">Gratis</span>
-                    <span className="tag-curso">7 módulos · 75 capítulos</span>
+        <IADView
+          path={estudiaPath}
+          onNavigate={p => pushNav('estudia', p)}
+          extra={
+            <div className="home-section-wrap iad-lma-teaser">
+              <div className="home-section-header">
+                <div className="home-section-icon curso">🎓</div>
+                <span className="home-section-eyebrow">{lma.section}</span>
+              </div>
+              <h2 className="home-section-title">Temario oficial completo</h2>
+              <p className="home-section-subtitle">
+                Módulos M2 a M17 siguiendo el programa oficial para la
+                Licencia de Mecánico de Aeronave.
+              </p>
+              <div className="home-cards">
+                <div
+                  className="home-card home-card-featured"
+                  onClick={() => handleNav('curso-lma')}
+                >
+                  <span className="home-card-icon">{lma.icon}</span>
+                  <div className="card-featured-right">
+                    <h3>{lma.label}</h3>
+                    <p>{lma.description}</p>
+                    <div className="home-card-tags" style={{ marginTop: '12px' }}>
+                      <span className="tag-free">Gratis</span>
+                      <span className="tag-curso">7 módulos · 75 capítulos</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </>
+          }
+        />
       );
     }
 
@@ -757,14 +703,6 @@ export default function App() {
                 {active === 'deriv'     && <Derivadas />}
                 {active === 'grafica'   && <Funciones />}
                 {active === 'curso-lma' && <CourseView modules={[m2, m3, m4, m8, m15, m16, m17]} />}
-                {active === 'iad'       && (
-                  <IADView
-                    key={pendingExercise ?? 'channel'}
-                    exerciseId={pendingExercise}
-                    onOpenExercise={openExercise}
-                    onBack={() => handleNav('iad')}
-                  />
-                )}
               </>
             )}
           </>
