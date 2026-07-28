@@ -93,7 +93,7 @@ export default function GlobalSearch({
             <div className="search-results">
               {query.trim() === '' ? (
                 <div className="search-hint">
-                  Busca entre la teoría, los ejercicios resueltos y el temario oficial.
+                  Busca entre la teoría y los ejercicios resueltos.
                 </div>
               ) : results.length === 0 ? (
                 <div className="search-hint">Sin resultados para «{query}».</div>

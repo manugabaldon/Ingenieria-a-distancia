@@ -2,16 +2,6 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import './App.css';
 import ParallaxBg from './components/ParallaxSection';
 
-// Courses
-import CourseView from './courses/CourseView';
-import m2  from './courses/m2/index';
-import m3  from './courses/m3/index';
-import m4  from './courses/m4/index';
-import m8  from './courses/m8/index';
-import m15 from './courses/m15/index';
-import m16 from './courses/m16/index';
-import m17 from './courses/m17/index';
-
 // Aeronautics
 import BalanceoHelice     from './aeronautics/BalanceoHelice';
 import AtmosferaISA       from './aeronautics/AtmosferaISA';
@@ -65,7 +55,6 @@ const TOOL_BG: Record<string, string> = {
   pitot:       'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=75',
   antenna:     'https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?w=1400&q=75',
   filtros:     'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=75',
-  'curso-lma': 'https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=1400&q=75',
   'integ':     'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=75',
   'deriv':     'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?w=1400&q=75',
   'grafica':   'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=75',
@@ -94,7 +83,7 @@ const PATHS: PathDef[] = [
   {
     id: 'estudia', icon: '📚', label: 'Estudia',
     eyebrow: 'Aprende ingeniería',
-    blurb: 'Ejercicios resueltos paso a paso y el temario oficial LMA / EASA Part-66.',
+    blurb: 'Ejercicios resueltos paso a paso, con teoría y simuladores interactivos.',
     bg: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1400&q=75',
   },
   {
@@ -118,8 +107,7 @@ const isPathId = (v: string): v is PathId =>
 type ToolId =
   | 'rotor' | 'balanceo' | 'wyc' | 'isa' | 'conv'
   | 'radar' | 'pitot' | 'antenna' | 'filtros'
-  | 'integ' | 'deriv' | 'grafica'
-  | 'curso-lma';
+  | 'integ' | 'deriv' | 'grafica';
 
 type View = 'home' | PathId | ToolId;
 
@@ -148,14 +136,6 @@ interface Tool {
 }
 
 const TOOLS: Tool[] = [
-  // ── Estudia ──
-  {
-    id: 'curso-lma', icon: '🎓', path: 'estudia', section: 'Formación LMA / EASA Part-66',
-    label: 'Temario oficial LMA', subtitle: 'M3 · M4 — Electricidad y Electrónica',
-    description: 'Temario completo para la Licencia de Mecánico de Aeronave (LMA) en las especialidades de Electricidad (M3) y Electrónica (M4), siguiendo el programa oficial EASA Part-66.',
-    tag: 'free',
-  },
-
   // ── Calcula ──
   {
     id: 'integ', icon: '∫', path: 'calcula', section: 'Cálculo',
@@ -233,16 +213,11 @@ const TOOLS: Tool[] = [
   },
 ];
 
-// Módulos del temario oficial LMA (compartidos por CourseView y el buscador)
-const COURSE_MODULES = [m2, m3, m4, m8, m15, m16, m17];
-
 // ─── Índice del buscador global ──────────────────────────────────────────────
-// Teoría, ejercicios resueltos y capítulos del temario: contenido, no requiere
-// recalcularse en cada render.
+// Teoría y ejercicios resueltos: contenido, no requiere recalcularse en cada render.
 const CONTENT_SEARCH_ITEMS = buildContentSearchIndex({
   videos: iadVideos,
   theoryEntries: iadTheoryEntries,
-  courseModules: COURSE_MODULES,
 });
 const TOOL_SEARCH_ITEMS: SearchItem[] = TOOLS.map(t => ({
   id: `tool-${t.id}`,
@@ -312,8 +287,6 @@ export default function App() {
   const [hideHeader, setHideHeader] = useState(false);
   // Ruta dentro de "Estudia" (asignatura/tema/teoría|ejercicios/id…), sincronizada con la URL
   const [estudiaPath, setEstudiaPath] = useState<string | null>(initialNav.estudiaPath);
-  // Capítulo del temario al que saltar tras elegir un resultado del buscador
-  const [pendingChapter, setPendingChapter] = useState<{ modId: string; chId: string } | null>(null);
 
   // Temporizador para cerrar el menú al salir con el cursor
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -353,9 +326,6 @@ export default function App() {
   const handleSearchSelect = (target: SearchTarget) => {
     if (target.kind === 'estudia') {
       pushNav('estudia', target.path);
-    } else if (target.kind === 'chapter') {
-      setPendingChapter({ modId: target.modId, chId: target.chId });
-      pushNav('curso-lma');
     } else {
       pushNav(target.id as View);
     }
@@ -403,42 +373,7 @@ export default function App() {
   // ── Contenido de cada camino ──────────────────────────────────────────────
   const renderPathBody = (path: PathId) => {
     if (path === 'estudia') {
-      const lma = TOOLS.find(t => t.id === 'curso-lma')!;
-      return (
-        <IADView
-          path={estudiaPath}
-          onNavigate={p => pushNav('estudia', p)}
-          extra={
-            <div className="home-section-wrap iad-lma-teaser">
-              <div className="home-section-header">
-                <div className="home-section-icon curso">🎓</div>
-                <span className="home-section-eyebrow">{lma.section}</span>
-              </div>
-              <h2 className="home-section-title">Temario oficial completo</h2>
-              <p className="home-section-subtitle">
-                Módulos M2 a M17 siguiendo el programa oficial para la
-                Licencia de Mecánico de Aeronave.
-              </p>
-              <div className="home-cards">
-                <div
-                  className="home-card home-card-featured"
-                  onClick={() => handleNav('curso-lma')}
-                >
-                  <span className="home-card-icon">{lma.icon}</span>
-                  <div className="card-featured-right">
-                    <h3>{lma.label}</h3>
-                    <p>{lma.description}</p>
-                    <div className="home-card-tags" style={{ marginTop: '12px' }}>
-                      <span className="tag-free">Gratis</span>
-                      <span className="tag-curso">7 módulos · 75 capítulos</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          }
-        />
-      );
+      return <IADView path={estudiaPath} onNavigate={p => pushNav('estudia', p)} />;
     }
 
     if (path === 'calcula') {
@@ -635,7 +570,7 @@ export default function App() {
                 <div className="path-cards">
                   {PATHS.map(path => {
                     // "Estudia" antepone un acceso directo por asignatura (Mecánica…)
-                    // antes que las demás herramientas del camino (Temario LMA).
+                    // antes que las demás herramientas del camino.
                     const subjectItems: PopoverItem[] = path.id === 'estudia'
                       ? iadSubjects.map(s => ({
                           id: `subject-${s}`, icon: '📚', label: s, subtitle: 'Asignatura',
@@ -770,7 +705,6 @@ export default function App() {
                 {active === 'integ'     && <Integrales />}
                 {active === 'deriv'     && <Derivadas />}
                 {active === 'grafica'   && <Funciones />}
-                {active === 'curso-lma' && <CourseView modules={COURSE_MODULES} initialChapter={pendingChapter} />}
               </>
             )}
           </>

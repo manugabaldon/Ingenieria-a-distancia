@@ -729,7 +729,6 @@ canvas {
 
 .home-section-icon.aero  { background: var(--blue-light); }
 .home-section-icon.elec  { background: var(--indigo-bg); }
-.home-section-icon.curso { background: var(--amber-bg); }
 
 .home-section-title {
   font-size: 1.9rem;
@@ -839,29 +838,6 @@ canvas {
 }
 
 .home-card:hover .home-card-cta { opacity: 1; }
-
-/* ── CARD DESTACADA (curso-lma) ── */
-.home-card-featured {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 28px;
-  align-items: center;
-  padding: 32px 36px;
-  background: var(--bg);
-  border: none;
-  border-radius: 18px;
-}
-
-.home-card-featured:hover {
-  box-shadow: var(--shadow-lg);
-  background: var(--white);
-}
-
-.home-card-featured .home-card-icon { font-size: 3rem; margin: 0; }
-.home-card-featured .card-featured-right { display: flex; flex-direction: column; gap: 6px; }
-.home-card-featured h3 { font-size: 1.15rem; font-weight: 700; margin: 0; letter-spacing: -0.03em; }
-.home-card-featured p  { font-size: 0.84rem; margin: 0; line-height: 1.65; }
 
 /* ══════════════════════════════════════════════════════════════════
    CAMINOS — tarjetas grandes de la home (Estudia / Calcula / Simula)
@@ -1091,13 +1067,6 @@ canvas {
   font-size: 0.58rem; font-weight: 600; letter-spacing: 0.05em;
   text-transform: uppercase; padding: 3px 9px; border-radius: 99px;
   background: var(--indigo-bg); color: var(--indigo); flex-shrink: 0;
-}
-
-.tag-curso {
-  display: inline-flex; align-items: center;
-  font-size: 0.58rem; font-weight: 600; letter-spacing: 0.05em;
-  text-transform: uppercase; padding: 3px 9px; border-radius: 99px;
-  background: var(--amber-bg); color: var(--amber); flex-shrink: 0;
 }
 
 /* ══════════════════════════════════════════════════════════════════

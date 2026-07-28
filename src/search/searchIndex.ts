@@ -1,13 +1,11 @@
 import type { IADVideo } from '../iad/videosData';
 import type { TheoryEntry } from '../iad/theoryLibraryData';
-import type { CourseModule } from '../courses/CourseView';
 import { slugify } from '../iad/slug';
 
 /** A dónde navega la app al elegir un resultado de búsqueda. */
 export type SearchTarget =
   | { kind: 'estudia'; path: string }
-  | { kind: 'view'; id: string }
-  | { kind: 'chapter'; modId: string; chId: string };
+  | { kind: 'view'; id: string };
 
 export interface SearchItem {
   id: string;
@@ -28,11 +26,10 @@ function estudiaPath(subject: string, tema: string, section: 'teoria' | 'ejercic
   return [slugify(subject), slugify(tema), section, id].join('/');
 }
 
-/** Construye el índice de teoría, ejercicios resueltos y capítulos del temario. */
+/** Construye el índice de teoría y ejercicios resueltos. */
 export function buildContentSearchIndex(opts: {
   videos: IADVideo[];
   theoryEntries: TheoryEntry[];
-  courseModules: CourseModule[];
 }): SearchItem[] {
   const items: SearchItem[] = [];
 
@@ -60,21 +57,6 @@ export function buildContentSearchIndex(opts: {
       keywords: normalize(`${v.title} ${v.description} ${v.exerciseRef} ${subtitle}`),
       target: { kind: 'estudia', path: estudiaPath(v.subject, v.tema, 'ejercicios', v.id) },
     });
-  }
-
-  for (const mod of opts.courseModules) {
-    const modLabel = `${mod.code} · ${mod.title}`;
-    for (const ch of mod.chapters) {
-      items.push({
-        id: `chapter-${mod.id}-${ch.id}`,
-        title: ch.title,
-        subtitle: modLabel,
-        icon: '🎓',
-        badge: 'Temario',
-        keywords: normalize(`${ch.title} ${mod.title} ${mod.code} ${mod.subtitle}`),
-        target: { kind: 'chapter', modId: mod.id, chId: ch.id },
-      });
-    }
   }
 
   return items;

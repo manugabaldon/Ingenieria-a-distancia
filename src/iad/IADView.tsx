@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import type { ReactNode } from 'react';
 import TheoryPanel from '../components/TheoryPanel';
 import ExerciseGuide from './ExerciseGuide';
 import videos, { type IADVideo } from './videosData';
@@ -164,9 +163,9 @@ function TheoryCard({ entry, onClick }: { entry: TheoryEntry; onClick: () => voi
 
 // ─── Nivel 0: todas las asignaturas ──────────────────────────────────────────────
 function SubjectsLevel({
-  subjects, go, extra,
+  subjects, go,
 }: {
-  subjects: string[]; go: (parts: string[]) => void; extra?: ReactNode;
+  subjects: string[]; go: (parts: string[]) => void;
 }) {
   return (
     <div className="iad-home">
@@ -209,8 +208,6 @@ function SubjectsLevel({
           })}
         </div>
       </div>
-
-      {extra}
     </div>
   );
 }
@@ -368,13 +365,10 @@ function EjerciciosListLevel({
 export default function IADView({
   path,
   onNavigate,
-  extra,
 }: {
   /** Segmentos tras '#estudia/', p. ej. "mecanica/cinematica/teoria/velocidad-movimiento-relativo" */
   path: string | null;
   onNavigate: (path: string | null) => void;
-  /** Contenido extra mostrado solo en el nivel raíz (p. ej. el aviso del Temario LMA) */
-  extra?: ReactNode;
 }) {
   const segments = (path ?? '').split('/').filter(Boolean);
   const go = (parts: string[]) => onNavigate(parts.length ? parts.join('/') : null);
@@ -384,7 +378,7 @@ export default function IADView({
   const subject = subjectSlug ? subjects.find(s => slugify(s) === subjectSlug) : undefined;
 
   if (!subject) {
-    return <SubjectsLevel subjects={subjects} go={go} extra={extra} />;
+    return <SubjectsLevel subjects={subjects} go={go} />;
   }
 
   const temas = [...new Set([
