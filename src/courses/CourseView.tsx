@@ -282,9 +282,13 @@ function markDone(chapterId: string) {
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
-interface Props { modules: CourseModule[]; }
+interface Props {
+  modules: CourseModule[];
+  /** Capítulo al que saltar (p. ej. desde el buscador global). */
+  initialChapter?: { modId: string; chId: string } | null;
+}
 
-export default function CourseView({ modules }: Props) {
+export default function CourseView({ modules, initialChapter }: Props) {
   const [activeModId, setActiveModId] = useState(modules[0]?.id ?? '');
   const [activeChId,  setActiveChId]  = useState(modules[0]?.chapters[0]?.id ?? '');
   const [progress,    setProgress]    = useState<Record<string, boolean>>(getProgress());
@@ -301,9 +305,23 @@ export default function CourseView({ modules }: Props) {
     mainRef.current?.scrollTo({ top: 0, behavior: 'instant' });
   }, [activeChId, activeModId]);
 
+  // Salta al capítulo pedido desde fuera (buscador global)
   useEffect(() => {
-    if (mod?.chapters[0]) setActiveChId(mod.chapters[0].id);
-  }, [activeModId]); // eslint-disable-line
+    if (!initialChapter) return;
+    const targetMod = modules.find(m => m.id === initialChapter.modId);
+    const targetCh = targetMod?.chapters.find(c => c.id === initialChapter.chId);
+    if (!targetMod || !targetCh) return;
+    setActiveModId(targetMod.id);
+    setActiveChId(targetCh.id);
+  }, [initialChapter, modules]);
+
+  // Al cambiar de módulo (p. ej. desde el selector), selecciona su primer
+  // capítulo — salvo que activeChId ya pertenezca a ese módulo (deep link).
+  useEffect(() => {
+    if (!mod) return;
+    const belongsToMod = mod.chapters.some(c => c.id === activeChId);
+    if (!belongsToMod && mod.chapters[0]) setActiveChId(mod.chapters[0].id);
+  }, [activeModId, mod, activeChId]);
 
   const handleDone = () => {
     if (!chapter) return;

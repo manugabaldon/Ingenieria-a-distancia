@@ -36,6 +36,10 @@ import iadVideos from './iad/videosData';
 import iadTheoryEntries from './iad/theoryLibraryData';
 import { slugify } from './iad/slug';
 
+// Búsqueda global
+import GlobalSearch from './search/GlobalSearch';
+import { buildContentSearchIndex, normalize, type SearchItem, type SearchTarget } from './search/searchIndex';
+
 // Theory
 import TheoryPanel, { TheoryContent } from './components/TheoryPanel';
 import theoryRotor    from './theories/theoryRotor';
@@ -229,6 +233,28 @@ const TOOLS: Tool[] = [
   },
 ];
 
+// Módulos del temario oficial LMA (compartidos por CourseView y el buscador)
+const COURSE_MODULES = [m2, m3, m4, m8, m15, m16, m17];
+
+// ─── Índice del buscador global ──────────────────────────────────────────────
+// Teoría, ejercicios resueltos y capítulos del temario: contenido, no requiere
+// recalcularse en cada render.
+const CONTENT_SEARCH_ITEMS = buildContentSearchIndex({
+  videos: iadVideos,
+  theoryEntries: iadTheoryEntries,
+  courseModules: COURSE_MODULES,
+});
+const TOOL_SEARCH_ITEMS: SearchItem[] = TOOLS.map(t => ({
+  id: `tool-${t.id}`,
+  title: t.label,
+  subtitle: `${t.section} · ${t.subtitle}`,
+  icon: t.icon,
+  badge: 'Herramienta',
+  keywords: normalize(`${t.label} ${t.subtitle} ${t.section} ${t.description}`),
+  target: { kind: 'view', id: t.id },
+}));
+const SEARCH_ITEMS: SearchItem[] = [...CONTENT_SEARCH_ITEMS, ...TOOL_SEARCH_ITEMS];
+
 // ─── Navegación por URL (historial del navegador) ───────────────────────────
 const VALID_IDS = new Set<string>([
   ...PATHS.map(p => p.id),
@@ -286,6 +312,8 @@ export default function App() {
   const [hideHeader, setHideHeader] = useState(false);
   // Ruta dentro de "Estudia" (asignatura/tema/teoría|ejercicios/id…), sincronizada con la URL
   const [estudiaPath, setEstudiaPath] = useState<string | null>(initialNav.estudiaPath);
+  // Capítulo del temario al que saltar tras elegir un resultado del buscador
+  const [pendingChapter, setPendingChapter] = useState<{ modId: string; chId: string } | null>(null);
 
   // Temporizador para cerrar el menú al salir con el cursor
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -320,6 +348,18 @@ export default function App() {
   }, [applyView]);
 
   const handleNav = (id: View) => pushNav(id);
+
+  // Navega al resultado elegido en el buscador global
+  const handleSearchSelect = (target: SearchTarget) => {
+    if (target.kind === 'estudia') {
+      pushNav('estudia', target.path);
+    } else if (target.kind === 'chapter') {
+      setPendingChapter({ modId: target.modId, chId: target.chId });
+      pushNav('curso-lma');
+    } else {
+      pushNav(target.id as View);
+    }
+  };
 
   // Auto-ocultar la cabecera al bajar y mostrarla al subir (cualquier contenedor)
   useEffect(() => {
@@ -545,6 +585,8 @@ export default function App() {
         <span className="header-badge">Beta</span>
         <span className="header-tagline">Estudia · Calcula · Simula</span>
 
+        <GlobalSearch items={SEARCH_ITEMS} onSelect={handleSearchSelect} />
+
         <a
           className="yt-btn"
           href={YOUTUBE_SUB_URL}
@@ -728,7 +770,7 @@ export default function App() {
                 {active === 'integ'     && <Integrales />}
                 {active === 'deriv'     && <Derivadas />}
                 {active === 'grafica'   && <Funciones />}
-                {active === 'curso-lma' && <CourseView modules={[m2, m3, m4, m8, m15, m16, m17]} />}
+                {active === 'curso-lma' && <CourseView modules={COURSE_MODULES} initialChapter={pendingChapter} />}
               </>
             )}
           </>
