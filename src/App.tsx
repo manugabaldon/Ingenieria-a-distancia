@@ -29,6 +29,7 @@ import { slugify } from './iad/slug';
 // Búsqueda global
 import GlobalSearch from './search/GlobalSearch';
 import { buildContentSearchIndex, normalize, type SearchItem, type SearchTarget } from './search/searchIndex';
+import { extractText } from './search/extractText';
 
 // Theory
 import TheoryPanel, { TheoryContent } from './components/TheoryPanel';
@@ -225,7 +226,7 @@ const TOOL_SEARCH_ITEMS: SearchItem[] = TOOLS.map(t => ({
   subtitle: `${t.section} · ${t.subtitle}`,
   icon: t.icon,
   badge: 'Herramienta',
-  keywords: normalize(`${t.label} ${t.subtitle} ${t.section} ${t.description}`),
+  keywords: normalize(`${t.label} ${t.subtitle} ${t.section} ${t.description} ${extractText(t.theory)}`),
   target: { kind: 'view', id: t.id },
 }));
 const SEARCH_ITEMS: SearchItem[] = [...CONTENT_SEARCH_ITEMS, ...TOOL_SEARCH_ITEMS];

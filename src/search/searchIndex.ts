@@ -1,6 +1,7 @@
 import type { IADVideo } from '../iad/videosData';
 import type { TheoryEntry } from '../iad/theoryLibraryData';
 import { slugify } from '../iad/slug';
+import { extractText } from './extractText';
 
 /** A dónde navega la app al elegir un resultado de búsqueda. */
 export type SearchTarget =
@@ -35,26 +36,28 @@ export function buildContentSearchIndex(opts: {
 
   for (const e of opts.theoryEntries) {
     const subtitle = `${e.subject} · ${e.tema} · ${e.topic}`;
+    const body = extractText(e.content);
     items.push({
       id: `theory-${e.id}`,
       title: e.title,
       subtitle,
       icon: '📖',
       badge: 'Teoría',
-      keywords: normalize(`${e.title} ${e.summary} ${subtitle}`),
+      keywords: normalize(`${e.title} ${e.summary} ${subtitle} ${body}`),
       target: { kind: 'estudia', path: estudiaPath(e.subject, e.tema, 'teoria', e.id) },
     });
   }
 
   for (const v of opts.videos) {
     const subtitle = `${v.subject} · ${v.tema} · ${v.topic}`;
+    const body = `${extractText(v.theory)} ${extractText(v.exerciseGuide)}`;
     items.push({
       id: `exercise-${v.id}`,
       title: v.title,
       subtitle,
       icon: '📝',
       badge: 'Ejercicio resuelto',
-      keywords: normalize(`${v.title} ${v.description} ${v.exerciseRef} ${subtitle}`),
+      keywords: normalize(`${v.title} ${v.description} ${v.exerciseRef} ${subtitle} ${body}`),
       target: { kind: 'estudia', path: estudiaPath(v.subject, v.tema, 'ejercicios', v.id) },
     });
   }

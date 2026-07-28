@@ -82,7 +82,7 @@ export default function GlobalSearch({
                 ref={inputRef}
                 className="search-input"
                 type="text"
-                placeholder="Busca por título, asignatura, tema…"
+                placeholder="Busca por título, tema o cualquier concepto…"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 onKeyDown={handleInputKeyDown}
@@ -93,7 +93,8 @@ export default function GlobalSearch({
             <div className="search-results">
               {query.trim() === '' ? (
                 <div className="search-hint">
-                  Busca entre la teoría y los ejercicios resueltos.
+                  Busca entre la teoría y los ejercicios resueltos por título, tema
+                  o cualquier concepto mencionado en su desarrollo.
                 </div>
               ) : results.length === 0 ? (
                 <div className="search-hint">Sin resultados para «{query}».</div>
