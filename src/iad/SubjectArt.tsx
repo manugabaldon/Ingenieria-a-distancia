@@ -1,16 +1,16 @@
 /**
  * SubjectArt.tsx — Fondos "plano de ingeniero" que aparecen al pasar el
- * cursor sobre una tarjeta de asignatura. Estilo blueprint (líneas claras
- * sobre azul oscuro), siempre con temática aeronáutica.
+ * cursor sobre una tarjeta de asignatura. Estilo plano técnico sepia
+ * (líneas claras sobre papel envejecido), siempre con temática aeronáutica.
  */
 import type { ComponentType } from 'react';
 
-const BG          = '#0a1930';
-const GRID        = '#16324f';
-const LINE        = '#8ecae6';
-const LINE_DIM     = '#3d5a80';
+const BG          = '#2b2016';
+const GRID        = '#4a3520';
+const LINE        = '#d9c79a';
+const LINE_DIM     = '#7a6242';
 const FORCE_COLOR  = '#ff9f0a';
-const ROT_COLOR    = '#7fffd4';
+const ROT_COLOR    = '#2f8f8a';
 
 function polar(cx: number, cy: number, angleDeg: number, r: number): [number, number] {
   const rad = (angleDeg * Math.PI) / 180;
@@ -73,7 +73,7 @@ export function SubjectArtMecanica() {
       ))}
 
       {/* Cubo (hub) con remaches */}
-      <circle cx={cx} cy={cy} r={hubR} fill="#132a47" stroke={LINE} strokeWidth="2" />
+      <circle cx={cx} cy={cy} r={hubR} fill="#241a10" stroke={LINE} strokeWidth="2" />
       <circle cx={cx} cy={cy} r={hubR - 10} fill="none" stroke={LINE_DIM} strokeWidth="1" />
       {Array.from({ length: 6 }, (_, i) => {
         const [bx, by] = polar(cx, cy, i * 60, hubR - 5);

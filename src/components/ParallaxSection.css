@@ -20,7 +20,7 @@
   left: 0;
   right: 0;
   bottom: -60%;        /* misma extensión que pb-img */
-  background: #ffffff;
+  background: var(--white, #f7f0e0);
   pointer-events: none;
   z-index: 1;
 }

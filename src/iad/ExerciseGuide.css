@@ -9,8 +9,8 @@
 }
 
 .eg-intro {
-  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(168,85,247,0.08));
-  border: 1px solid rgba(59,130,246,0.18);
+  background: linear-gradient(135deg, rgba(122,46,40,0.08), rgba(163,113,29,0.08));
+  border: 1px solid rgba(122,46,40,0.18);
   border-radius: 12px;
   padding: 20px 24px;
   margin-bottom: 32px;
@@ -18,26 +18,26 @@
 .eg-intro h3 {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--text-primary, #f1f5f9);
+  color: var(--text-primary, #2a2015);
   margin: 0 0 8px;
 }
 .eg-intro p {
   font-size: 0.88rem;
-  color: var(--text-muted, #94a3b8);
+  color: var(--text-muted, #79694f);
   margin: 0;
   line-height: 1.6;
 }
 
 /* ── Un paso ───────────────────────────────── */
 .eg-step {
-  border: 1px solid rgba(148,163,184,0.12);
+  border: 1px solid rgba(190,170,130,0.3);
   border-radius: 12px;
   margin-bottom: 14px;
   overflow: hidden;
   transition: border-color 0.2s;
 }
-.eg-step.solved   { border-color: rgba(16,185,129,0.3); }
-.eg-step.active   { border-color: rgba(59,130,246,0.35); }
+.eg-step.solved   { border-color: rgba(91,122,58,0.35); }
+.eg-step.active   { border-color: rgba(122,46,40,0.4); }
 
 /* ── Cabecera del paso ─────────────────────── */
 .eg-step-header {
@@ -45,7 +45,7 @@
   align-items: center;
   gap: 14px;
   padding: 16px 20px;
-  background: var(--surface, #1e293b);
+  background: var(--surface, #efe3c8);
   cursor: default;
   user-select: none;
 }
@@ -60,23 +60,23 @@
   font-size: 0.85rem;
   font-weight: 700;
   flex-shrink: 0;
-  background: rgba(148,163,184,0.12);
-  color: #94a3b8;
+  background: rgba(190,170,130,0.25);
+  color: #79694f;
   transition: background 0.2s, color 0.2s;
 }
-.eg-step.active  .eg-num { background: rgba(59,130,246,0.2);  color: #60a5fa; }
-.eg-step.solved  .eg-num { background: rgba(16,185,129,0.18); color: #34d399; }
+.eg-step.active  .eg-num { background: rgba(122,46,40,0.16); color: #7a2e28; }
+.eg-step.solved  .eg-num { background: rgba(91,122,58,0.18); color: #5b7a3a; }
 
 .eg-step-info { flex: 1; min-width: 0; }
 .eg-step-title {
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-primary, #f1f5f9);
+  color: var(--text-primary, #2a2015);
   margin: 0 0 2px;
 }
 .eg-step-sub {
   font-size: 0.78rem;
-  color: #64748b;
+  color: #79694f;
 }
 
 .eg-status-icon {
@@ -98,20 +98,20 @@
 
 /* Enunciado del paso */
 .eg-question {
-  background: rgba(59,130,246,0.06);
-  border-left: 3px solid #3b82f6;
+  background: rgba(122,46,40,0.06);
+  border-left: 3px solid #7a2e28;
   border-radius: 0 8px 8px 0;
   padding: 12px 16px;
   margin-bottom: 16px;
   font-size: 0.92rem;
-  color: var(--text-primary, #f1f5f9);
+  color: var(--text-primary, #2a2015);
   line-height: 1.6;
 }
 
 /* Pista de teoría */
 .eg-hint {
-  background: rgba(245,158,11,0.06);
-  border: 1px solid rgba(245,158,11,0.18);
+  background: rgba(163,113,29,0.08);
+  border: 1px solid rgba(163,113,29,0.22);
   border-radius: 8px;
   padding: 12px 16px;
   margin-bottom: 16px;
@@ -121,12 +121,12 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: #f59e0b;
+  color: #a3711d;
   margin-bottom: 6px;
 }
 .eg-hint-body {
   font-size: 0.87rem;
-  color: var(--text-muted, #94a3b8);
+  color: var(--text-muted, #79694f);
   line-height: 1.65;
 }
 .eg-hint-body .formula-box {
@@ -140,25 +140,25 @@
   align-items: center;
   gap: 8px;
   background: none;
-  border: 1px solid rgba(148,163,184,0.2);
+  border: 1px solid rgba(190,170,130,0.35);
   border-radius: 8px;
   padding: 9px 16px;
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: #79694f;
   cursor: pointer;
   width: 100%;
   transition: border-color 0.18s, color 0.18s, background 0.18s;
   margin-bottom: 4px;
 }
 .eg-reveal-btn:hover {
-  border-color: rgba(59,130,246,0.4);
-  color: #60a5fa;
-  background: rgba(59,130,246,0.05);
+  border-color: rgba(122,46,40,0.4);
+  color: #7a2e28;
+  background: rgba(122,46,40,0.06);
 }
 .eg-reveal-btn.open {
-  border-color: rgba(16,185,129,0.35);
-  color: #34d399;
-  background: rgba(16,185,129,0.05);
+  border-color: rgba(91,122,58,0.4);
+  color: #5b7a3a;
+  background: rgba(91,122,58,0.07);
 }
 
 .eg-chevron {
@@ -177,26 +177,26 @@
 .eg-solution.open { max-height: 800px; }
 
 .eg-solution-inner {
-  background: rgba(15,23,42,0.6);
-  border: 1px solid rgba(16,185,129,0.18);
+  background: rgba(43,32,22,0.92);
+  border: 1px solid rgba(163,113,29,0.35);
   border-radius: 8px;
   padding: 16px;
   margin-top: 10px;
   font-size: 0.87rem;
-  color: var(--text-muted, #94a3b8);
+  color: #ddccaa;
   line-height: 1.7;
 }
 .eg-solution-inner .formula-box {
   font-size: 0.85rem;
   margin: 10px 0;
 }
-.eg-solution-inner strong { color: var(--text-primary, #f1f5f9); }
+.eg-solution-inner strong { color: #f5ead4; }
 .eg-solution-inner .result {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #34d399;
-  background: rgba(16,185,129,0.1);
-  border: 1px solid rgba(16,185,129,0.25);
+  color: #b7d089;
+  background: rgba(139,175,90,0.15);
+  border: 1px solid rgba(139,175,90,0.35);
   border-radius: 6px;
   padding: 8px 14px;
   margin-top: 10px;
@@ -210,13 +210,13 @@
   gap: 10px;
   margin-top: 16px;
   padding-top: 14px;
-  border-top: 1px solid rgba(148,163,184,0.1);
+  border-top: 1px solid rgba(190,170,130,0.3);
 }
 
 .eg-btn-done {
-  background: rgba(16,185,129,0.15);
-  border: 1px solid rgba(16,185,129,0.3);
-  color: #34d399;
+  background: rgba(91,122,58,0.16);
+  border: 1px solid rgba(91,122,58,0.35);
+  color: #5b7a3a;
   padding: 8px 20px;
   border-radius: 8px;
   font-size: 0.85rem;
@@ -224,10 +224,10 @@
   cursor: pointer;
   transition: background 0.18s;
 }
-.eg-btn-done:hover { background: rgba(16,185,129,0.25); }
+.eg-btn-done:hover { background: rgba(91,122,58,0.26); }
 
 .eg-btn-next {
-  background: #3b82f6;
+  background: #7a2e28;
   border: none;
   color: #fff;
   padding: 8px 20px;
@@ -237,7 +237,7 @@
   cursor: pointer;
   transition: background 0.18s;
 }
-.eg-btn-next:hover { background: #2563eb; }
+.eg-btn-next:hover { background: #601f1a; }
 
 /* ── Progreso ──────────────────────────────── */
 .eg-progress {
@@ -249,19 +249,19 @@
 .eg-progress-bar-wrap {
   flex: 1;
   height: 6px;
-  background: rgba(148,163,184,0.12);
+  background: rgba(190,170,130,0.3);
   border-radius: 3px;
   overflow: hidden;
 }
 .eg-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #10b981);
+  background: linear-gradient(90deg, #7a2e28, #a3711d);
   border-radius: 3px;
   transition: width 0.4s ease;
 }
 .eg-progress-label {
   font-size: 0.78rem;
-  color: #64748b;
+  color: #79694f;
   white-space: nowrap;
 }
 
@@ -269,10 +269,10 @@
 .eg-complete {
   text-align: center;
   padding: 32px;
-  background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(59,130,246,0.08));
-  border: 1px solid rgba(16,185,129,0.25);
+  background: linear-gradient(135deg, rgba(91,122,58,0.08), rgba(163,113,29,0.08));
+  border: 1px solid rgba(91,122,58,0.3);
   border-radius: 12px;
   margin-top: 24px;
 }
-.eg-complete h3 { color: #34d399; margin: 0 0 8px; font-size: 1.1rem; }
-.eg-complete p  { color: #94a3b8; font-size: 0.88rem; margin: 0; }
+.eg-complete h3 { color: #5b7a3a; margin: 0 0 8px; font-size: 1.1rem; }
+.eg-complete p  { color: #79694f; font-size: 0.88rem; margin: 0; }

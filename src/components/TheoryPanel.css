@@ -31,10 +31,10 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--blue, #0071e3);
+  color: var(--blue, #7a2e28);
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(0, 113, 227, 0.15);
+  border-bottom: 1px solid rgba(122, 46, 40, 0.18);
 }
 
 .theory-p {
@@ -51,14 +51,14 @@
 
 /* ── Bloque de ecuación (fallback sin KaTeX) ── */
 .theory-eq {
-  background: #f8f9fc;
-  border: 1px solid #e2e6f0;
-  border-left: 3px solid var(--blue, #0071e3);
+  background: var(--bg2, #f2e8d3);
+  border: 1px solid var(--border, #ddcda2);
+  border-left: 3px solid var(--blue, #7a2e28);
   border-radius: 0 12px 12px 0;
   padding: 1rem 1.4rem;
   font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
   font-size: 0.88rem;
-  color: #1d1d1f;
+  color: var(--text, #2a2015);
   margin: 1.2rem 0;
   line-height: 2;
   overflow-x: auto;
@@ -69,9 +69,9 @@
 .theory-eq-inline {
   font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
   font-size: 0.88em;
-  color: var(--blue, #0071e3);
-  background: rgba(0, 113, 227, 0.07);
-  border: 1px solid rgba(0, 113, 227, 0.15);
+  color: var(--blue, #7a2e28);
+  background: rgba(122, 46, 40, 0.08);
+  border: 1px solid rgba(122, 46, 40, 0.16);
   border-radius: 4px;
   padding: 1px 5px;
 }
@@ -93,12 +93,12 @@
   gap: 1rem;
   align-items: baseline;
   padding: 0.6rem 1rem;
-  border-bottom: 1px solid var(--border, #d2d2d7);
-  background: #fff;
+  border-bottom: 1px solid var(--border, #ddcda2);
+  background: var(--white, #f7f0e0);
 }
 
 .theory-deflist-row:last-child { border-bottom: none; }
-.theory-deflist-row:nth-child(even) { background: #f8f9fc; }
+.theory-deflist-row:nth-child(even) { background: var(--bg2, #f2e8d3); }
 
 .theory-deflist dt {
   font-size: 0.83rem;
@@ -114,12 +114,12 @@
 
 /* ── Note / Warning boxes ── */
 .theory-note {
-  background: #eef5ff;
-  border: 1px solid #b8d4f8;
+  background: #f7ecd2;
+  border: 1px solid #dfc07f;
   border-radius: 10px;
   padding: 0.9rem 1.1rem;
   font-size: 0.84rem;
-  color: #1a4a8a;
+  color: #6b4a17;
   line-height: 1.7;
   margin: 1rem 0;
 }
@@ -156,10 +156,10 @@
 /* ── Desplegable (desarrollo intermedio oculto) ── */
 .theory-details {
   margin: 1.2rem 0;
-  border: 1px solid var(--border, #d2d2d7);
+  border: 1px solid var(--border, #ddcda2);
   border-radius: 12px;
   overflow: hidden;
-  background: #fafbfd;
+  background: var(--bg2, #f2e8d3);
 }
 
 .theory-summary {
@@ -167,7 +167,7 @@
   padding: 0.75rem 1.1rem;
   font-size: 0.83rem;
   font-weight: 600;
-  color: var(--blue, #0071e3);
+  color: var(--blue, #7a2e28);
   list-style: none;
   display: flex;
   align-items: center;
@@ -214,7 +214,7 @@
 }
 
 .theory-table th {
-  background: #f5f5f7;
+  background: var(--bg, #efe3c8);
   color: var(--text-3, #aeaeb2);
   font-size: 0.65rem;
   font-weight: 700;
@@ -227,13 +227,13 @@
 
 .theory-table td {
   padding: 0.5rem 0.9rem;
-  color: var(--text-2, #6e6e73);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  color: var(--text-2, #79694f);
+  border-bottom: 1px solid rgba(50,35,15,0.08);
   line-height: 1.55;
 }
 
 .theory-table tr:last-child td { border-bottom: none; }
-.theory-table tr:nth-child(even) td { background: #fafafa; }
+.theory-table tr:nth-child(even) td { background: var(--bg2, #f2e8d3); }
 
 .theory-table td:first-child {
   font-size: 0.82rem;
@@ -258,7 +258,7 @@
 
 .theory-figure-caption {
   padding: 8px 14px;
-  background: #f5f5f7;
+  background: var(--bg, #efe3c8);
   font-size: 0.74rem;
   color: var(--text-3, #aeaeb2);
   font-style: italic;
@@ -268,7 +268,7 @@
 
 /* SVG box */
 .theory-svgbox {
-  background: #f8f9fc;
+  background: var(--bg2, #f2e8d3);
 }
 
 .theory-svgbox svg {

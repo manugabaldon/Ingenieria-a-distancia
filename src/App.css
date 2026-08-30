@@ -255,7 +255,7 @@
 }
 
 .fm-item.active {
-  background: rgba(0,113,227,0.08);
+  background: rgba(122,46,40,0.08);
   color: var(--blue, #0071e3);
 }
 
@@ -387,7 +387,7 @@
 }
 
 canvas {
-  background: #f5f5f7;
+  background: var(--bg);
   border-radius: 14px;
   border: 1px solid var(--border);
   display: block;
@@ -451,7 +451,7 @@ canvas {
 .param-row input[type='text']:focus {
   outline: none;
   border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+  box-shadow: 0 0 0 3px rgba(122,46,40,0.15);
 }
 
 .formula-box {
@@ -482,7 +482,7 @@ canvas {
   border-radius: 10px;
   padding: 12px 14px;
   font-size: 0.77rem;
-  color: #1a4a8a;
+  color: var(--blue-hover);
   line-height: 1.65;
 }
 
@@ -512,7 +512,7 @@ canvas {
 
 .btn-primary:hover {
   background: var(--blue-hover);
-  box-shadow: 0 4px 12px rgba(0,113,227,0.3);
+  box-shadow: 0 4px 12px rgba(122,46,40,0.3);
   transform: translateY(-1px);
 }
 
@@ -632,7 +632,7 @@ canvas {
 
 .hero-btn-primary:hover {
   background: var(--blue-hover);
-  box-shadow: 0 6px 20px rgba(0,113,227,0.3);
+  box-shadow: 0 6px 20px rgba(122,46,40,0.3);
   transform: translateY(-1px);
 }
 
@@ -974,11 +974,11 @@ canvas {
 .path-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15,23,42,0.25) 0%, rgba(15,23,42,0.78) 100%);
+  background: linear-gradient(180deg, rgba(30,20,10,0.25) 0%, rgba(30,20,10,0.78) 100%);
   transition: background 0.25s ease;
 }
 .path-card:hover .path-card-overlay {
-  background: linear-gradient(180deg, rgba(15,23,42,0.35) 0%, rgba(15,23,42,0.85) 100%);
+  background: linear-gradient(180deg, rgba(30,20,10,0.35) 0%, rgba(30,20,10,0.85) 100%);
 }
 
 .path-card-content {
@@ -1117,7 +1117,7 @@ canvas {
 }
 
 .result-card.result-warn {
-  background: #fff0f0;
+  background: #f5e3dc;
 }
 
 .result-label {
@@ -1190,7 +1190,7 @@ canvas {
 
 .conv-input:focus {
   outline: none; border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+  box-shadow: 0 0 0 3px rgba(122,46,40,0.12);
 }
 
 .conv-select {
@@ -1582,7 +1582,7 @@ canvas {
 .prac-option:hover:not(:disabled) { border-color: var(--blue); background: var(--blue-light); }
 .prac-option:disabled { cursor: default; }
 .prac-option.is-correct { border-color: var(--green); background: var(--green-bg); }
-.prac-option.is-wrong { border-color: var(--red); background: #fdeceb; }
+.prac-option.is-wrong { border-color: var(--red); background: #f5e3dc; }
 .prac-option.is-dim { opacity: 0.55; }
 
 .prac-option-letter {

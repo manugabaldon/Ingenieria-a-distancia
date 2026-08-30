@@ -2,9 +2,9 @@
 .math-block {
   margin: 1.4rem 0;
   padding: 1.1rem 1.5rem;
-  background: #f8f9fc;
-  border: 1px solid #e2e6f0;
-  border-left: 3px solid var(--blue, #0071e3);
+  background: var(--bg2, #f2e8d3);
+  border: 1px solid var(--border, #ddcda2);
+  border-left: 3px solid var(--blue, #7a2e28);
   border-radius: 0 12px 12px 0;
   overflow-x: auto;
   /* KaTeX escala bien pero aseguramos tamaño base */

@@ -12,7 +12,7 @@
 /* ── Enunciado ─────────────────────────────────────── */
 .sol-enunciado {
   background: var(--blue-light);
-  border: 1px solid #cfe0f7;
+  border: 1px solid #e8cdb0;
   border-radius: 14px;
   padding: 22px 26px;
   margin-bottom: 36px;
@@ -24,8 +24,8 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--blue);
-  background: #fff;
-  border: 1px solid #cfe0f7;
+  background: var(--white);
+  border: 1px solid #e8cdb0;
   padding: 3px 10px;
   border-radius: 20px;
   margin-bottom: 14px;
@@ -62,7 +62,7 @@
 .sol-fig-svg {
   width: 200px;
   height: auto;
-  background: #fff;
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 6px;
@@ -77,7 +77,7 @@
   fill: none; stroke: var(--border2); stroke-width: 1; stroke-dasharray: 3 3;
 }
 .sol-fig-ellipse-top {
-  fill: rgba(0,113,227,0.05); stroke: var(--border2); stroke-width: 1;
+  fill: rgba(122,46,40,0.05); stroke: var(--border2); stroke-width: 1;
 }
 .sol-fig-helix  { fill: none; stroke: var(--blue); stroke-width: 2; stroke-linecap: round; }
 .sol-fig-radius { stroke: var(--indigo); stroke-width: 1.6; }
@@ -129,7 +129,7 @@
 /* ── Resultado destacado ───────────────────────────── */
 .sol-result {
   background: var(--green-bg);
-  border: 1px solid #bfe6cf;
+  border: 1px solid #cddbb0;
   border-left: 4px solid var(--green);
   border-radius: 0 12px 12px 0;
   padding: 12px 18px 4px;
@@ -150,7 +150,7 @@
 .sol-ampliacion {
   position: relative;
   background: var(--indigo-bg);
-  border: 1px solid #dcdcfb;
+  border: 1px solid #e6d0dc;
   border-radius: 12px;
   padding: 16px 18px 14px;
   margin: 18px 0 6px;
@@ -162,8 +162,8 @@
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--indigo);
-  background: #fff;
-  border: 1px solid #dcdcfb;
+  background: var(--white);
+  border: 1px solid #e6d0dc;
   padding: 2px 9px;
   border-radius: 20px;
   margin-bottom: 10px;
