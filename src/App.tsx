@@ -20,6 +20,9 @@ import Integrales         from './mathtools/Integrales';
 import Derivadas          from './mathtools/Derivadas';
 import Funciones          from './mathtools/Funciones';
 
+// Coordenadas
+import CoordConverter     from './coordinates/CoordConverter';
+
 // IAD — Ingeniería a Distancia
 import IADView from './iad/IADView';
 import iadVideos from './iad/videosData';
@@ -59,6 +62,7 @@ const TOOL_BG: Record<string, string> = {
   'integ':     'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=75',
   'deriv':     'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?w=1400&q=75',
   'grafica':   'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=75',
+  'coord':     'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1400&q=75',
 };
 
 const HOME_BG = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80';
@@ -108,7 +112,7 @@ const isPathId = (v: string): v is PathId =>
 type ToolId =
   | 'rotor' | 'balanceo' | 'wyc' | 'isa' | 'conv'
   | 'radar' | 'pitot' | 'antenna' | 'filtros'
-  | 'integ' | 'deriv' | 'grafica';
+  | 'integ' | 'deriv' | 'grafica' | 'coord';
 
 type View = 'home' | PathId | ToolId;
 
@@ -160,6 +164,12 @@ const TOOLS: Tool[] = [
     id: 'conv', icon: '🔄', path: 'calcula', section: 'Cálculo',
     label: 'Conversor de unidades', subtitle: 'Velocidad, presión, temperatura…',
     description: 'Convierte entre unidades técnicas: kt, ft, nm, inHg, hPa, °C/K/°F, kg, lb y más.',
+    tag: 'free',
+  },
+  {
+    id: 'coord', icon: '🧭', path: 'calcula', section: 'Cálculo',
+    label: 'Conversor de Coordenadas', subtitle: 'Cartesianas · Cilíndricas · Esféricas',
+    description: 'Convierte un punto entre coordenadas cartesianas, cilíndricas y esféricas (convenio Cheng), con la fórmula aplicada en cada caso y una representación vectorial 3D interactiva que puedes girar.',
     tag: 'free',
   },
 
@@ -706,6 +716,7 @@ export default function App() {
                 {active === 'integ'     && <Integrales />}
                 {active === 'deriv'     && <Derivadas />}
                 {active === 'grafica'   && <Funciones />}
+                {active === 'coord'     && <CoordConverter />}
               </>
             )}
           </>
