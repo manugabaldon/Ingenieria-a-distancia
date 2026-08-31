@@ -23,6 +23,9 @@ import Funciones          from './mathtools/Funciones';
 // Coordenadas
 import CoordConverter     from './coordinates/CoordConverter';
 
+// Campos y Ondas
+import GradientField      from './campos/GradientField';
+
 // IAD — Ingeniería a Distancia
 import IADView from './iad/IADView';
 import iadVideos from './iad/videosData';
@@ -63,6 +66,7 @@ const TOOL_BG: Record<string, string> = {
   'deriv':     'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?w=1400&q=75',
   'grafica':   'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=75',
   'coord':     'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1400&q=75',
+  'grad':      'https://images.unsplash.com/photo-1502085671122-2d218cd434e6?w=1400&q=75',
 };
 
 const HOME_BG = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80';
@@ -112,7 +116,8 @@ const isPathId = (v: string): v is PathId =>
 type ToolId =
   | 'rotor' | 'balanceo' | 'wyc' | 'isa' | 'conv'
   | 'radar' | 'pitot' | 'antenna' | 'filtros'
-  | 'integ' | 'deriv' | 'grafica' | 'coord';
+  | 'integ' | 'deriv' | 'grafica' | 'coord'
+  | 'grad';
 
 type View = 'home' | PathId | ToolId;
 
@@ -174,6 +179,12 @@ const TOOLS: Tool[] = [
   },
 
   // ── Simula ──
+  {
+    id: 'grad', icon: '∇', path: 'simula', section: 'Campos y Ondas',
+    label: 'Visualizador del gradiente', subtitle: 'Campo escalar V(x,y) · 2D + superficie 3D',
+    description: 'Escribe un campo escalar V(x,y) o elige un ejemplo y observa el gradiente: vista cenital con equipotenciales y campo ∇V enlazada con una superficie 3D girable, punto sonda arrastrable, derivada direccional dV=∇V·dℓ y el campo físico E=−∇V. Tema 1, Análisis vectorial (convenio Cheng / Equipo Docente UNED).',
+    tag: 'free',
+  },
   {
     id: 'rotor', icon: '⚙', path: 'simula', section: 'Aeronáutica',
     label: 'Desequilibrio de rotor', subtitle: 'Estático / dinámico',
@@ -717,6 +728,7 @@ export default function App() {
                 {active === 'deriv'     && <Derivadas />}
                 {active === 'grafica'   && <Funciones />}
                 {active === 'coord'     && <CoordConverter />}
+                {active === 'grad'      && <GradientField />}
               </>
             )}
           </>

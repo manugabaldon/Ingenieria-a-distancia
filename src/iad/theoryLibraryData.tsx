@@ -7,6 +7,7 @@ import {
   DiagramVelocidadRelativa,
   DiagramAceleracionRelativa,
 } from '../components/TheoryDiagrams';
+import theoryGradiente from '../campos/theoryGradiente';
 
 // Colores de los términos, coherentes con DiagramAceleracionRelativa
 const cG = '#30d158'; // origen
@@ -472,6 +473,18 @@ const theoryEntries: TheoryEntry[] = [
       'con el nuevo término de Coriolis ā_c = 2ω̄×v̄_r. El desarrollo completo ' +
       'en componentes queda en un desplegable aparte.',
     content: theoryAceleracionRelativa,
+  },
+  {
+    id: 'gradiente',
+    subject: 'Campos y Ondas',
+    tema: 'Análisis vectorial',
+    topic: 'Operadores diferenciales',
+    title: 'El gradiente ∇V',
+    summary:
+      'Definición dV = ∇V·dr, significado geométrico (máximo crecimiento, ⟂ equipotenciales), ' +
+      'derivada direccional, expresión en los tres sistemas vía el tensor métrico, E = −∇V y ' +
+      'Poisson/Laplace, identidades y ejemplos resueltos. Notación del Equipo Docente (UNED).',
+    content: theoryGradiente,
   },
 ];
 
