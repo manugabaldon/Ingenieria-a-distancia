@@ -9,6 +9,15 @@ import './IADView.css';
 
 type Tab = 'video' | 'solution' | 'theory' | 'exercise' | 'simulator';
 
+/** Herramienta de Simula/Calcula enlazable desde una asignatura (ver App.tsx). */
+export interface IADToolLink {
+  id: string;
+  icon: string;
+  label: string;
+  subtitle: string;
+  section: string;
+}
+
 // ─── Detalle de un ejercicio (vídeo/solución/ejercicio/teoría/simulador) ────────
 function VideoDetail({ video, onBack }: { video: IADVideo; onBack: () => void }) {
   const [tab, setTab] = useState<Tab>('video');
@@ -22,7 +31,7 @@ function VideoDetail({ video, onBack }: { video: IADVideo; onBack: () => void })
   ];
 
   return (
-    <div className="iad-detail">
+    <div className="iad-detail iad-detail-nested">
       <button className="iad-back" onClick={onBack}>← Ejercicios resueltos</button>
 
       <div className="iad-detail-header">
@@ -94,24 +103,6 @@ function VideoDetail({ video, onBack }: { video: IADVideo; onBack: () => void })
   );
 }
 
-// ─── Detalle de una subsección de teoría ────────────────────────────────────────
-function TheoryDetail({ entry, onBack }: { entry: TheoryEntry; onBack: () => void }) {
-  return (
-    <div className="iad-detail">
-      <button className="iad-back" onClick={onBack}>← Teoría</button>
-
-      <div className="iad-detail-header">
-        <span className="iad-subject-badge">{entry.subject}</span>
-        <h2>{entry.title}</h2>
-        <p className="iad-detail-desc">{entry.summary}</p>
-        <span className="iad-detail-ref">{entry.topic}</span>
-      </div>
-
-      <TheoryPanel content={entry.content} />
-    </div>
-  );
-}
-
 // ─── Card de vídeo ─────────────────────────────────────────────────────────────
 function VideoCard({ video, onClick }: { video: IADVideo; onClick: () => void }) {
   return (
@@ -147,16 +138,56 @@ function VideoCard({ video, onClick }: { video: IADVideo; onClick: () => void })
   );
 }
 
-// ─── Card de teoría ─────────────────────────────────────────────────────────────
-function TheoryCard({ entry, onClick }: { entry: TheoryEntry; onClick: () => void }) {
+// ─── Grid de ejercicios de un tema, agrupados por subtema (sin cabecera propia) ──
+function ExerciseTopicGrid({ items, onOpen }: { items: IADVideo[]; onOpen: (id: string) => void }) {
+  const topics = [...new Set(items.map(v => v.topic))];
   return (
-    <div className="iad-card iad-theory-card" onClick={onClick}>
-      <div className="iad-theory-card-icon">📘</div>
-      <div className="iad-card-body">
-        <h3 className="iad-card-title">{entry.title}</h3>
-        <p className="iad-card-desc">{entry.summary}</p>
-        <span className="chip chip-theory">Teoría</span>
-      </div>
+    <>
+      {topics.map(topic => {
+        const topicItems = items.filter(v => v.topic === topic);
+        return (
+          <div key={topic} className="iad-topic-group">
+            <h4 className="iad-topic-title">
+              {topic}
+              <span className="iad-topic-count">{topicItems.length}</span>
+            </h4>
+            <div className="iad-grid">
+              {topicItems.map(v => (
+                <VideoCard key={v.id} video={v} onClick={() => onOpen(v.id)} />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+// ─── Navegación entre varias entradas de teoría de un mismo tema ────────────────
+function TheoryEntryNav({
+  entries, activeId, onSelect,
+}: {
+  entries: TheoryEntry[]; activeId: string | undefined; onSelect: (id: string) => void;
+}) {
+  const topics = [...new Set(entries.map(e => e.topic))];
+  return (
+    <div className="iad-entry-nav">
+      {topics.map(topic => (
+        <div key={topic} className="iad-entry-group">
+          {topics.length > 1 && <span className="iad-entry-group-label">{topic}</span>}
+          <div className="iad-entry-pills">
+            {entries.filter(e => e.topic === topic).map(e => (
+              <button
+                key={e.id}
+                className={`iad-entry-pill${e.id === activeId ? ' active' : ''}`}
+                onClick={() => onSelect(e.id)}
+              >
+                {e.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -212,150 +243,99 @@ function SubjectsLevel({
   );
 }
 
-// ─── Nivel 1: temas de una asignatura ────────────────────────────────────────────
-function TemasLevel({
-  subject, subjectSlug, temas, go,
+// ─── Nivel 1: espacio de una asignatura — archivador de temas + página de teoría ──
+function SubjectWorkspace({
+  subject, subjectSlug, temas, tema, temaSlug, section, itemId, go, tools, onOpenTool,
 }: {
-  subject: string; subjectSlug: string; temas: string[]; go: (parts: string[]) => void;
+  subject: string; subjectSlug: string; temas: string[]; tema: string; temaSlug: string;
+  section: string | undefined; itemId: string | undefined;
+  go: (parts: string[]) => void;
+  tools: IADToolLink[]; onOpenTool: (id: string) => void;
 }) {
+  const theoryForTema = theoryEntries.filter(e => e.subject === subject && e.tema === tema);
+  const exercisesForTema = videos.filter(v => v.subject === subject && v.tema === tema);
+  const relatedTools = tools.filter(t => t.section === subject);
+  const hasTheory = theoryForTema.length > 0;
+
+  const mode: 'teoria' | 'ejercicios' =
+    section === 'ejercicios' ? 'ejercicios' : (hasTheory ? 'teoria' : 'ejercicios');
+
+  const entry = mode === 'teoria'
+    ? (theoryForTema.find(e => e.id === itemId) ?? theoryForTema[0])
+    : undefined;
+  const video = mode === 'ejercicios' && itemId
+    ? exercisesForTema.find(v => v.id === itemId)
+    : undefined;
+
   return (
-    <div className="iad-home">
+    <div className="iad-home iad-workspace">
       <button className="iad-back" onClick={() => go([])}>← Asignaturas</button>
+      <span className="iad-subject-badge iad-workspace-subject">{subject}</span>
 
-      <div className="iad-subject-group">
-        <h3 className="iad-subject-title">{subject}</h3>
-        <div className="iad-grid">
-          {temas.map(tema => {
-            const theoryCount = theoryEntries.filter(e => e.subject === subject && e.tema === tema).length;
-            const exerciseCount = videos.filter(v => v.subject === subject && v.tema === tema).length;
-            return (
-              <div
-                key={tema}
-                className="iad-card iad-theory-card"
-                onClick={() => go([subjectSlug, slugify(tema)])}
-              >
-                <div className="iad-theory-card-icon">🗂️</div>
-                <div className="iad-card-body">
-                  <h3 className="iad-card-title">{tema}</h3>
-                  <div className="iad-card-chips">
-                    {theoryCount > 0 && <span className="chip chip-theory">{theoryCount} teoría</span>}
-                    {exerciseCount > 0 && <span className="chip chip-sim">{exerciseCount} ejercicios</span>}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Nivel 2: portada de un tema — las dos rutas Teoría / Ejercicios ────────────
-function TemaHomeLevel({
-  subject, subjectSlug, tema, temaSlug, go,
-}: {
-  subject: string; subjectSlug: string; tema: string; temaSlug: string; go: (parts: string[]) => void;
-}) {
-  const theoryCount = theoryEntries.filter(e => e.subject === subject && e.tema === tema).length;
-  const exerciseCount = videos.filter(v => v.subject === subject && v.tema === tema).length;
-
-  return (
-    <div className="iad-home">
-      <button className="iad-back" onClick={() => go([subjectSlug])}>← {subject}</button>
-
-      <div className="iad-subject-group">
-        <h3 className="iad-subject-title">{tema}</h3>
-        <div className="iad-route-grid">
-          <div
-            className={`iad-route-card${theoryCount === 0 ? ' iad-route-empty' : ''}`}
-            onClick={() => theoryCount > 0 && go([subjectSlug, temaSlug, 'teoria'])}
+      <div className="iad-archivador">
+        {temas.map(t => (
+          <button
+            key={t}
+            className={`iad-archivador-tab${t === tema ? ' active' : ''}`}
+            onClick={() => go([subjectSlug, slugify(t)])}
           >
-            <span className="iad-route-icon">📖</span>
-            <h3>Teoría</h3>
-            <p>{theoryCount > 0 ? `${theoryCount} entrada${theoryCount !== 1 ? 's' : ''}` : 'Próximamente'}</p>
-          </div>
-          <div
-            className={`iad-route-card${exerciseCount === 0 ? ' iad-route-empty' : ''}`}
-            onClick={() => exerciseCount > 0 && go([subjectSlug, temaSlug, 'ejercicios'])}
-          >
-            <span className="iad-route-icon">📝</span>
-            <h3>Ejercicios resueltos</h3>
-            <p>{exerciseCount > 0 ? `${exerciseCount} ejercicio${exerciseCount !== 1 ? 's' : ''}` : 'Próximamente'}</p>
-          </div>
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <div className="iad-workspace-panel">
+        <div className="iad-tabs iad-workspace-tabs">
+          {hasTheory && (
+            <button
+              className={`iad-tab${mode === 'teoria' ? ' active' : ''}`}
+              onClick={() => go([subjectSlug, temaSlug])}
+            >
+              📖 Teoría
+            </button>
+          )}
+          {exercisesForTema.length > 0 && (
+            <button
+              className={`iad-tab${mode === 'ejercicios' ? ' active' : ''}`}
+              onClick={() => go([subjectSlug, temaSlug, 'ejercicios'])}
+            >
+              📝 Ejercicios
+            </button>
+          )}
+          {relatedTools.map(t => (
+            <button key={t.id} className="iad-tab iad-tab-tool" onClick={() => onOpenTool(t.id)}>
+              {t.icon} {t.label} →
+            </button>
+          ))}
         </div>
-      </div>
-    </div>
-  );
-}
 
-// ─── Nivel 3a: lista de teoría de un tema ────────────────────────────────────────
-function TeoriaListLevel({
-  subject, subjectSlug, tema, temaSlug, go,
-}: {
-  subject: string; subjectSlug: string; tema: string; temaSlug: string; go: (parts: string[]) => void;
-}) {
-  const entries = theoryEntries.filter(e => e.subject === subject && e.tema === tema);
-  const topics = [...new Set(entries.map(e => e.topic))];
-
-  return (
-    <div className="iad-home">
-      <button className="iad-back" onClick={() => go([subjectSlug, temaSlug])}>← {tema}</button>
-
-      <div className="iad-subject-group">
-        <h3 className="iad-subject-title">📖 Teoría · {tema}</h3>
-        {topics.map(topic => {
-          const topicEntries = entries.filter(e => e.topic === topic);
-          return (
-            <div key={topic} className="iad-topic-group">
-              <h4 className="iad-topic-title">
-                {topic}
-                <span className="iad-topic-count">{topicEntries.length}</span>
-              </h4>
-              <div className="iad-grid">
-                {topicEntries.map(e => (
-                  <TheoryCard key={e.id} entry={e} onClick={() => go([subjectSlug, temaSlug, 'teoria', e.id])} />
-                ))}
-              </div>
+        {mode === 'teoria' && entry && (
+          <>
+            {theoryForTema.length > 1 && (
+              <TheoryEntryNav
+                entries={theoryForTema}
+                activeId={entry.id}
+                onSelect={(id) => go([subjectSlug, temaSlug, 'teoria', id])}
+              />
+            )}
+            <div className="iad-entry-header">
+              <h2>{entry.title}</h2>
+              <p className="iad-detail-desc">{entry.summary}</p>
             </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+            <TheoryPanel content={entry.content} />
+          </>
+        )}
 
-// ─── Nivel 3b: lista de ejercicios de un tema ────────────────────────────────────
-function EjerciciosListLevel({
-  subject, subjectSlug, tema, temaSlug, go,
-}: {
-  subject: string; subjectSlug: string; tema: string; temaSlug: string; go: (parts: string[]) => void;
-}) {
-  const items = videos.filter(v => v.subject === subject && v.tema === tema);
-  const topics = [...new Set(items.map(v => v.topic))];
-
-  return (
-    <div className="iad-home">
-      <button className="iad-back" onClick={() => go([subjectSlug, temaSlug])}>← {tema}</button>
-
-      <div className="iad-subject-group">
-        <h3 className="iad-subject-title">📝 Ejercicios resueltos · {tema}</h3>
-        {topics.map(topic => {
-          const topicItems = items.filter(v => v.topic === topic);
-          return (
-            <div key={topic} className="iad-topic-group">
-              <h4 className="iad-topic-title">
-                {topic}
-                <span className="iad-topic-count">{topicItems.length}</span>
-              </h4>
-              <div className="iad-grid">
-                {topicItems.map(v => (
-                  <VideoCard key={v.id} video={v} onClick={() => go([subjectSlug, temaSlug, 'ejercicios', v.id])} />
-                ))}
-              </div>
-            </div>
-          );
-        })}
+        {mode === 'ejercicios' && (
+          video ? (
+            <VideoDetail video={video} onBack={() => go([subjectSlug, temaSlug, 'ejercicios'])} />
+          ) : (
+            <ExerciseTopicGrid
+              items={exercisesForTema}
+              onOpen={(id) => go([subjectSlug, temaSlug, 'ejercicios', id])}
+            />
+          )
+        )}
       </div>
     </div>
   );
@@ -363,12 +343,14 @@ function EjerciciosListLevel({
 
 // ─── Vista principal: enrutador por segmentos de path ───────────────────────────
 export default function IADView({
-  path,
-  onNavigate,
+  path, onNavigate, tools, onOpenTool,
 }: {
-  /** Segmentos tras '#estudia/', p. ej. "mecanica/cinematica/teoria/velocidad-movimiento-relativo" */
+  /** Segmentos tras '#estudia/', p. ej. "campos-y-ondas/analisis-vectorial/teoria/gradiente" */
   path: string | null;
   onNavigate: (path: string | null) => void;
+  /** Herramientas de Simula/Calcula enlazables por asignatura (ver App.tsx). */
+  tools: IADToolLink[];
+  onOpenTool: (id: string) => void;
 }) {
   const segments = (path ?? '').split('/').filter(Boolean);
   const go = (parts: string[]) => onNavigate(parts.length ? parts.join('/') : null);
@@ -386,34 +368,21 @@ export default function IADView({
     ...theoryEntries.filter(e => e.subject === subject).map(e => e.tema),
   ])];
   const temaSlug = segments[1];
-  const tema = temaSlug ? temas.find(t => slugify(t) === temaSlug) : undefined;
+  // Sin tema en la URL (o inválido) → el primero, directo, sin pantalla intermedia.
+  const tema = (temaSlug && temas.find(t => slugify(t) === temaSlug)) || temas[0];
 
-  if (!tema) {
-    return <TemasLevel subject={subject} subjectSlug={subjectSlug} temas={temas} go={go} />;
-  }
-
-  const section = segments[2];
-  const itemId = segments[3];
-
-  if (section === 'teoria') {
-    const entry = itemId
-      ? theoryEntries.find(e => e.id === itemId && e.subject === subject && e.tema === tema)
-      : undefined;
-    if (entry) {
-      return <TheoryDetail entry={entry} onBack={() => go([subjectSlug, temaSlug, 'teoria'])} />;
-    }
-    return <TeoriaListLevel subject={subject} subjectSlug={subjectSlug} tema={tema} temaSlug={temaSlug} go={go} />;
-  }
-
-  if (section === 'ejercicios') {
-    const video = itemId
-      ? videos.find(v => v.id === itemId && v.subject === subject && v.tema === tema)
-      : undefined;
-    if (video) {
-      return <VideoDetail video={video} onBack={() => go([subjectSlug, temaSlug, 'ejercicios'])} />;
-    }
-    return <EjerciciosListLevel subject={subject} subjectSlug={subjectSlug} tema={tema} temaSlug={temaSlug} go={go} />;
-  }
-
-  return <TemaHomeLevel subject={subject} subjectSlug={subjectSlug} tema={tema} temaSlug={temaSlug} go={go} />;
+  return (
+    <SubjectWorkspace
+      subject={subject}
+      subjectSlug={subjectSlug}
+      temas={temas}
+      tema={tema}
+      temaSlug={slugify(tema)}
+      section={segments[2]}
+      itemId={segments[3]}
+      go={go}
+      tools={tools}
+      onOpenTool={onOpenTool}
+    />
+  );
 }

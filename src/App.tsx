@@ -28,7 +28,7 @@ import GradientField      from './campos/GradientField';
 import DivRotField        from './campos/DivRotField';
 
 // IAD — Ingeniería a Distancia
-import IADView from './iad/IADView';
+import IADView, { type IADToolLink } from './iad/IADView';
 import iadVideos from './iad/videosData';
 import iadTheoryEntries from './iad/theoryLibraryData';
 import { slugify } from './iad/slug';
@@ -241,6 +241,11 @@ const TOOLS: Tool[] = [
   },
 ];
 
+// ─── Herramientas enlazables desde una página de teoría (Estudia) ────────────
+const IAD_TOOL_LINKS: IADToolLink[] = TOOLS.map(t => ({
+  id: t.id, icon: t.icon, label: t.label, subtitle: t.subtitle, section: t.section,
+}));
+
 // ─── Índice del buscador global ──────────────────────────────────────────────
 // Teoría y ejercicios resueltos: contenido, no requiere recalcularse en cada render.
 const CONTENT_SEARCH_ITEMS = buildContentSearchIndex({
@@ -407,7 +412,14 @@ export default function App() {
   // ── Contenido de cada camino ──────────────────────────────────────────────
   const renderPathBody = (path: PathId) => {
     if (path === 'estudia') {
-      return <IADView path={estudiaPath} onNavigate={p => pushNav('estudia', p)} />;
+      return (
+        <IADView
+          path={estudiaPath}
+          onNavigate={p => pushNav('estudia', p)}
+          tools={IAD_TOOL_LINKS}
+          onOpenTool={(id) => handleNav(id as ToolId)}
+        />
+      );
     }
 
     if (path === 'calcula') {

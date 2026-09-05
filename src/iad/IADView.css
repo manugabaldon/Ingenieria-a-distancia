@@ -4,9 +4,11 @@
 
 /* ── Hero ─────────────────────────────────────────── */
 .iad-home {
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   padding: 40px 24px 80px;
+  box-sizing: border-box;
 }
 
 .iad-hero {
@@ -81,14 +83,6 @@
   max-width: 560px;
 }
 
-/* Tarjeta de teoría: sin miniatura, icono + texto */
-.iad-theory-card {
-  display: flex;
-  gap: 14px;
-  padding: 16px;
-  align-items: flex-start;
-}
-.iad-theory-card .iad-card-body { padding: 0; flex: 1; }
 .iad-theory-card-icon {
   font-size: 1.6rem;
   line-height: 1;
@@ -181,47 +175,114 @@
   color: #7a2e28;
 }
 
-/* ── Rutas de un tema (Teoría / Ejercicios resueltos) ── */
-.iad-route-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+/* ── Espacio de asignatura: archivador de temas + panel de contenido ── */
+.iad-workspace-subject {
+  display: inline-block;
+  margin: 2px 0 20px;
 }
 
-.iad-route-card {
-  background: var(--surface, #efe3c8);
-  border: 1px solid rgba(190,170,130,0.3);
-  border-radius: 14px;
-  padding: 32px 24px;
-  text-align: center;
+.iad-archivador {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 -1px;
+  padding: 0 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.iad-archivador::-webkit-scrollbar { display: none; }
+
+.iad-archivador-tab {
+  flex: 0 0 auto;
+  padding: 11px 22px 13px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted, #79694f);
+  background: rgba(190,170,130,0.22);
+  border: 1px solid rgba(190,170,130,0.4);
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
   cursor: pointer;
-  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+  transform: translateY(4px);
 }
-.iad-route-card:hover {
-  transform: translateY(-3px);
+.iad-archivador-tab:hover { background: rgba(190,170,130,0.36); color: var(--text-primary, #2a2015); }
+.iad-archivador-tab.active {
+  background: var(--surface, #efe3c8);
+  color: #7a2e28;
   border-color: rgba(122,46,40,0.4);
-  box-shadow: 0 8px 24px rgba(50,35,15,0.22);
+  transform: translateY(0);
 }
-.iad-route-card.iad-route-empty {
-  cursor: default;
-  opacity: 0.45;
+
+.iad-workspace-panel {
+  background: var(--surface, #efe3c8);
+  border: 1px solid rgba(122,46,40,0.32);
+  border-radius: 14px;
+  padding: 26px 28px 36px;
+  position: relative;
+  z-index: 1;
 }
-.iad-route-card.iad-route-empty:hover {
-  transform: none;
-  border-color: rgba(190,170,130,0.3);
-  box-shadow: none;
+
+.iad-workspace-tabs { margin-bottom: 24px; }
+
+.iad-tab-tool {
+  margin-left: auto;
+  align-self: center;
+  margin-bottom: 0;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border-bottom: none;
+  background: #7a2e28;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
-.iad-route-icon { font-size: 2.4rem; display: block; margin-bottom: 12px; }
-.iad-route-card h3 {
-  font-size: 1.1rem;
+.iad-tab-tool:hover { background: #601f1a; color: #fff; }
+
+/* ── Navegación entre entradas de teoría de un tema ── */
+.iad-entry-nav { margin: 0 0 22px; }
+.iad-entry-group { margin-bottom: 12px; }
+.iad-entry-group:last-child { margin-bottom: 0; }
+.iad-entry-group-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #ab9a79;
+  margin-bottom: 6px;
+}
+.iad-entry-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.iad-entry-pill {
+  border: 1px solid rgba(190,170,130,0.45);
+  background: rgba(255,255,255,0.4);
+  color: var(--text-muted, #79694f);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.iad-entry-pill:hover { border-color: rgba(122,46,40,0.4); color: var(--text-primary, #2a2015); }
+.iad-entry-pill.active {
+  background: #7a2e28;
+  border-color: #7a2e28;
+  color: #fff;
+}
+
+.iad-entry-header { margin: 4px 0 20px; }
+.iad-entry-header h2 {
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary, #2a2015);
-  margin: 0 0 6px;
+  margin: 0 0 8px;
 }
-.iad-route-card p {
-  font-size: 0.85rem;
-  color: var(--text-muted, #79694f);
+
+/* Ejercicio abierto dentro del panel: sin el propio ancho/padding de página */
+.iad-detail-nested {
+  max-width: none;
   margin: 0;
+  padding: 0;
 }
 
 /* ── Grid de tarjetas ─────────────────────────────── */
@@ -495,4 +556,8 @@
     white-space: nowrap;
     flex-shrink: 0;
   }
+
+  .iad-workspace-panel { padding: 20px 16px 28px; }
+  .iad-archivador-tab { padding: 9px 15px 11px; font-size: 0.82rem; }
+  .iad-entry-header h2 { font-size: 1.25rem; }
 }
