@@ -2,10 +2,8 @@
  * theoryDivergenciaRotacional.tsx — Teoría de divergencia y rotacional (Campos y Ondas · Tema 1)
  *
  * Continúa theoryGradiente.tsx dentro del mismo tema (Análisis vectorial): misma
- * notación del Equipo Docente (vectores unitarios a_x, a_r, a_R, a_θ, a_φ; «sen»;
- * factores métricos h_i=√g_ii) y misma paleta de diagrama (granate/teal/tinta).
- * Los Ejemplos 1 y 2 son los Ejercicios 1 y 2 del Módulo 1 — no cambiar su
- * enunciado ni resultado salvo petición expresa.
+ * notación (vectores unitarios a_x, a_r, a_R, a_θ, a_φ; «sen»; factores métricos
+ * h_i=√g_ii) y misma paleta de diagrama (granate/teal/tinta).
  */
 import type { TheoryContent } from '../components/TheoryPanel';
 import { P, Note, Warn, Mark, Collapsible, Table, TheorySvg, SimLink } from '../components/TheoryPanel';
@@ -156,9 +154,9 @@ export const theoryDivergenciaRotacional: TheoryContent = {
             revés — se elige el lado más fácil.
           </P>
           <Note>
-            Es el teorema que se verifica en el Ejercicio 3 del Módulo 1 sobre un cubo: se calculan
-            los dos lados por separado (flujo cara a cara y la integral triple de{' '}
-            <InlineMath>{'\\nabla\\cdot\\mathbf{A}'}</InlineMath>) y deben coincidir.
+            Se suele verificar sobre un cubo: se calculan los dos lados por separado (flujo cara a
+            cara y la integral triple de <InlineMath>{'\\nabla\\cdot\\mathbf{A}'}</InlineMath>) y
+            deben coincidir.
           </Note>
         </>
       ),
@@ -222,8 +220,8 @@ export const theoryDivergenciaRotacional: TheoryContent = {
           <P>Salen una y otra vez y sirven de chequeo rápido de tus cálculos.</P>
           <BlockMath>{'\\nabla\\cdot(\\nabla\\times\\mathbf{A}) = 0'}</BlockMath>
           <P>
-            Un campo que es «el rotacional de otro» nunca tiene fuentes — es el Ejercicio 6 del
-            Módulo 1. Consecuencia: como <InlineMath>{'\\nabla\\cdot\\mathbf{B}=0'}</InlineMath>,
+            Un campo que es «el rotacional de otro» nunca tiene fuentes. Consecuencia: como{' '}
+            <InlineMath>{'\\nabla\\cdot\\mathbf{B}=0'}</InlineMath>,
             siempre puede escribirse <InlineMath>{'\\mathbf{B}=\\nabla\\times\\mathbf{A}'}</InlineMath>{' '}
             (el potencial vector).
           </P>
@@ -270,7 +268,7 @@ export const theoryDivergenciaRotacional: TheoryContent = {
       title: '8. Ejemplos resueltos',
       body: (
         <>
-          <Collapsible summary="Ejemplo 1 · ¿Puede A = 6xy·ax + (3x²−3y²)·ay ser un campo eléctrico? · Ejercicio 1 del Módulo 1">
+          <Collapsible summary="Ejemplo 1 · ¿Puede A = 6xy·ax + (3x²−3y²)·ay ser un campo eléctrico?">
             <P>Un campo electrostático debe ser irrotacional. Calculamos la componente z del rotacional:</P>
             <BlockMath>{'(\\nabla\\times\\mathbf{A})_z = \\frac{\\partial A_y}{\\partial x} - \\frac{\\partial A_x}{\\partial y} = 6x - 6x = 0'}</BlockMath>
             <P>
@@ -279,7 +277,7 @@ export const theoryDivergenciaRotacional: TheoryContent = {
               en x e y» — un campo plano puede perfectamente tener rotacional (ver la cizalla, §4).
             </P>
           </Collapsible>
-          <Collapsible summary="Ejemplo 2 · Analizar A = 2y·ax + (2x+3z)·ay + 3y·az · Ejercicio 2 del Módulo 1">
+          <Collapsible summary="Ejemplo 2 · Analizar A = 2y·ax + (2x+3z)·ay + 3y·az">
             <P>
               <strong>Divergencia:</strong>{' '}
               <InlineMath>{'\\partial(2y)/\\partial x + \\partial(2x+3z)/\\partial y + \\partial(3y)/\\partial z = 0+0+0 = 0'}</InlineMath>{' '}
@@ -308,8 +306,6 @@ export const theoryDivergenciaRotacional: TheoryContent = {
     },
   ],
   references: [
-    'Equipo Docente de Campos y Ondas (UNED, F. Ortiz Sánchez) — «Bloque I: Fundamentos matemáticos, Tema 1: Análisis vectorial» (Divergencia, rotacional y teoremas integrales).',
-    'Equipo Docente de Campos y Ondas (UNED) — «Módulo I: Cuestiones y Ejercicios» (Ejercicios 1, 2 y 6).',
     'D. K. Cheng — Fundamentos de electromagnetismo para ingeniería (cap. 2).',
   ],
 };

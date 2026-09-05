@@ -484,7 +484,7 @@ const theoryEntries: TheoryEntry[] = [
     summary:
       'Definición dV = ∇V·dr, significado geométrico (máximo crecimiento, ⟂ equipotenciales), ' +
       'derivada direccional, expresión en los tres sistemas vía el tensor métrico, E = −∇V y ' +
-      'Poisson/Laplace, identidades y ejemplos resueltos. Notación del Equipo Docente (UNED).',
+      'Poisson/Laplace, identidades y ejemplos resueltos.',
     content: theoryGradiente,
   },
   {
@@ -496,7 +496,7 @@ const theoryEntries: TheoryEntry[] = [
     summary:
       'Idea física (fuentes/sumideros vs. circulación), definiciones de ∇·A y ∇×A, teoremas de ' +
       'Gauss y Stokes, identidades ∇·(∇×A)=0 y ∇×(∇V)=0, divergencia en cilíndricas/esféricas y ' +
-      'ejemplos resueltos. Notación del Equipo Docente (UNED).',
+      'ejemplos resueltos.',
     content: theoryDivergenciaRotacional,
   },
 ];

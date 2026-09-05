@@ -182,13 +182,13 @@ const TOOLS: Tool[] = [
   {
     id: 'grad', icon: '∇', path: 'simula', section: 'Campos y Ondas',
     label: 'Visualizador del gradiente', subtitle: 'Campo escalar V(x,y) · 2D + superficie 3D',
-    description: 'Escribe un campo escalar V(x,y) o elige un ejemplo y observa el gradiente: vista cenital con equipotenciales y campo ∇V enlazada con una superficie 3D girable, punto sonda arrastrable, derivada direccional dV=∇V·dℓ y el campo físico E=−∇V. Tema 1, Análisis vectorial (convenio Cheng / Equipo Docente UNED).',
+    description: 'Escribe un campo escalar V(x,y) o elige un ejemplo y observa el gradiente: vista cenital con equipotenciales y campo ∇V enlazada con una superficie 3D girable, punto sonda arrastrable, derivada direccional dV=∇V·dℓ y el campo físico E=−∇V. Tema 1, Análisis vectorial (convenio Cheng).',
     tag: 'free',
   },
   {
     id: 'divrot', icon: '⊛', path: 'simula', section: 'Campos y Ondas',
     label: 'Divergencia y rotacional', subtitle: 'Campo vectorial A(x,y) · sonda arrastrable',
-    description: 'Escribe un campo vectorial Ax(x,y), Ay(x,y) o elige uno de los 10 ejemplos y lee ∇·A y ∇×A en un punto sonda arrastrable, con mapa de calor, campo de flechas y partículas de flujo opcionales. Tema 1, Análisis vectorial (convenio Cheng / Equipo Docente UNED).',
+    description: 'Escribe un campo vectorial Ax(x,y), Ay(x,y) o elige uno de los 10 ejemplos y lee ∇·A y ∇×A en un punto sonda arrastrable, con mapa de calor, campo de flechas y partículas de flujo opcionales. Tema 1, Análisis vectorial (convenio Cheng).',
     tag: 'free',
   },
   {

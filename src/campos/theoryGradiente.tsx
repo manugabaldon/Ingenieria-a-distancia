@@ -1,11 +1,9 @@
 /**
  * theoryGradiente.tsx — Teoría del gradiente (Campos y Ondas · Tema 1)
  *
- * Alineado a la guía del Equipo Docente (UNED, F. Ortiz Sánchez):
- * «Bloque I — Fundamentos matemáticos» (§1.3 Gradiente) y «Módulo I — Cuestiones
- * y Ejercicios». Notación: vectores unitarios a_x, a_r, a_R, a_θ, a_φ; «sen»;
- * factores métricos vía el tensor g_ij (h_i = √g_ii); gradiente definido por
- * dV = ∇V·dr. Los Ejemplos 1 y 3 son los Ejercicios 1 y 2 de la guía.
+ * Notación: vectores unitarios a_x, a_r, a_R, a_θ, a_φ; «sen»; factores
+ * métricos vía el tensor g_ij (h_i = √g_ii); gradiente definido por
+ * dV = ∇V·dr.
  */
 import type { TheoryContent } from '../components/TheoryPanel';
 import { P, Note, Warn, Mark, Collapsible, Table, SimLink } from '../components/TheoryPanel';
@@ -58,8 +56,8 @@ export const theoryGradiente: TheoryContent = {
       El <strong>gradiente</strong> de un campo escalar <InlineMath>{'V'}</InlineMath> mide cómo
       varía <InlineMath>{'V'}</InlineMath> en el espacio: en qué dirección crece más deprisa y a
       qué ritmo. Es la puerta de entrada al campo eléctrico, ya que en electrostática{' '}
-      <InlineMath>{'\\mathbf{E} = -\\nabla V'}</InlineMath>. Se sigue la notación del Equipo
-      Docente: vectores unitarios <InlineMath>{'\\mathbf{a}_x,\\mathbf{a}_r,\\mathbf{a}_R,\\mathbf{a}_\\theta,\\mathbf{a}_\\varphi'}</InlineMath>{' '}
+      <InlineMath>{'\\mathbf{E} = -\\nabla V'}</InlineMath>. Notación con vectores unitarios{' '}
+      <InlineMath>{'\\mathbf{a}_x,\\mathbf{a}_r,\\mathbf{a}_R,\\mathbf{a}_\\theta,\\mathbf{a}_\\varphi'}</InlineMath>{' '}
       y «sen» para el seno.
       <Note>
         Puedes explorar todo esto en vivo en <SimLink to="grad">Simula → Visualizador del gradiente</SimLink>:
@@ -151,8 +149,8 @@ export const theoryGradiente: TheoryContent = {
           <P>El operador nabla en cartesianas:</P>
           <BlockMath>{'\\nabla = \\mathbf{a}_x\\frac{\\partial}{\\partial x} + \\mathbf{a}_y\\frac{\\partial}{\\partial y} + \\mathbf{a}_z\\frac{\\partial}{\\partial z}'}</BlockMath>
           <P>
-            La guía escribe el gradiente para un sistema ortogonal cualquiera{' '}
-            <InlineMath>{'(x_1,x_2,x_3)'}</InlineMath> con el <strong>tensor métrico</strong>{' '}
+            El gradiente se escribe, para un sistema ortogonal cualquiera{' '}
+            <InlineMath>{'(x_1,x_2,x_3)'}</InlineMath>, con el <strong>tensor métrico</strong>{' '}
             <InlineMath>{'g_{ij}'}</InlineMath>. Solo intervienen los elementos de la diagonal{' '}
             <InlineMath>{'g_{ii}'}</InlineMath>, y el factor que aparece es{' '}
             <InlineMath>{'1/\\sqrt{g_{ii}}'}</InlineMath>:
@@ -177,8 +175,7 @@ export const theoryGradiente: TheoryContent = {
           <Note>
             <Mark>Truco.</Mark> No memorices tres fórmulas: memoriza la diagonal del tensor métrico{' '}
             <InlineMath>{'g_{ii}'}</InlineMath> y la regla <InlineMath>{'1/\\sqrt{g_{ii}}'}</InlineMath>.
-            Con eso reconstruyes gradiente, divergencia, rotacional y laplaciano en cualquier sistema —
-            justo lo que pide la cuestión 3ª de la guía.
+            Con eso reconstruyes gradiente, divergencia, rotacional y laplaciano en cualquier sistema.
           </Note>
         </>
       ),
@@ -197,7 +194,7 @@ export const theoryGradiente: TheoryContent = {
           </P>
           <BlockMath>{'V_{AB} = V_A - V_B = -\\int_B^A \\mathbf{E}\\cdot d\\mathbf{l}'}</BlockMath>
           <Note>
-            <Mark>Por qué es el Problema 1 del examen.</Mark> Partiendo de{' '}
+            <Mark>De aquí salen Poisson y Laplace.</Mark> Partiendo de{' '}
             <InlineMath>{'\\nabla\\cdot\\mathbf{E}=\\rho/\\varepsilon'}</InlineMath> y sustituyendo{' '}
             <InlineMath>{'\\mathbf{E}=-\\nabla V'}</InlineMath> se obtiene la ecuación de{' '}
             <strong>Poisson</strong> y, sin carga, la de <strong>Laplace</strong>:
@@ -218,7 +215,7 @@ export const theoryGradiente: TheoryContent = {
           <P>Identidad nula fundamental — el rotacional de todo gradiente es cero:</P>
           <BlockMath>{'\\nabla \\times (\\nabla V) = 0'}</BlockMath>
           <P>
-            La guía lo escribe como <InlineMath>{'\\nabla\\times\\mathbf{A}=0 \\iff \\mathbf{A}=-\\nabla V'}</InlineMath>:
+            Dicho de otra forma, <InlineMath>{'\\nabla\\times\\mathbf{A}=0 \\iff \\mathbf{A}=-\\nabla V'}</InlineMath>:
             un campo que deriva de un potencial escalar es <strong>irrotacional</strong> (conservativo).
             Como en electrostática <InlineMath>{'\\nabla\\times\\mathbf{E}=0'}</InlineMath>, existe un
             potencial <InlineMath>{'V'}</InlineMath> con <InlineMath>{'\\mathbf{E}=-\\nabla V'}</InlineMath>.
@@ -235,7 +232,7 @@ export const theoryGradiente: TheoryContent = {
       title: '7. Ejemplos resueltos',
       body: (
         <>
-          <Collapsible summary="Ejemplo 1 · Cartesianas · Ejercicio 1 de la guía">
+          <Collapsible summary="Ejemplo 1 · Cartesianas">
             <P>Sea <InlineMath>{'V = 2x^2 + 2y^3 + 2z^2'}</InlineMath>. Derivando:</P>
             <BlockMath>{'\\nabla V = 4x\\,\\mathbf{a}_x + 6y^2\\,\\mathbf{a}_y + 4z\\,\\mathbf{a}_z'}</BlockMath>
             <P>
@@ -251,7 +248,7 @@ export const theoryGradiente: TheoryContent = {
             <BlockMath>{'\\mathbf{E} = -\\nabla V = \\frac{Q}{4\\pi\\varepsilon_0 R^2}\\,\\mathbf{a}_R \\quad(\\text{ley de Coulomb})'}</BlockMath>
             <P>Lección: elige el sistema con la simetría del problema y el gradiente se reduce a una sola derivada.</P>
           </Collapsible>
-          <Collapsible summary="Ejemplo 3 · Campo conservativo → su potencial · Ejercicio 2 de la guía">
+          <Collapsible summary="Ejemplo 3 · Campo conservativo → su potencial">
             <P>
               Dado <InlineMath>{'\\mathbf{A} = 2y\\,\\mathbf{a}_x + (2x+3z)\\,\\mathbf{a}_y + 3y\\,\\mathbf{a}_z'}</InlineMath>.
               Es solenoidal (<InlineMath>{'\\nabla\\cdot\\mathbf{A}=0'}</InlineMath>) e irrotacional
@@ -269,17 +266,9 @@ export const theoryGradiente: TheoryContent = {
       ),
     },
     {
-      title: '8. Enfoque de examen',
+      title: '8. Un error frecuente a evitar',
       body: (
         <>
-          <P>
-            En la teoría T1 reciente (2024–2026) lo que más cae es <strong>rotacional, divergencia y
-            los teoremas de Stokes y de la divergencia</strong>. El gradiente rara vez se pide aislado,
-            pero es la base: 1) la misma mecánica del <InlineMath>{'1/\\sqrt{g_{ii}}'}</InlineMath> sirve
-            para escribir rot, div y laplaciano en cilíndricas/esféricas; 2){' '}
-            <InlineMath>{'\\mathbf{E}=-\\nabla V'}</InlineMath> y <InlineMath>{'\\nabla^2V'}</InlineMath>{' '}
-            (Poisson/Laplace) son el núcleo del Problema 1 de electrostática.
-          </P>
           <Warn>
             <strong>Cuidado con el azimut.</strong> En la tabla de transformación (cartesiano → esférico)
             el azimutal es <InlineMath>{'\\varphi = \\tan^{-1}(y/x)'}</InlineMath> — el mismo que en
@@ -291,8 +280,6 @@ export const theoryGradiente: TheoryContent = {
     },
   ],
   references: [
-    'Equipo Docente de Campos y Ondas (UNED, F. Ortiz Sánchez) — «Bloque I: Fundamentos matemáticos, Tema 1: Análisis vectorial» (§1.3 Gradiente).',
-    'Equipo Docente de Campos y Ondas (UNED) — «Módulo I: Cuestiones y Ejercicios» (Ejercicios 1 y 2).',
     'D. K. Cheng — Fundamentos de electromagnetismo para ingeniería (cap. 2).',
   ],
 };
