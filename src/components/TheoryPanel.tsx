@@ -67,6 +67,30 @@ export function Mark({ children }: { children: React.ReactNode }) {
   return <mark className="theory-mark">{children}</mark>;
 }
 
+/**
+ * Link directo a una herramienta de Simula (p. ej. "grad", "divrot").
+ * Navega dentro de la app sin recarga usando el hook window.__nav (ver App.tsx);
+ * el href real sigue apuntando al hash de esa vista para que abrir en pestaña
+ * nueva / clic central funcione igual.
+ */
+export function SimLink({ to, children }: { to: string; children: React.ReactNode }) {
+  return (
+    <a
+      className="theory-simlink"
+      href={`#${to}`}
+      onClick={(e) => {
+        const nav = (window as any).__nav;
+        if (typeof nav === 'function') {
+          e.preventDefault();
+          nav(to);
+        }
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
 /** Desplegable colapsable (para desarrollos intermedios que no interesan a todo el mundo) */
 export function Collapsible({
   summary, children,

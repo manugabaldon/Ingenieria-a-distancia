@@ -8,7 +8,7 @@
  * dV = ∇V·dr. Los Ejemplos 1 y 3 son los Ejercicios 1 y 2 de la guía.
  */
 import type { TheoryContent } from '../components/TheoryPanel';
-import { P, Note, Warn, Mark, Collapsible, Table } from '../components/TheoryPanel';
+import { P, Note, Warn, Mark, Collapsible, Table, SimLink } from '../components/TheoryPanel';
 import { BlockMath, InlineMath } from '../components/Math';
 
 // Diagrama: equipotenciales concéntricas + gradiente ⟂ + tangente + colina 3D
@@ -62,7 +62,7 @@ export const theoryGradiente: TheoryContent = {
       Docente: vectores unitarios <InlineMath>{'\\mathbf{a}_x,\\mathbf{a}_r,\\mathbf{a}_R,\\mathbf{a}_\\theta,\\mathbf{a}_\\varphi'}</InlineMath>{' '}
       y «sen» para el seno.
       <Note>
-        Puedes explorar todo esto en vivo en <Mark>Simula → Visualizador del gradiente</Mark>:
+        Puedes explorar todo esto en vivo en <SimLink to="grad">Simula → Visualizador del gradiente</SimLink>:
         escribe un campo <InlineMath>{'V(x,y)'}</InlineMath>, arrastra el punto sonda y comprueba
         que <InlineMath>{'\\nabla V'}</InlineMath> apunta cuesta arriba y cruza las
         equipotenciales en ángulo recto.

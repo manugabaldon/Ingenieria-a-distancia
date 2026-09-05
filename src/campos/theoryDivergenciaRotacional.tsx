@@ -8,7 +8,7 @@
  * enunciado ni resultado salvo petición expresa.
  */
 import type { TheoryContent } from '../components/TheoryPanel';
-import { P, Note, Warn, Mark, Collapsible, Table, TheorySvg } from '../components/TheoryPanel';
+import { P, Note, Warn, Mark, Collapsible, Table, TheorySvg, SimLink } from '../components/TheoryPanel';
 import { BlockMath, InlineMath } from '../components/Math';
 
 const GRAN = '#7a2e28';
@@ -78,7 +78,7 @@ export const theoryDivergenciaRotacional: TheoryContent = {
       cuánto <em>gira</em> a su alrededor. Con los tres — gradiente, divergencia y rotacional — y sus
       teoremas integrales asociados se construyen las ecuaciones de Maxwell.
       <Note>
-        Puedes explorar todo esto en vivo en <Mark>Simula → Divergencia y rotacional</Mark>: arrastra
+        Puedes explorar todo esto en vivo en <SimLink to="divrot">Simula → Divergencia y rotacional</SimLink>: arrastra
         la sonda por un campo <InlineMath>{'\\mathbf{A}(x,y)'}</InlineMath> y lee, en tiempo real,{' '}
         <InlineMath>{'\\nabla\\cdot\\mathbf{A}'}</InlineMath> y{' '}
         <InlineMath>{'\\nabla\\times\\mathbf{A}'}</InlineMath> en el punto.

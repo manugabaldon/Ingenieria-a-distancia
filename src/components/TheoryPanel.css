@@ -157,6 +157,26 @@
   font-weight: 600;
 }
 
+/* ── Link directo a un simulador (mismo estilo "marcador", pero clicable) ── */
+.theory-simlink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  background: #fff3a3;
+  color: var(--text, #1d1d1f);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.theory-simlink::after { content: '→'; }
+.theory-simlink:hover {
+  background: var(--blue, #7a2e28);
+  color: #fff;
+}
+
 /* ── Desplegable (desarrollo intermedio oculto) ── */
 .theory-details {
   clear: both;
