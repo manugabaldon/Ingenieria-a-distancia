@@ -1,6 +1,8 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import './App.css';
 import ParallaxBg from './components/ParallaxSection';
+import { motivationalPhrases } from './data/motivationalPhrases';
+import cockpitGlowBg from './assets/cockpit-glow-bg.svg';
 
 // Aeronautics
 import BalanceoHelice     from './aeronautics/BalanceoHelice';
@@ -25,6 +27,7 @@ import CoordConverter     from './coordinates/CoordConverter';
 
 // Campos y Ondas
 import GradientField      from './campos/GradientField';
+import DivRotField        from './campos/DivRotField';
 
 // IAD — Ingeniería a Distancia
 import IADView from './iad/IADView';
@@ -67,9 +70,10 @@ const TOOL_BG: Record<string, string> = {
   'grafica':   'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=75',
   'coord':     'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1400&q=75',
   'grad':      'https://images.unsplash.com/photo-1502085671122-2d218cd434e6?w=1400&q=75',
+  'divrot':    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1400&q=75',
 };
 
-const HOME_BG = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80';
+const HOME_BG = cockpitGlowBg;
 
 const BUYMEACOFFEE_URL = 'https://buymeacoffee.com/manugabaldon';
 
@@ -117,7 +121,7 @@ type ToolId =
   | 'rotor' | 'balanceo' | 'wyc' | 'isa' | 'conv'
   | 'radar' | 'pitot' | 'antenna' | 'filtros'
   | 'integ' | 'deriv' | 'grafica' | 'coord'
-  | 'grad';
+  | 'grad' | 'divrot';
 
 type View = 'home' | PathId | ToolId;
 
@@ -183,6 +187,12 @@ const TOOLS: Tool[] = [
     id: 'grad', icon: '∇', path: 'simula', section: 'Campos y Ondas',
     label: 'Visualizador del gradiente', subtitle: 'Campo escalar V(x,y) · 2D + superficie 3D',
     description: 'Escribe un campo escalar V(x,y) o elige un ejemplo y observa el gradiente: vista cenital con equipotenciales y campo ∇V enlazada con una superficie 3D girable, punto sonda arrastrable, derivada direccional dV=∇V·dℓ y el campo físico E=−∇V. Tema 1, Análisis vectorial (convenio Cheng / Equipo Docente UNED).',
+    tag: 'free',
+  },
+  {
+    id: 'divrot', icon: '⊛', path: 'simula', section: 'Campos y Ondas',
+    label: 'Divergencia y rotacional', subtitle: 'Campo vectorial A(x,y) · sonda arrastrable',
+    description: 'Escribe un campo vectorial Ax(x,y), Ay(x,y) o elige uno de los 10 ejemplos y lee ∇·A y ∇×A en un punto sonda arrastrable, con mapa de calor, campo de flechas y partículas de flujo opcionales. Tema 1, Análisis vectorial (convenio Cheng / Equipo Docente UNED).',
     tag: 'free',
   },
   {
@@ -309,6 +319,12 @@ export default function App() {
   const [hideHeader, setHideHeader] = useState(false);
   // Ruta dentro de "Estudia" (asignatura/tema/teoría|ejercicios/id…), sincronizada con la URL
   const [estudiaPath, setEstudiaPath] = useState<string | null>(initialNav.estudiaPath);
+
+  // Frase motivadora: una al azar por cada visita a la home
+  const motivationalPhrase = useMemo(
+    () => motivationalPhrases[Math.floor(Math.random() * motivationalPhrases.length)],
+    [],
+  );
 
   // Temporizador para cerrar el menú al salir con el cursor
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -463,7 +479,7 @@ export default function App() {
       {/* ══════════════════════════════════════════════
           NAVBAR
       ══════════════════════════════════════════════ */}
-      <header className={`header${hideHeader && !menuOpen ? ' header--hidden' : ''}`}>
+      <header className={`header${hideHeader && !menuOpen ? ' header--hidden' : ''}${active === 'home' ? ' header--home' : ''}`}>
 
         {/* Botón hamburguesa — abre el menú flotante */}
         <div
@@ -576,15 +592,15 @@ export default function App() {
 
         {/* ════ HOME ════ */}
         {active === 'home' ? (
-          <div className="home">
-            <ParallaxBg imageUrl={HOME_BG} overlay={0.76} speed={0.40} />
+          <div className="home home-landing">
+            <ParallaxBg imageUrl={HOME_BG} overlay={0.4} overlayColor="#03050a" speed={0.40} />
 
             <div className="home-content">
 
               {/* ── HERO ── */}
               <div className="home-hero home-hero-compact">
-                <span className="home-hero-icon">📡</span>
                 <h2>Ingeniería a <em>Distancia</em></h2>
+                <p className="home-hero-motivation">{motivationalPhrase}</p>
               </div>
 
               {/* ── CAMINOS ── */}
@@ -729,6 +745,7 @@ export default function App() {
                 {active === 'grafica'   && <Funciones />}
                 {active === 'coord'     && <CoordConverter />}
                 {active === 'grad'      && <GradientField />}
+                {active === 'divrot'    && <DivRotField />}
               </>
             )}
           </>

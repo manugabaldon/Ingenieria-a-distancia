@@ -1,0 +1,62 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#03050a" />
+      <stop offset="55%" stop-color="#060912" />
+      <stop offset="100%" stop-color="#0b111f" />
+    </linearGradient>
+
+    <radialGradient id="blueGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#2f8fe0" stop-opacity="0.55" />
+      <stop offset="60%" stop-color="#1f6fd6" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#1f6fd6" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="amberGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#caa051" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#caa051" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="bokeh" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#bcd6ff" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#bcd6ff" stop-opacity="0" />
+    </radialGradient>
+
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="55" />
+    </filter>
+    <filter id="softSmall" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" />
+    </filter>
+
+    <radialGradient id="vignette" cx="50%" cy="38%" r="75%">
+      <stop offset="0%"  stop-color="#03050a" stop-opacity="0" />
+      <stop offset="70%" stop-color="#03050a" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#03050a" stop-opacity="0.55" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#base)" />
+
+  <!-- Resplandor principal, tipo pantalla de aviónica -->
+  <ellipse cx="1480" cy="260" rx="620" ry="460" fill="url(#blueGlow)" filter="url(#soft)" />
+
+  <!-- Resplandor cálido, tenue, esquina opuesta -->
+  <ellipse cx="260" cy="900" rx="480" ry="340" fill="url(#amberGlow)" filter="url(#soft)" />
+
+  <!-- Anillo tipo horizonte artificial, muy sutil -->
+  <circle cx="1780" cy="980" r="300" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
+  <circle cx="1780" cy="980" r="230" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+
+  <!-- Luces lejanas desenfocadas (bokeh), como ventanas de una terminal a lo lejos -->
+  <circle cx="230" cy="180" r="5"  fill="url(#bokeh)" filter="url(#softSmall)" opacity="0.35" />
+  <circle cx="340" cy="230" r="3"  fill="url(#bokeh)" filter="url(#softSmall)" opacity="0.25" />
+  <circle cx="150" cy="300" r="4"  fill="url(#bokeh)" filter="url(#softSmall)" opacity="0.3" />
+  <circle cx="1080" cy="120" r="4" fill="url(#bokeh)" filter="url(#softSmall)" opacity="0.22" />
+  <circle cx="980"  cy="200" r="3" fill="url(#bokeh)" filter="url(#softSmall)" opacity="0.18" />
+  <circle cx="1650" cy="620" r="4" fill="url(#bokeh)" filter="url(#softSmall)" opacity="0.2" />
+  <circle cx="1750" cy="540" r="3" fill="url(#bokeh)" filter="url(#softSmall)" opacity="0.16" />
+
+  <!-- Viñeta para que el centro quede limpio y legible -->
+  <rect width="1920" height="1080" fill="url(#vignette)" />
+</svg>

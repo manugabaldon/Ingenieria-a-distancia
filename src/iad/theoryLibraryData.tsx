@@ -8,6 +8,7 @@ import {
   DiagramAceleracionRelativa,
 } from '../components/TheoryDiagrams';
 import theoryGradiente from '../campos/theoryGradiente';
+import theoryDivergenciaRotacional from '../campos/theoryDivergenciaRotacional';
 
 // Colores de los términos, coherentes con DiagramAceleracionRelativa
 const cG = '#30d158'; // origen
@@ -485,6 +486,18 @@ const theoryEntries: TheoryEntry[] = [
       'derivada direccional, expresión en los tres sistemas vía el tensor métrico, E = −∇V y ' +
       'Poisson/Laplace, identidades y ejemplos resueltos. Notación del Equipo Docente (UNED).',
     content: theoryGradiente,
+  },
+  {
+    id: 'divergencia-rotacional',
+    subject: 'Campos y Ondas',
+    tema: 'Análisis vectorial',
+    topic: 'Operadores diferenciales',
+    title: 'Divergencia y rotacional',
+    summary:
+      'Idea física (fuentes/sumideros vs. circulación), definiciones de ∇·A y ∇×A, teoremas de ' +
+      'Gauss y Stokes, identidades ∇·(∇×A)=0 y ∇×(∇V)=0, divergencia en cilíndricas/esféricas y ' +
+      'ejemplos resueltos. Notación del Equipo Docente (UNED).',
+    content: theoryDivergenciaRotacional,
   },
 ];
 

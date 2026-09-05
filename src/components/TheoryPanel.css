@@ -1,11 +1,15 @@
 .theory-panel {
   flex: 1;
   overflow-y: auto;
-  background: var(--white, #ffffff);
+  background-color: #f8f5ea;
+  background-image:
+    linear-gradient(rgba(110, 100, 70, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110, 100, 70, 0.09) 1px, transparent 1px);
+  background-size: 26px 26px;
 }
 
 .theory-body {
-  max-width: 780px;
+  max-width: 940px;
   margin: 0 auto;
   padding: 2.5rem 2rem 4rem;
   display: flex;
@@ -31,10 +35,10 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--blue, #7a2e28);
+  color: var(--blue, #0071e3);
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(122, 46, 40, 0.18);
+  border-bottom: 1px solid rgba(0, 113, 227, 0.15);
 }
 
 .theory-p {
@@ -51,14 +55,15 @@
 
 /* ── Bloque de ecuación (fallback sin KaTeX) ── */
 .theory-eq {
-  background: var(--bg2, #f2e8d3);
-  border: 1px solid var(--border, #ddcda2);
-  border-left: 3px solid var(--blue, #7a2e28);
+  clear: both;
+  background: #fbf8ec;
+  border: 1px solid #e6dfc4;
+  border-left: 3px solid var(--blue, #0071e3);
   border-radius: 0 12px 12px 0;
   padding: 1rem 1.4rem;
   font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
   font-size: 0.88rem;
-  color: var(--text, #2a2015);
+  color: #1d1d1f;
   margin: 1.2rem 0;
   line-height: 2;
   overflow-x: auto;
@@ -69,20 +74,21 @@
 .theory-eq-inline {
   font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
   font-size: 0.88em;
-  color: var(--blue, #7a2e28);
-  background: rgba(122, 46, 40, 0.08);
-  border: 1px solid rgba(122, 46, 40, 0.16);
+  color: var(--blue, #0071e3);
+  background: rgba(0, 113, 227, 0.07);
+  border: 1px solid rgba(0, 113, 227, 0.15);
   border-radius: 4px;
   padding: 1px 5px;
 }
 
 /* ── Definition list ── */
 .theory-deflist {
+  clear: both;
   display: flex;
   flex-direction: column;
   gap: 0;
   margin: 0.75rem 0;
-  border: 1px solid var(--border, #d2d2d7);
+  border: 1px solid #e5ddc0;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -93,12 +99,12 @@
   gap: 1rem;
   align-items: baseline;
   padding: 0.6rem 1rem;
-  border-bottom: 1px solid var(--border, #ddcda2);
-  background: var(--white, #f7f0e0);
+  border-bottom: 1px solid #e5ddc0;
+  background: #fffdf7;
 }
 
 .theory-deflist-row:last-child { border-bottom: none; }
-.theory-deflist-row:nth-child(even) { background: var(--bg2, #f2e8d3); }
+.theory-deflist-row:nth-child(even) { background: #f6f2e4; }
 
 .theory-deflist dt {
   font-size: 0.83rem;
@@ -114,12 +120,13 @@
 
 /* ── Note / Warning boxes ── */
 .theory-note {
-  background: #f7ecd2;
-  border: 1px solid #dfc07f;
+  clear: both;
+  background: #eef5ff;
+  border: 1px solid #b8d4f8;
   border-radius: 10px;
   padding: 0.9rem 1.1rem;
   font-size: 0.84rem;
-  color: #6b4a17;
+  color: #1a4a8a;
   line-height: 1.7;
   margin: 1rem 0;
 }
@@ -129,6 +136,7 @@
 }
 
 .theory-warn {
+  clear: both;
   background: #fffbeb;
   border: 1px solid #fcd34d;
   border-radius: 10px;
@@ -155,11 +163,12 @@
 
 /* ── Desplegable (desarrollo intermedio oculto) ── */
 .theory-details {
+  clear: both;
   margin: 1.2rem 0;
-  border: 1px solid var(--border, #ddcda2);
+  border: 1px solid #e5ddc0;
   border-radius: 12px;
   overflow: hidden;
-  background: var(--bg2, #f2e8d3);
+  background: #fbf8f0;
 }
 
 .theory-summary {
@@ -167,7 +176,7 @@
   padding: 0.75rem 1.1rem;
   font-size: 0.83rem;
   font-weight: 600;
-  color: var(--blue, #7a2e28);
+  color: var(--blue, #0071e3);
   list-style: none;
   display: flex;
   align-items: center;
@@ -200,10 +209,11 @@
 
 /* ── Table ── */
 .theory-table-wrap {
+  clear: both;
   overflow-x: auto;
   margin: 1rem 0;
   border-radius: 12px;
-  border: 1px solid var(--border, #d2d2d7);
+  border: 1px solid #dcd5bd;
   overflow: hidden;
 }
 
@@ -214,7 +224,7 @@
 }
 
 .theory-table th {
-  background: var(--bg, #efe3c8);
+  background: #efeada;
   color: var(--text-3, #aeaeb2);
   font-size: 0.65rem;
   font-weight: 700;
@@ -222,18 +232,19 @@
   letter-spacing: 0.08em;
   padding: 0.6rem 0.9rem;
   text-align: left;
-  border-bottom: 1px solid var(--border, #d2d2d7);
+  border-bottom: 1px solid #dcd5bd;
 }
 
 .theory-table td {
   padding: 0.5rem 0.9rem;
-  color: var(--text-2, #79694f);
-  border-bottom: 1px solid rgba(50,35,15,0.08);
+  color: var(--text-2, #6e6e73);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
   line-height: 1.55;
+  background: #fffdf7;
 }
 
 .theory-table tr:last-child td { border-bottom: none; }
-.theory-table tr:nth-child(even) td { background: var(--bg2, #f2e8d3); }
+.theory-table tr:nth-child(even) td { background: #f6f2e4; }
 
 .theory-table td:first-child {
   font-size: 0.82rem;
@@ -241,12 +252,18 @@
   font-weight: 500;
 }
 
-/* ── Figure / foto ── */
+/* ── Figure / foto — flota a la derecha, texto envuelve ── */
 .theory-figure {
-  margin: 1.4rem 0;
+  position: relative;
+  float: right;
+  width: 44%;
+  margin: 8px 0 18px 26px;
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid var(--border, #d2d2d7);
+  border: 1px solid #e5ddc0;
+  background: #fffdf6;
+  box-shadow: 0 3px 10px rgba(60, 50, 20, 0.10);
+  transform: rotate(0.7deg);
 }
 
 .theory-figure-img {
@@ -258,17 +275,42 @@
 
 .theory-figure-caption {
   padding: 8px 14px;
-  background: var(--bg, #efe3c8);
+  background: #fbf8ec;
   font-size: 0.74rem;
   color: var(--text-3, #aeaeb2);
   font-style: italic;
   line-height: 1.5;
-  border-top: 1px solid var(--border, #d2d2d7);
+  border-top: 1px solid #e5ddc0;
 }
 
-/* SVG box */
+/* Washi tape pegando la foto al cuaderno */
+.theory-figure::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 64px;
+  height: 20px;
+  background: rgba(255, 214, 10, 0.55);
+  border: 1px solid rgba(0,0,0,0.05);
+  transform: translateX(-50%) rotate(-3deg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* SVG box — esquema, flota a la izquierda */
 .theory-svgbox {
-  background: var(--bg2, #f2e8d3);
+  position: relative;
+  float: left;
+  width: 44%;
+  margin: 8px 26px 18px 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #e5ddc0;
+  background: #fbf8f0;
+  box-shadow: 0 3px 10px rgba(60, 50, 20, 0.10);
+  transform: rotate(-0.7deg);
 }
 
 .theory-svgbox svg {
@@ -277,20 +319,51 @@
   height: auto;
 }
 
-/* Grid de dos columnas */
+.theory-svgbox::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 64px;
+  height: 20px;
+  background: rgba(94, 92, 230, 0.28);
+  border: 1px solid rgba(0,0,0,0.05);
+  transform: translateX(-50%) rotate(2.5deg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Grid de dos columnas (fotos/esquemas emparejados) — no flotan */
 .theory-grid {
+  clear: both;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin: 1.2rem 0;
 }
 
-.theory-grid .theory-figure {
+.theory-grid .theory-figure,
+.theory-grid .theory-svgbox {
+  float: none;
+  width: auto;
   margin: 0;
+  transform: none;
 }
 
 @media (max-width: 600px) {
   .theory-grid { grid-template-columns: 1fr; }
+}
+
+/* En pantallas estrechas, las figuras dejan de flotar */
+@media (max-width: 880px) {
+  .theory-figure,
+  .theory-svgbox {
+    float: none;
+    width: 100%;
+    margin: 18px 0;
+    transform: none;
+  }
 }
 
 /* ── References ── */

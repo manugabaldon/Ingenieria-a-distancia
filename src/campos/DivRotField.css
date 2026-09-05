@@ -1,0 +1,111 @@
+/* DivRotField.css — Visualizador de divergencia y rotacional (Campos y Ondas · Tema 1)
+   Chrome con variables del tema; colores de gráfico hardcodeados en el TSX. */
+
+.dr { display: flex; flex-direction: column; gap: 16px; }
+
+.dr-layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .dr-layout { grid-template-columns: 1fr; } }
+
+.dr-console {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: var(--shadow-sm); padding: 16px;
+}
+.dr-lbl {
+  display: block; font-size: 11px; letter-spacing: .11em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 600; margin: 0 0 8px;
+}
+
+.dr-presets { display: flex; flex-direction: column; gap: 5px; }
+.dr-preset {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  width: 100%; text-align: left; cursor: pointer; background: transparent;
+  border: 1px solid transparent; border-radius: 10px; padding: 8px 10px;
+  color: var(--text); font-family: inherit; font-size: 13.5px; transition: background .13s, border-color .13s;
+}
+.dr-preset:hover { background: var(--bg2); }
+.dr-preset.active { background: var(--blue-light); border-color: color-mix(in srgb, var(--blue) 35%, transparent); }
+.dr-pname { font-weight: 550; }
+.dr-ptag { font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace; font-size: 11px; color: var(--text-3); white-space: nowrap; }
+.dr-preset.active .dr-ptag { color: var(--blue); }
+
+.dr-custom { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
+.dr-row { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px; margin-bottom: 8px; }
+.dr-prefix { font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace; font-size: 13px; color: var(--text-2); }
+.dr-row input {
+  width: 100%; font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace; font-size: 13px;
+  background: var(--bg2); color: var(--text); border: 1px solid var(--border2); border-radius: 8px; padding: 7px 9px;
+}
+.dr-row input:focus { outline: 2px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+.dr-apply {
+  margin-top: 4px; width: 100%; cursor: pointer; background: var(--blue); color: #fff;
+  border: none; border-radius: 9px; padding: 9px; font-family: inherit; font-size: 13px; font-weight: 600;
+}
+.dr-apply:hover { background: var(--blue-hover); }
+.dr-err { color: var(--red); font-size: 12px; margin: 8px 0 0; }
+.dr-hint { font-size: 11px; color: var(--text-3); margin: 8px 0 0; line-height: 1.45; }
+
+.dr-seg { display: flex; background: var(--bg2); border-radius: 10px; padding: 3px; gap: 3px; }
+.dr-seg button {
+  flex: 1; cursor: pointer; border: none; background: transparent; color: var(--text-2);
+  font-family: inherit; font-size: 12.5px; font-weight: 550; padding: 7px 4px; border-radius: 8px;
+  transition: background .15s, color .15s;
+}
+.dr-seg button.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
+
+.dr-toggles { display: flex; flex-direction: column; gap: 9px; }
+.dr-check { display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--text); cursor: pointer; user-select: none; }
+.dr-check input { accent-color: var(--blue); width: 16px; height: 16px; }
+
+.dr-stage { display: flex; flex-direction: column; gap: 16px; }
+.dr-canvas-hold {
+  position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden;
+  background: var(--bg2); border: 1px solid var(--border2); touch-action: none;
+}
+.dr-canvas-hold canvas { display: block; width: 100%; height: 100%; cursor: crosshair; }
+.dr-hud {
+  position: absolute; right: 10px; top: 10px;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(6px); border: 1px solid var(--border2); border-radius: 8px;
+  padding: 5px 9px; font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px; color: var(--text-2);
+}
+
+.dr-readouts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 620px) { .dr-readouts { grid-template-columns: 1fr; } }
+.dr-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  box-shadow: var(--shadow-sm); padding: 16px;
+}
+.dr-card.divg { border-top: 3px solid #8a2d3b; }
+.dr-card.rotc { border-top: 3px solid #5b7a3a; }
+.dr-card h3 { margin: 0; font-size: 14.5px; font-weight: 650; display: flex; align-items: center; gap: 8px; }
+.dr-card .op { font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace; font-size: 11.5px; color: var(--text-3); font-weight: 500; }
+.dr-value {
+  font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace; font-size: 34px; font-weight: 600;
+  margin: 8px 0 2px; font-variant-numeric: tabular-nums; line-height: 1; color: var(--text-2);
+}
+.dr-value.pos { color: #8a2d3b; }
+.dr-value.neg { color: #1f7a72; }
+.dr-card.rotc .dr-value.pos { color: #5b7a3a; }
+.dr-card.rotc .dr-value.neg { color: var(--amber); }
+.dr-value.muted { color: var(--text-3); }
+.dr-verdict { font-size: 13px; font-weight: 600; margin: 0 0 10px; color: var(--text-2); }
+.dr-verdict.pos { color: #8a2d3b; }
+.dr-verdict.neg { color: #1f7a72; }
+.dr-card.rotc .dr-verdict.pos { color: #5b7a3a; }
+.dr-card.rotc .dr-verdict.neg { color: var(--amber); }
+.dr-verdict.muted { color: var(--text-3); }
+.dr-desc { font-size: 12.5px; color: var(--text-2); margin: 0; line-height: 1.5; }
+
+.dr-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 760px) { .dr-facts { grid-template-columns: 1fr; } }
+.dr-fact {
+  background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--blue);
+  border-radius: 12px; padding: 13px 15px; box-shadow: var(--shadow-sm);
+}
+.dr-fact.two { border-left-color: #5b7a3a; }
+.dr-fact.three { border-left-color: var(--amber); }
+.dr-fact h4 { margin: 0 0 5px; font-size: 13.5px; color: var(--blue); }
+.dr-fact.two h4 { color: #5b7a3a; }
+.dr-fact.three h4 { color: var(--amber); }
+.dr-fact p { margin: 0; font-size: 13px; color: var(--text-2); line-height: 1.5; }

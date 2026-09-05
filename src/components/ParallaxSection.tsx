@@ -14,8 +14,10 @@ import './ParallaxSection.css';
 
 interface Props {
   imageUrl: string;
-  /** Opacidad del velo blanco: 0 = imagen pura, 1 = blanco total */
+  /** Opacidad del velo: 0 = imagen pura, 1 = color de velo total */
   overlay?: number;
+  /** Color del velo (por defecto blanco) */
+  overlayColor?: string;
   /** Velocidad parallax: 0.3 suave → 0.6 intenso */
   speed?: number;
 }
@@ -23,6 +25,7 @@ interface Props {
 export default function ParallaxBg({
   imageUrl,
   overlay = 0.78,
+  overlayColor = '#ffffff',
   speed   = 0.38,
 }: Props) {
   const bgRef = useRef<HTMLDivElement>(null);
@@ -51,7 +54,7 @@ export default function ParallaxBg({
         className="pb-img"
         style={{ backgroundImage: `url(${imageUrl})` }}
       />
-      <div className="pb-overlay" style={{ opacity: overlay }} />
+      <div className="pb-overlay" style={{ opacity: overlay, background: overlayColor }} />
     </>
   );
 }

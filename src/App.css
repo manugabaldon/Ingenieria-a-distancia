@@ -45,6 +45,18 @@
   padding-top: calc(48px + env(safe-area-inset-top, 0px));
 }
 
+/* Header sobre la portada oscura: cristal oscuro + texto claro */
+.header--home {
+  background: rgba(3, 5, 10, 0.55);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+.header--home h1,
+.header--home .header-logo-icon { color: #f5f6f8; }
+.header--home .header-tagline    { color: #9aa7bd; }
+.header--home .header-badge      { background: rgba(89, 180, 255, 0.16); color: #7cc4ff; }
+.header--home .hamburger-line    { background: #f5f6f8; }
+.header--home .hamburger-btn:hover { background: rgba(255, 255, 255, 0.1); }
+
 /* Auto-ocultar al hacer scroll (solo móvil): transform no reordena el contenido. */
 @media (max-width: 820px) {
   .header.header--hidden {
@@ -537,6 +549,15 @@ canvas {
   background: var(--white);
 }
 
+/* Portada: ambiente oscuro tipo cabina — solo la home raíz, no las páginas de camino */
+.home.home-landing {
+  background: #03050a;
+}
+.home-landing .home-hero h2       { color: #f5f6f8; }
+.home-landing .home-hero h2 em    { color: #59b4ff; }
+.home-landing .home-hero-motivation,
+.home-landing .home-paths-caption { color: #9aa7bd; }
+
 /* Wrapper sobre la imagen — centra el contenido y le da z-index */
 .home-content {
   position: relative;
@@ -573,17 +594,12 @@ canvas {
   margin-bottom: 16px;
 }
 
-.home-hero-icon {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  display: block;
-  opacity: 0.85;
-  animation: float 5s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-8px); }
+.home-hero-motivation {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  font-style: italic;
+  color: var(--text-2);
+  margin: 0 auto 8px;
+  max-width: 560px;
 }
 
 .home-hero h2 {
