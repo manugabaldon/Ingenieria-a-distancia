@@ -2,10 +2,6 @@
   flex: 1;
   overflow-y: auto;
   background-color: #f8f5ea;
-  background-image:
-    linear-gradient(rgba(110, 100, 70, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(110, 100, 70, 0.09) 1px, transparent 1px);
-  background-size: 26px 26px;
 }
 
 .theory-body {

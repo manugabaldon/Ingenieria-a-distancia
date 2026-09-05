@@ -1,8 +1,6 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import './App.css';
-import ParallaxBg from './components/ParallaxSection';
 import { motivationalPhrases } from './data/motivationalPhrases';
-import cockpitGlowBg from './assets/cockpit-glow-bg.svg';
 
 // Aeronautics
 import BalanceoHelice     from './aeronautics/BalanceoHelice';
@@ -72,8 +70,6 @@ const TOOL_BG: Record<string, string> = {
   'grad':      'https://images.unsplash.com/photo-1502085671122-2d218cd434e6?w=1400&q=75',
   'divrot':    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1400&q=75',
 };
-
-const HOME_BG = cockpitGlowBg;
 
 const BUYMEACOFFEE_URL = 'https://buymeacoffee.com/manugabaldon';
 
@@ -593,8 +589,6 @@ export default function App() {
         {/* ════ HOME ════ */}
         {active === 'home' ? (
           <div className="home home-landing">
-            <ParallaxBg imageUrl={HOME_BG} overlay={0.4} overlayColor="#03050a" speed={0.40} />
-
             <div className="home-content">
 
               {/* ── HERO ── */}
